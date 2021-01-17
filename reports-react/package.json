@@ -1,0 +1,20 @@
+{
+  "scripts": {
+    "start": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-react-refresh": "^2.4.0",
+    "@snowpack/plugin-typescript": "^1.2.1",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "snowpack": "^3.0.1"
+  },
+  "dependencies": {
+    "@nivo/core": "^0.67.0",
+    "@nivo/line": "^0.67.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "typescript": "^4.1.3"
+  }
+}
