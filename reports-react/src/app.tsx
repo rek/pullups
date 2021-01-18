@@ -1,13 +1,15 @@
 import React from 'react'
 
-import { Line } from './line'
+import {Chart} from './line2'
+// import { Chart } from './chart'
+// import { Line } from './line'
 
 export const App = ({
 
 }) => {
   return (
     <div>
-  	  <Line />
-  	</div>
+      <Chart />
+    </div>
   )
 }

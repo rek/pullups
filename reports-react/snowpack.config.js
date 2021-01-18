@@ -7,6 +7,7 @@ module.exports = {
   plugins: [
     ['@snowpack/plugin-typescript', {args: ''}],
     "@snowpack/plugin-react-refresh",
+    "@snowpack/plugin-dotenv"
     // ['@snowpack/plugin-typescript', {args: '--project src/index.tsx --jsx react'}]
     /* ... */
   ],
