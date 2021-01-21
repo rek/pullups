@@ -6,10 +6,14 @@ import styled from 'styled-components'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
-import {UserCharts} from './pages/UserCharts'
+import {UserCharts, UserSessions} from './pages'
 
+/* background-color: grey; */
 const Item = styled.div`
-  /* background-color: grey; */
+`
+
+const Title = styled.div`
+  font-weight: 20px;
 `
 
 export const App = () => {
@@ -23,9 +27,10 @@ export const App = () => {
 
   return (
     <div>
+      <Title>User: adam</Title>
+      <UserSessions />
       <GridLayout className="layout" layout={layout} cols={12} rowHeight={height} width={1200}>
         <Item key="a">
-
           <UserCharts />
         </Item>
         {/* <Item key="b">b</Item> */}

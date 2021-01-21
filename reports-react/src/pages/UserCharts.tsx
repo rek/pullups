@@ -2,27 +2,18 @@ import React from "react";
 
 import type {Log} from "../types";
 import {Line} from "../graphs/line";
-import {useData} from "../useData";
+import {useData} from "../hooks/useData";
 
 export const UserCharts = () => {
 	const data = useData()
 	const [formattedData, setFormattedData] = React.useState<{x: number, y: number}[]>([])
-
-	console.log(data, 'data')
+	// console.log(data, 'data')
 
 	const convertDataIntoLine = (log: Log) => {
 		const result = log.data.map((value, index) => {
 			return {x: index, y: value}
 		})
-		console.log(result, 'result')
-
-		// [
-		//   {x: 1, y: 2},
-		//   {x: 2, y: 3},
-		//   {x: 3, y: 5},
-		//   {x: 4, y: 4},
-		//   {x: 5, y: 6}
-		// ]
+		// console.log(result, 'result')
 
 		setFormattedData(result)
 	}
