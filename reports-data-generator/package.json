@@ -1,0 +1,16 @@
+{
+  "name": "reports-data-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild index.ts --bundle --outfile=index.js --platform=node --external:*firestore",
+    "start": "node ./index.js",
+    "g": "yarn build && GOOGLE_APPLICATION_CREDENTIALS=./pullups-3b3d9bb5e7d0.json yarn start"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/firestore": "^4.8.1"
+  }
+}
