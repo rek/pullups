@@ -1,2 +1,5 @@
+export * from './Dashboard'
+export * from './Settings'
 export * from './UserCharts'
 export * from './UserSessions'
+export * from './UserManagement'

@@ -1,12 +1,16 @@
 import React from "react";
+import {useRecoilValue} from "recoil";
 
 import type {Log} from "../types";
 import {Line} from "../graphs/line";
 import {useData} from "../hooks/useData";
+import {sessionState} from "../modules/session";
 
 export const UserCharts = () => {
 	const data = useData()
 	const [formattedData, setFormattedData] = React.useState<{x: number, y: number}[]>([])
+
+	const activeSession = useRecoilValue(sessionState);
 	// console.log(data, 'data')
 
 	const convertDataIntoLine = (log: Log) => {
@@ -20,11 +24,10 @@ export const UserCharts = () => {
 
 	React.useEffect(() => {
 		if (data) {
-			convertDataIntoLine(data[0])
+			// console.log('loading new data', count)
+			convertDataIntoLine(data[activeSession])
 		}
-	}, [data])
-
-	console.log('formattedData', formattedData)
+	}, [data, activeSession])
 
 	if (!data) {
 		return null

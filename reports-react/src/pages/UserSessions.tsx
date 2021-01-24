@@ -1,11 +1,15 @@
 import React from "react";
+import {
+	atom,
+	useRecoilState,
+} from 'recoil';
+import styled from 'styled-components'
 
 import type {Log} from "../types";
 import {Line} from "../graphs/line";
 import {useData} from "../hooks/useData";
-
-import styled from 'styled-components'
 import {Loading} from "../common/loading";
+import {userSession} from "../modules/session";
 
 const Title = styled.div`
   font-weight: 800;
@@ -19,6 +23,9 @@ const SessionItem = styled.div`
 	background-color: grey;
   }
 `
+const SessionSelected = styled(SessionItem)`
+  border: 1px solid red;
+`
 const SessionWrapper = styled.div`
   padding: 20px;
   margin: 20px;
@@ -26,8 +33,13 @@ const SessionWrapper = styled.div`
 
 export const UserSessions: React.FC = () => {
 	const data = useData()
+	const [selectedSession, setSession] = useRecoilState(userSession);
 
 	console.log(data)
+
+	const handleClick = (value: number) => () => {
+		setSession(value)
+	}
 
 	if (!data) {
 		return <Loading />
@@ -37,10 +49,11 @@ export const UserSessions: React.FC = () => {
 		<SessionWrapper>
 			<Title>Sessions</Title>
 			{data.map((session, index) => {
+				const SessionWrapper = selectedSession === index ? SessionSelected : SessionItem
 				return (
-					<SessionItem>
+					<SessionWrapper onClick={handleClick(index)} key={`session-${index}`}>
 						{index}
-					</SessionItem>
+					</SessionWrapper>
 				)
 			})}
 		</SessionWrapper>
