@@ -18,13 +18,16 @@ export const UserManagement = () => {
     <Typography paragraph>
       Current user: {currentUser}
 
-      {users.length === 0 &&
-        <div>No users yet.</div>
-      }
+      <Typography paragraph>
+        {users.length === 0 ?
+          'No users yet.' : 'All users:'
+        }
+      </Typography>
 
       {users.length > 0 && users.map((user: string) => {
         return <div>{user}</div>
       })}
+
     </Typography>
   )
 }
