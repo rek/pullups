@@ -57,4 +57,8 @@ export const useStyles = makeStyles((theme) => ({
 		}),
 		marginLeft: 0,
 	},
+	table: {
+		minWidth: 650,
+	},
+
 }));

@@ -1,15 +1,30 @@
 import * as React from 'react'
-import {ThemeProvider} from '@material-ui/core/styles';
-import {useTheme} from '@material-ui/core/styles';
-
-const customTheme = {
-  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-};
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 export const Wrapper: React.FC = ({children}) => {
-  const theme = useTheme()
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const theme = React.useMemo(
+    () =>
+      createMuiTheme({
+        palette: {
+          type: prefersDarkMode ? 'dark' : 'light',
+
+          primary: {
+            main: '#00897b',
+          },
+          secondary: {
+            main: '#ccc',
+          },
+
+        },
+      }),
+    [prefersDarkMode],
+  );
 
   return (
-    <ThemeProvider theme={{...customTheme, ...theme}}>{children}</ThemeProvider>
+    <ThemeProvider theme={theme}><CssBaseline />{children}</ThemeProvider>
   )
 }

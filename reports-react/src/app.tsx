@@ -54,22 +54,22 @@ export const App = () => {
               */}
 
               <Switch>
-                <Route path="/Users">
-                  <UserSessions />
-                </Route>
-                <Route path="/UserManagement">
+                <Route path="/users">
                   <UserManagement />
                 </Route>
-                <Route path="/Charts">
-                  <UserCharts />
+                {/* <Route path="/UserManagement">
+                  <UserManagement />
+                </Route> */}
+                <Route path="/sessions">
+                  <UserSessions />
                 </Route>
-                <Route path="/Settings">
+                <Route path="/settings">
                   <Settings />
                 </Route>
-                <Route path="/Dashboard">
+                <Route path="/home">
                   <Dashboard />
                 </Route>
-                <Redirect path="/" to='/Dashboard' />
+                <Redirect path="/" to='/home' />
               </Switch>
             </NavBar>
 

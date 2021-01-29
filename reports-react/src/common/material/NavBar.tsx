@@ -17,13 +17,15 @@ import Box from '@material-ui/core/Box';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import PersonIcon from '@material-ui/icons/Person';
+import PeopleIcon from '@material-ui/icons/People';
 import MenuIcon from '@material-ui/icons/Menu';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import GraphIcon from '@material-ui/icons/ShowChart';
 
 import {useHistory} from 'react-router-dom'
 
 import {useStyles} from './theme'
+import {Profile} from './profile'
 
 export const NavBar: React.FC = ({children}) => {
   const classes = useStyles();
@@ -45,8 +47,8 @@ export const NavBar: React.FC = ({children}) => {
 
   const handleClick = (name: string = '') => () => {
     // event.preventDefault();
-    console.log('Going to:', name)
-    history.push(`/${name.replace(' ', '')}`)
+    // console.log('Going to:', name)
+    history.push(`/${name.toLowerCase().replace(' ', '')}`)
   }
 
   return (
@@ -72,14 +74,12 @@ export const NavBar: React.FC = ({children}) => {
           {/* whatever is on the left side */}
           <Box display='flex' flexGrow={1}>
             <Typography variant="h6" noWrap>
-              Advanced Dynamic and Machine-trained -{'>'} Pullup System
+              Another Damn Awesome Measurer
   					</Typography>
           </Box>
 
           {/* whatever is on the right side */}
-          <IconButton onClick={handleSettingsOpen}>
-            <SettingsIcon color="inherit" />
-          </IconButton>
+          <Profile handleClick={handleSettingsOpen} />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -98,15 +98,15 @@ export const NavBar: React.FC = ({children}) => {
         </div>
         <Divider />
         <List>
-          {['User Management', 'Users', 'Graphs'].map((text) => (
+          {['Home', 'Sessions', 'Users'].map((text) => (
             <ListItem button key={text} onClick={handleClick(text)}>
-              {text === 'User Management' &&
-                <ListItemIcon><PersonIcon /></ListItemIcon>
-              }
               {text === 'Users' &&
-                <ListItemIcon><PersonIcon /></ListItemIcon>
+                <ListItemIcon><PeopleIcon /></ListItemIcon>
               }
-              {text === 'Graphs' &&
+              {text === 'Sessions' &&
+                <ListItemIcon><MenuBookIcon /></ListItemIcon>
+              }
+              {text === 'Home' &&
                 <ListItemIcon><GraphIcon /></ListItemIcon>
               }
 
