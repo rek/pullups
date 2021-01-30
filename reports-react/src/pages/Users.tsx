@@ -3,12 +3,12 @@ import React from "react";
 import Typography from '@material-ui/core/Typography';
 
 import {useUsers} from '../hooks/useUsers'
-import {Loading} from "../common/loading";
+import {Loading} from "../common";
 import {Table} from "../common";
 
-export const UserManagement = () => {
+export const Users = () => {
   const {data: users} = useUsers()
-  console.log('Users:', users)
+  // console.log('Users:', users)
 
   if (!users) {
     return <Loading />
@@ -23,7 +23,7 @@ export const UserManagement = () => {
   }
 
   const columns = [{name: 'Name', align: 'left'}, {name: 'Records', align: undefined}]
-  const data = users.map((name) => ([{data: name}]))
+  const data = users.map((name) => ([{data: name}, {data: 'N/A'}]))
 
   return (
     <Typography paragraph>

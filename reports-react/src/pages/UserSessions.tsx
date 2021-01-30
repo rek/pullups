@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import type {Log} from "../types";
 import {Line} from "../graphs/line";
 import {useData} from "../hooks/useData";
-import {Loading} from "../common/loading";
+import {Loading} from "../common";
 import {userSession} from "../modules/session";
 
 const Title = styled.div`
@@ -32,7 +32,7 @@ const SessionWrapper = styled.div`
 `
 
 export const UserSessions: React.FC = () => {
-	const data = useData()
+	const data = useData({user: 'adam'})
 	const [selectedSession, setSession] = useRecoilState(userSession);
 
 	console.log(data)

@@ -15,17 +15,16 @@ import {QueryClient, QueryClientProvider} from 'react-query'
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
 
-import {Wrapper, NavBar} from './common'
+import {Wrapper, NavBar} from '../common'
 
-import {Dashboard, Settings, UserCharts, UserManagement, UserSessions} from './pages'
+import {Dashboard, Settings, Users, Sessions} from '../pages'
 
 /* background-color: grey; */
-const Item = styled.div`
-`
-
-const Title = styled.div`
-font-weight: 20px;
-`
+// const Item = styled.div`
+// `
+// const Title = styled.div`
+// font-weight: 20px;
+// `
 const queryClient = new QueryClient()
 
 export const App = () => {
@@ -55,13 +54,15 @@ export const App = () => {
 
               <Switch>
                 <Route path="/users">
-                  <UserManagement />
+                  <Users />
                 </Route>
-                {/* <Route path="/UserManagement">
-                  <UserManagement />
-                </Route> */}
+                {/*
+                <Route path="/UserManagement">
+									<UserManagement />
+                </Route>
+                */}
                 <Route path="/sessions">
-                  <UserSessions />
+                  <Sessions />
                 </Route>
                 <Route path="/settings">
                   <Settings />

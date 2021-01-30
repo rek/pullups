@@ -14,7 +14,7 @@ export const useUsers = () => {
 
         querySnapshot.forEach(function (doc) {
           // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
+          // console.log(doc.id, " => ", doc.data());
           users.push(doc.id)
         });
 

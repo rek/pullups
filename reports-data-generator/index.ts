@@ -5,20 +5,31 @@ const firestore = new Firestore();
 
 console.log('Starting data load...')
 
-const generatePullup = () => {
+const getRandom = (min: number, max: number) => Number((Math.random() * (max - min) + min).toFixed(0));
+const generatePullup = (min = getRandom(0, 20)) => {
 	let current = 0
-	const max = 100
+	const max = getRandom(80, 100)
 
 	const pullup = []
 
 	while (current < max) {
-		pullup.push(current++)
+		pullup.push(getRandom(current - 2, current + 2))
+		current++
 	}
-	while (current >= 0) {
+	while (current >= min) {
 		pullup.push(current--)
 	}
 
 	return pullup
+}
+
+const generatePullups = (count: number) => {
+	let results = []
+	for (let i = 0; i <= count; i++) {
+		results = results.concat(generatePullup(i === 0 ? 0 : undefined))
+	}
+
+	return results
 }
 
 const runDataGeneration = async () => {
@@ -33,8 +44,9 @@ const runDataGeneration = async () => {
 		logs: [
 			...data.logs,
 			{
-				data: generatePullup(),
-				start: '123'
+				data: generatePullups(3),
+				created: new Date(),
+				type: 'unknown'
 			}
 		]
 	});

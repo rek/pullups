@@ -21,6 +21,7 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@rebass/preset": "^4.0.5",
     "@types/styled-components": "^5.1.7",
+    "dayjs": "^1.10.4",
     "emotion-theming": "^11.0.0",
     "firebase": "^8.2.3",
     "react": "^17.0.1",
