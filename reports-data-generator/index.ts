@@ -44,7 +44,7 @@ const runDataGeneration = async () => {
 		logs: [
 			...data.logs,
 			{
-				data: generatePullups(3),
+				data: generatePullups(getRandom(2, 5)),
 				created: new Date(),
 				type: 'unknown'
 			}
