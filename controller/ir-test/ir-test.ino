@@ -1,14 +1,9 @@
-/**
- *
- * /
- *
- * /*
-
-  IR Setup:
+/*
+*  IR Setup:
 */
 #include <IRremote.h>
 const int IR_RECEIVE_PIN = 9;
-IRrecv IrReceiver(IR_RECEIVE_PIN);
+const boolean IR_ENABLE_LED_FEEDBACK = true;
 
 /*
 
@@ -21,69 +16,26 @@ void setup()
 	/*
     IR section
   */
-	//  IrReceiver.enableIRIn();
-	//  IrReceiver.blink13(true);
+  IrReceiver.begin(IR_RECEIVE_PIN, IR_ENABLE_LED_FEEDBACK); 
+	// IRReceiver.blink13(true);
 }
 
-//decode_results IRResults;
 void loop()
 {
-	//    if (IrReceiver.decode(&IRResults)) {
-	//      Serial.println("yes");
-	//          dump(&IRResults);
-	//    }
+  if (IrReceiver.decode()) {
+    // Serial.println(IrReceiver.decodedIRData.command);
+    IrReceiver.resume();
 
-	//  if (IrReceiver.decode()) {  // Grab an IR code
-	//    // Check if the buffer overflowed
-	//    if (IrReceiver.results.overflow) {
-	//      Serial.println("IR code too long. Edit IRremoteInt.h and increase RAW_BUFFER_LENGTH");
-	//    } else {
-	//
-	//      //        Serial.println(IRResults.value, HEX);
-	//
-	//      IrReceiver.printIRResultShort(&Serial);
-	//      Serial.println(IrReceiver.decodedIRData.address );
-	//      //    Serial.print(IRResults.value);
-	//      //    Serial.print(IRResults.rawlen);
-	//      //        Serial.print(IRResults.rawbuf);
-	//      if (IrReceiver.decodedIRData.protocol == UNKNOWN) {
-	//        Serial.print("Unknown IR Detected");
-	//        // We have an unknown protocol, print more info
-	//        IrReceiver.printIRResultRawFormatted(&Serial, true);
-	//      }
-	//      Serial.println();
-	//
-	//
-	//      IrReceiver.resume();
-	//    }
-	//  }
-	//
-	//    if (IrReceiver.decode(&IRResults)) {
-	//      Serial.println(IRResults.value);
-	//      switch (IRResults.decode_type) {
-	//        case NEC: Serial.println("NEC"); break ;
-	//        case SONY: Serial.println("SONY"); break ;
-	//        case RC5: Serial.println("RC5"); break ;
-	//        case RC6: Serial.println("RC6"); break ;
-	//        case DISH: Serial.println("DISH"); break ;
-	//        case SHARP: Serial.println("SHARP"); break ;
-	//        case JVC: Serial.println("JVC"); break ;
-	//        case SANYO: Serial.println("SANYO"); break ;
-	//        case SAMSUNG: Serial.println("SAMSUNG"); break ;
-	//        case LG: Serial.println("LG"); break ;
-	//        case WHYNTER: Serial.println("WHYNTER"); break ;
-	//        //      case AIWA_RC_T501: Serial.println("AIWA_RC_T501"); break ;
-	//        case PANASONIC: Serial.println("PANASONIC"); break ;
-	//        case DENON: Serial.println("DENON"); break ;
-	//        default:
-	//        case UNKNOWN: Serial.println("UNKNOWN"); break ;
-	//      }
-	//      IrReceiver.resume();
-	//    }
-}
-
-void dump(decode_results *results)
-{
-	//   int count = results->value;
-	Serial.println(results->value);
+    switch (IrReceiver.decodedIRData.command) {
+      case 12: Serial.println("Pressed 1"); break;
+      case 24: Serial.println("Pressed 2"); break;
+      case 94: Serial.println("Pressed 3"); break;
+      case  8: Serial.println("Pressed 4"); break;
+      case 28: Serial.println("Pressed 5"); break;
+      case 90: Serial.println("Pressed 6"); break;
+      case 66: Serial.println("Pressed 7"); break;
+      case 82: Serial.println("Pressed 8"); break;
+      case 74: Serial.println("Pressed 9"); break;
+    }
+  }
 }
