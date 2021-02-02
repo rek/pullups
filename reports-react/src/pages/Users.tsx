@@ -22,7 +22,7 @@ export const Users = () => {
     )
   }
 
-  const columns = [{name: 'Name', align: 'left'}, {name: 'Records', align: undefined}]
+  const columns = [{name: 'Name', align: 'left'}, {name: 'Records', align: 'center'}]
   const data = users.map((name) => ([{data: name}, {data: 'N/A'}]))
 
   return (

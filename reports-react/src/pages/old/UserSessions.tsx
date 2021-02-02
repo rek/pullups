@@ -5,11 +5,11 @@ import {
 } from 'recoil';
 import styled from 'styled-components'
 
-import type {Log} from "../types";
-import {Line} from "../graphs/line";
-import {useData} from "../hooks/useData";
-import {Loading} from "../common";
-import {userSession} from "../modules/session";
+import type {Log} from "../../types";
+import {Line} from "../../graphs/line";
+import {useData} from "../../hooks/useData";
+import {Loading} from "../../common";
+import {userSession} from "../../modules/session";
 
 const Title = styled.div`
   font-weight: 800;

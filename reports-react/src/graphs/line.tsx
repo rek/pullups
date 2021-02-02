@@ -1,5 +1,6 @@
 import React from "react";
 import {VictoryChart, VictoryContainer, VictoryLine, VictoryTheme} from 'victory';
+import {Loading} from "../common";
 
 export interface ChartDataItem {
   x: number,
@@ -10,7 +11,7 @@ export interface Props {
 }
 export const Line: React.FC<Props> = ({data}) => {
   if (!data) {
-    return <div>Loading...</div>
+    return <Loading />
   }
 
   // interpolation

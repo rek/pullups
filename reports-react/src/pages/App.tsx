@@ -17,7 +17,7 @@ import 'react-resizable/css/styles.css'
 
 import {Wrapper, NavBar} from '../common'
 
-import {Dashboard, Settings, Users, Sessions} from '../pages'
+import {Dashboard, Settings, Users, Sessions, UserTotals} from '../pages'
 
 /* background-color: grey; */
 // const Item = styled.div`
@@ -41,9 +41,6 @@ export const App = () => {
         <Router>
           <Wrapper>
             <NavBar>
-
-              {/* <Title>User: adam</Title> */}
-
               {/**
               <GridLayout className="layout" layout={layout} cols={12} rowHeight={height} width={1200}>
               <Item key="a">
@@ -56,11 +53,9 @@ export const App = () => {
                 <Route path="/users">
                   <Users />
                 </Route>
-                {/*
-                <Route path="/UserManagement">
-									<UserManagement />
+                <Route path="/user/:id/totals">
+                  <UserTotals />
                 </Route>
-                */}
                 <Route path="/sessions">
                   <Sessions />
                 </Route>

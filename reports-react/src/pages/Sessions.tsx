@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';
@@ -11,15 +12,19 @@ import TableCell, {TableCellProps} from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+// import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import {useData} from "../hooks/useData";
 import {Loading} from "../common";
-import {UserChart} from './UserCharts'
+import {UserChart} from './UserLineGraph'
 
 const useRowStyles = makeStyles({
   root: {
@@ -44,9 +49,30 @@ function Row(props: {row: RowProps}) {
   const {row} = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = () => {
+    handleClose();
+  };
 
   return (
     <React.Fragment>
+      <Menu
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleDelete}><DeleteIcon />Delete</MenuItem>
+      </Menu>
       <TableRow className={classes.root}>
         <TableCell>
           <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -59,8 +85,12 @@ function Row(props: {row: RowProps}) {
         </TableCell>
         <TableCell align="right">{row.user}</TableCell>
         <TableCell align="right">{row.type}</TableCell>
-        <TableCell align="right">{row.processed}</TableCell>
-        <TableCell align="right"><PlayCircleFilledIcon /></TableCell>
+        <TableCell align="right">{row.processed ? 'yes' : 'no'}</TableCell>
+        <TableCell align="right">
+          <Button aria-controls="user-session-menu" aria-haspopup="true" onClick={handleOpenMenu}>
+            <MoreVertIcon />
+          </Button>
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
@@ -104,7 +134,7 @@ function Row(props: {row: RowProps}) {
   );
 }
 
-const columns = [{value: 'Date', align: 'left'}, {value: 'User', align: 'right'}, {value: 'Type', align: 'right'}, {value: 'Processed', align: 'right'}, {value: 'Actions', align: 'right'}]
+const columns = [{value: 'Date', align: 'left'}, {value: 'User', align: 'right'}, {value: 'Type', align: 'right'}, {value: 'Processed', align: 'right'}, {value: '', align: 'right'}]
 export function Sessions() {
   const user = 'adam'
   const sessionData = useData({user})
