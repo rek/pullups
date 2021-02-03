@@ -42,7 +42,6 @@ export const LineMulti: React.FC<Props> = ({config}) => {
 							samples={100}
 							interpolation="natural"
 						/>
-
 					)
 				})}
 			</VictoryChart>
