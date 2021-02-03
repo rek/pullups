@@ -6,7 +6,6 @@
 *
 */
 
-// #include <LiquidCrystal.h>
 #include "DisplaySystem.h"
 #include "HangTimerSystem.h"
 
@@ -42,6 +41,9 @@ public:
   void changeMode(int newMode);
   void changeUser(int newUser);
 
+  void runCurrentMode();
+  void init();
+
 private:
   int _currentMode;
   int _currentUser;
@@ -57,31 +59,57 @@ private:
   void displayTimerSystem();
   int _hangStart;
   int _hangEnd;
+
+  void stopCurrentMode();
 };
 MainSystem::MainSystem()
 {
   _displayingWeight = 0;
-  _currentMode = _MODE_SCALE;
-
-  Serial.println("Starting display system.");
-  DisplaySystem displaySystemForMain;
-
-  displaySystem = displaySystemForMain;
-
+  _currentMode = _MODE_TIMER;
+}
+// doing this stuff here, because the constructor
+// is called before Serial is initialized
+void MainSystem::init()
+{
   Serial.println("Starting main system.");
 
+  /*
+  *  LCD section
+  */
+  Serial.println("Starting display system.");
+  DisplaySystem displaySystemForMain;
+  displaySystem = displaySystemForMain;
+
   HangTimerSystem hangTimerSystem;
-  Serial.println("Hang timer system.");
+  Serial.println("Starting Hang timer system.");
   Serial.println(hangTimerSystem.printStatus(4));
+}
+void MainSystem::stopCurrentMode()
+{
+}
+void MainSystem::runCurrentMode()
+{
+  if (scale.is_ready()) {
+    int newWeight = scale.get_units(); 
+
+    if (_currentMode == _MODE_PULLUPS) {
+//      hangTimerSystem.addTime(newWeight)
+    }
+
+    if (_currentMode == _MODE_SCALE) {
+//      hangTimerSystem.addTime(newWeight)
+    }
+
+    if (_currentMode == _MODE_TIMER) {
+//      hangTimerSystem.addTime(newWeight)
+    }
+  }
 }
 // display the current mode on the LCD
 // eg: weight timer mode
 void MainSystem::displayScreenInformation()
 {
   delay(200);
-  //  Serial.println("Displaying screen");
-  //  Serial.print("Current mode ");
-  //  Serial.println(this->_currentMode);
 
   if (this->_currentMode == this->_MODE_PULLUPS)
   {
@@ -118,25 +146,14 @@ void MainSystem::changeUser(int newUser)
 // mode 1
 void MainSystem::displayPullupSystem()
 {
-  char line1[] = "Pullup mode";
-  char line2[] = "";
-  displaySystem.printMessage(line1, line2);
-}
-// mode 3
-void MainSystem::displayTimerSystem()
-{
-  char line1[] = "Hang to";
-  char line2[] = "start";
-  displaySystem.printMessage(line1, line2);
+  displaySystem.printMessage("Pullups", "");
 }
 // mode 2
 void MainSystem::displayWeight()
 {
-  char line1[] = "Activating";
-  char line2[] = "scale...";
-  displaySystem.printMessage(line1, line2);
+  displaySystem.printMessage("Scale", "");
 
-  Serial.println("Skipping mode as scale not connected");
+  // Serial.println("Skipping mode as scale not connected");
   return;
 
   //  int roundNumber(int num)
@@ -163,6 +180,13 @@ void MainSystem::displayWeight()
   // lcd.setCursor(4, 1);
   // lcd.print("kg");
 }
+// mode 3
+void MainSystem::displayTimerSystem()
+{
+  displaySystem.printMessage("Timer", "");
+}
+
+MainSystem mainSystem;
 
 /*
 *
@@ -171,12 +195,6 @@ void MainSystem::displayWeight()
 void setup()
 {
   Serial.begin(9600);
-
-  /*
-  *  LCD section
-  */
-  // lcd.begin(16, 2);
-  // lcd.print("Initializing...");
 
   /*
   *  IR section
@@ -197,9 +215,9 @@ void setup()
   // lcd.setCursor(0, 0);
 
   Serial.println("Setup complete.");
-}
 
-MainSystem mainSystem;
+  mainSystem.init();
+}
 
 void interceptIRSignal()
 {
@@ -258,7 +276,12 @@ void loop()
   delay(1500);
 
   // always check for signals from the remote
+  // this will change the mode
+  // when the right buttons are pressed 
   interceptIRSignal();
 
   mainSystem.displayScreenInformation();
+
+  mainSystem.runCurrentMode();
+
 }
