@@ -8,6 +8,7 @@
 
 #include "DisplaySystem.h"
 #include "HangTimerSystem.h"
+#include "WeighingSystem.h"
 
 /*
 *  IR Setup:
@@ -36,6 +37,9 @@ public:
   MainSystem();
   DisplaySystem displaySystem;
   HangTimerSystem hangTimerSystem;
+  WeighingSystem weighingSystem;
+
+  int pollingInterval = 1500;
 
   void displayScreenInformation();
   void changeMode(int newMode);
@@ -60,6 +64,7 @@ private:
   int _hangStart;
   int _hangEnd;
 
+  void startCurrentMode();
   void stopCurrentMode();
 };
 MainSystem::MainSystem()
@@ -72,38 +77,64 @@ MainSystem::MainSystem()
 void MainSystem::init()
 {
   Serial.println("Starting main system.");
-
-  /*
-  *  LCD section
-  */
   Serial.println("Starting display system.");
-  DisplaySystem displaySystemForMain;
-  displaySystem = displaySystemForMain;
-
+  DisplaySystem displaySystem;
+  // displaySystem = displaySystemForMain;
   HangTimerSystem hangTimerSystem;
-  Serial.println("Starting Hang timer system.");
-  Serial.println(hangTimerSystem.printStatus(4));
 }
 void MainSystem::stopCurrentMode()
 {
 }
 void MainSystem::runCurrentMode()
 {
-  if (scale.is_ready()) {
-    int newWeight = scale.get_units(); 
+  if (scale.is_ready())
+  {
+    int newWeight = scale.get_units();
 
-    if (_currentMode == _MODE_PULLUPS) {
-//      hangTimerSystem.addTime(newWeight)
+    if (_currentMode == _MODE_PULLUPS)
+    {
+      //  pullupSystem.addTime(newWeight)
+      pollingInterval = 50;
     }
 
-    if (_currentMode == _MODE_SCALE) {
-//      hangTimerSystem.addTime(newWeight)
+    if (_currentMode == _MODE_SCALE)
+    {
+      pollingInterval = 1500;
+      //  weighingSystem.addTime(newWeight)
     }
 
-    if (_currentMode == _MODE_TIMER) {
-//      hangTimerSystem.addTime(newWeight)
+    if (_currentMode == _MODE_TIMER)
+    {
+      pollingInterval = 100;
+      if (hangTimerSystem.isRunning)
+      {
+        hangTimerSystem.addTime(newWeight);
+      }
+      else
+      {
+        displaySystem.printMessage("Final weight:", hangTimerSystem.finalResult);
+      }
     }
   }
+}
+void MainSystem::startCurrentMode()
+{
+  if (_currentMode == _MODE_TIMER)
+  {
+    hangTimerSystem.start();
+  }
+  // switch (_currentMode)
+  // {
+  // case _MODE_PULLUPS:
+  //   // hangTimerSystem.start();
+  //   break;
+  // case _MODE_SCALE:
+  //   // hangTimerSystem.start();
+  //   break;
+  // case _MODE_TIMER:
+  //   hangTimerSystem.start();
+  //   break;
+  // }
 }
 // display the current mode on the LCD
 // eg: weight timer mode
@@ -133,6 +164,7 @@ void MainSystem::changeMode(int newMode)
   Serial.println(newMode);
 
   _currentMode = newMode;
+  startCurrentMode();
   displaySystem.displayInTopRight(newMode);
 }
 void MainSystem::changeUser(int newUser)
@@ -208,6 +240,8 @@ void setup()
   //  scale.set_scale(calibration_factor);     // Adjust to this calibration factor
   //  scale.tare();                            // Reset the scale to 0
 
+  mainSystem.init();
+
   // after scale is setup
   // we need to clear init text
   // and start the program display
@@ -215,8 +249,6 @@ void setup()
   // lcd.setCursor(0, 0);
 
   Serial.println("Setup complete.");
-
-  mainSystem.init();
 }
 
 void interceptIRSignal()
@@ -273,15 +305,14 @@ void interceptIRSignal()
 
 void loop()
 {
-  delay(1500);
+  delay(mainSystem.pollingInterval);
 
   // always check for signals from the remote
   // this will change the mode
-  // when the right buttons are pressed 
+  // when the right buttons are pressed
   interceptIRSignal();
 
   mainSystem.displayScreenInformation();
 
   mainSystem.runCurrentMode();
-
 }

@@ -1,0 +1,4 @@
+{
+	"sketch": "../pullups/controller/pullups/pullups.ino",
+	"debugger": "jlink"
+}
