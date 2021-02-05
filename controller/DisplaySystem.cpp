@@ -15,7 +15,8 @@ const int d7 = 2;
 DisplaySystem::DisplaySystem() : _lcd(rs, en, d4, d5, d6, d7)
 {
   _lcd.begin(16, 2);
-  _lcd.print("Initializing...");
+  _lcd.clear();
+  printMessage("Initializing", "");
 }
 
 void DisplaySystem::toggleLCD()
@@ -23,12 +24,17 @@ void DisplaySystem::toggleLCD()
   Serial.print("Learn how to toggle the LCD on/off please...");
 }
 
-void DisplaySystem::printMessage(char line1[], char line2[])
+void DisplaySystem::printMessage(String line1, String line2)
 {
-  if (_currentLineOne != line1)
+  if (!_currentLineOne.equals(line1))
   {
+    // easy debug:
+    //     Serial.println("Drawing line 1");
+    //     Serial.print("a: ");
+    //     Serial.println(_currentLineOne);
+    //     Serial.print("b: ");
+    //     Serial.println(line1);
     clearFirstLine();
-    // Serial.println("Drawing line 1");
     _currentLineOne = line1;
     _lcd.setCursor(0, 0);
     _lcd.print(line1);
@@ -36,8 +42,8 @@ void DisplaySystem::printMessage(char line1[], char line2[])
 
   if (_currentLineTwo != line2)
   {
-    clearSecondLine();
     // Serial.println("Drawing line 2");
+    clearSecondLine();
     _currentLineTwo = line2;
     _lcd.setCursor(0, 1);
     _lcd.print(line2);

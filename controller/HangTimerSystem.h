@@ -11,12 +11,13 @@
 class HangTimerSystem
 {
 public:
+  bool hasStarted = false;
   bool isRunning = false;
 
   unsigned long startTime;
   int hangDuration;
   unsigned long stopTime;
-  void addTime(int weight);
+  int addTime(int weight);
 
   int asti;
   int finalResult;

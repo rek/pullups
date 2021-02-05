@@ -7,7 +7,7 @@ public:
   LiquidCrystal _lcd;
   DisplaySystem();
 
-  void printMessage(char line1[], char line2[]);
+  void printMessage(String line1, String line2);
   void displayInTopRight(int text);
   void displayInBottomRight(int text);
   void toggleLCD();
