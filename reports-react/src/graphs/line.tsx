@@ -1,4 +1,5 @@
 import React from "react";
+
 import {VictoryChart, VictoryContainer, VictoryLine, VictoryTheme} from 'victory';
 import {Loading} from "../common";
 
@@ -7,9 +8,11 @@ export interface ChartDataItem {
   y: number
 }
 export interface Props {
-  data: ChartDataItem[]
+  data: ChartDataItem[],
+  medianLine?: number
+  maxDomain?: number
 }
-export const Line: React.FC<Props> = ({data}) => {
+export const Line: React.FC<Props> = ({data, medianLine, maxDomain}) => {
   if (!data) {
     return <Loading />
   }
@@ -39,6 +42,12 @@ export const Line: React.FC<Props> = ({data}) => {
     // }
   }
 
+  // console.log('data', data)
+  // console.log('medianLine', medianLine)
+
+  const start = 1
+  const end = data.length;
+
   return (
     <div style={{padding: '20px', backgroundColor: '#777'}}>
       <VictoryChart
@@ -55,7 +64,21 @@ export const Line: React.FC<Props> = ({data}) => {
         <VictoryLine
           data={data}
           interpolation="natural"
+          domain={{y: [0, maxDomain || 1]}}
+
         />
+        {medianLine &&
+          <VictoryLine
+            style={{
+              data: {stroke: "#c43a31"},
+              parent: {border: "1px dotted #ccc"}
+            }}
+            data={[
+              {x: start, y: medianLine},
+              {x: end, y: medianLine}
+            ]}
+          />
+        }
       </VictoryChart>
     </div>
 

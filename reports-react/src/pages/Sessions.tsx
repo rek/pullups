@@ -25,6 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {useData} from "../hooks/useData";
 import {Loading} from "../common";
 import {UserChart} from './UserLineGraph'
+import type {UserLog} from '../types';
 
 const useRowStyles = makeStyles({
   root: {
@@ -37,13 +38,10 @@ const useRowStyles = makeStyles({
   }
 });
 
-interface RowProps {
+interface RowProps extends UserLog {
   id: number,
   date: string,
-  user: string,
-  type: string,
   processed?: boolean,
-  data: any[],
 }
 function Row(props: {row: RowProps}) {
   const {row} = props;
@@ -101,7 +99,7 @@ function Row(props: {row: RowProps}) {
                 Chart
               </Typography>
               */}
-              <UserChart user={row.user} sessionId={row.id} />
+              <UserChart user={row.user} data={row} />
               {/*
               <Table size="small" aria-label="purchases">
                 <TableHead>
@@ -134,25 +132,41 @@ function Row(props: {row: RowProps}) {
   );
 }
 
-const columns = [{value: 'Date', align: 'left'}, {value: 'User', align: 'right'}, {value: 'Type', align: 'right'}, {value: 'Processed', align: 'right'}, {value: '', align: 'right'}]
+const columns = [
+  {value: 'Date', align: 'left'},
+  {value: 'User', align: 'right'},
+  {value: 'Type', align: 'right'},
+  {value: 'Processed', align: 'right'},
+  {value: '', align: 'right'}
+]
 export function Sessions() {
-  const user = 'adam'
-  const sessionData = useData({user})
+  const sessionData = useData({user: ''}) // '' = all users
 
+  console.log('sessionData', sessionData)
   if (!sessionData) {
     return <Loading />
   }
 
-  const rows = sessionData.map(({data, created, type}, index) => {
-    return {
-      id: index,
-      date: dayjs(created.seconds * 1000).format('D ddd MMM YYYY HH:mm:ss'),
-      user,
-      type,
-      data,
-      processed: false
+  console.log('sessionData', sessionData)
+
+  let rows: RowProps[] = [];
+  // @ts-expect-error fix me
+  rows = sessionData.reduce((result, {user, data, created, type, ...rest}, index) => {
+    if (!data || !created) {
+      return result
     }
-  })
+    return [
+      ...result,
+      {
+        id: index,
+        date: created ? dayjs(created.seconds * 1000).format('D ddd MMM YYYY HH:mm:ss') : 'unknown',
+        user,
+        type,
+        data,
+        processed: false,
+        ...rest
+      }]
+  }, rows)
 
   // console.log('rows', rows)
 
