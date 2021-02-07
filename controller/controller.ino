@@ -1,9 +1,9 @@
 /**
-*
-* The pullup hanging system thing.
-*
-* v0.1.1
-*
+
+  The pullup hanging system thing.
+
+  v0.1.1
+
 */
 #include <Arduino.h>
 
@@ -13,52 +13,53 @@
 #include "PullupSystem.h"
 
 /*
-*  IR Setup:
+   IR Setup:
 */
 #include <IRremote.h> // version 3.0 +
 const int IR_RECEIVE_PIN = 9;
 const boolean IR_ENABLE_LED_FEEDBACK = false;
 
 /*
-*
-*  Load cell Setup:
+
+   Load cell Setup:
 */
 #include "HX711.h"
 HX711 scale;
-float calibration_factor = -23000;
+float calibration_factor = -23690;
 #define LOADCELL_DOUT_PIN 6
 #define LOADCELL_SCK_PIN 7
 
 /*
-*
-*  Pullup system setup:
+
+   Pullup system setup:
 */
 class MainSystem
 {
-public:
-  MainSystem();
-  DisplaySystem displaySystem;
-  HangTimerSystem hangTimerSystem;
-  WeighingSystem weighingSystem;
-  PullupSystem pullupSystem;
+  public:
+    MainSystem();
+    DisplaySystem displaySystem;
+    HangTimerSystem hangTimerSystem;
+    WeighingSystem weighingSystem;
+    PullupSystem pullupSystem;
 
-  int pollingInterval = 1000;
+    int pollingInterval = 1000;
 
-  void changeMode(int newMode);
-  void changeUser(int newUser);
+    void changeMode(int newMode);
+    void changeUser(int newUser);
 
-  void runCurrentMode();
-  void init();
+    void runCurrentMode();
+    void stopCurrent();
+    void init();
 
-private:
-  int _currentMode;
-  int _currentUser;
+  private:
+    int _currentMode = -1;
+    int _currentUser;
 
-  const int _MODE_PULLUPS = 1;
-  const int _MODE_SCALE = 2;
-  const int _MODE_TIMER = 3;
+    const int _MODE_PULLUPS = 1;
+    const int _MODE_SCALE = 2;
+    const int _MODE_TIMER = 3;
 
-  void startCurrentMode();
+    void startCurrentMode();
 };
 MainSystem::MainSystem()
 {
@@ -73,14 +74,14 @@ void MainSystem::init()
   Serial.println("Initializing main system.");
 
   /*
-  *  IR section
+     IR section
   */
   Serial.print("Initializing IR system... ");
   IrReceiver.begin(IR_RECEIVE_PIN, IR_ENABLE_LED_FEEDBACK);
   Serial.println("complete!");
 
   /*
-  *  Load cell section
+     Load cell section
   */
   Serial.print("Initializing scale system... ");
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
@@ -90,80 +91,96 @@ void MainSystem::init()
 
   Serial.println("Initializing display system.");
   DisplaySystem displaySystem;
-  // displaySystem = displaySystemForMain;
+
   Serial.println("Initializing hang timer system.");
   HangTimerSystem hangTimerSystem;
+
+  Serial.println("Polling interval: " + (String)pollingInterval);
+
   Serial.println("Setup complete.");
   displaySystem.printMessage("Ready");
 }
 
 void MainSystem::runCurrentMode()
 {
-  bool canStart = true;
-//  bool canStart = scale.is_ready() == 1;
-  if (canStart)
+  if (_currentMode == -1) {
+    // Serial.println("No mode set. Doing nothing");
+    return;
+  }
+
+  // if (true) // fake when scale not attached
+  if (!scale.is_ready())
   {
-    float newWeight = 0.4;
-//    float newWeight = scale.get_units();
+    // Serial.println("Scale not ready, waiting for init..");
+    return;
+  }
 
-    if (_currentMode == _MODE_PULLUPS)
+  // invert units because 'we' mounted the load call upside down
+  float newWeight = scale.get_units() * - 1;
+  // float newWeight = 0.4; // fake when scale not attached
+
+  if (_currentMode == _MODE_PULLUPS)
+  {
+    if (pullupSystem.isRunning)
     {
-      if (pullupSystem.isRunning)
+      if (pullupSystem.hasStarted)
       {
-        if (pullupSystem.hasStarted)
-        {
-          displaySystem.printMessage("Running...");
-        }
-        pullupSystem.addTime(newWeight);
+        displaySystem.printMessage("Running...");
       }
-      else // if has stopped:
-      {
-        displaySystem.printMessage("Stopped");
-      }
+      pullupSystem.addTime(newWeight);
     }
-
-    if (_currentMode == _MODE_SCALE)
+    else // if has stopped:
     {
-      if (weighingSystem.isRunning)
-      {
-        if (weighingSystem.hasStarted)
-        {
-          displaySystem.printMessage("Weighing");
-        }
-        weighingSystem.addTime(newWeight);
-      }
-      else // if has stopped:
-      {
-        if (weighingSystem.hasStarted)
-        {
-          displaySystem.printMessage("Final:", weighingSystem.getFinalResult());
-        }
-      }      
+      displaySystem.printMessage("Stopped");
     }
+  }
 
-    if (_currentMode == _MODE_TIMER)
+  if (_currentMode == _MODE_SCALE)
+  {
+    if (weighingSystem.isRunning)
     {
-      if (hangTimerSystem.isRunning)
+      if (weighingSystem.hasStarted)
       {
-        if (hangTimerSystem.hasStarted)
-        {
-          displaySystem.printMessage("Weighing");
-        }
-        hangTimerSystem.addTime(newWeight);
+        displaySystem.printMessage("Weighing");
       }
-      else // if has stopped:
+      weighingSystem.addTime(newWeight);
+    }
+    else // if has stopped:
+    {
+      if (weighingSystem.hasStarted)
       {
-        if (hangTimerSystem.hasStarted)
-        {
-          displaySystem.printMessage("Final:", hangTimerSystem.getFinalResult());
-        }
+        displaySystem.printMessage("Final:", weighingSystem.getFinalResult());
       }
     }
   }
-  else
+
+  if (_currentMode == _MODE_TIMER)
   {
-    Serial.println("Scale not ready, waiting for init...");
+    if (hangTimerSystem.isRunning)
+    {
+      if (hangTimerSystem.hasStarted)
+      {
+        displaySystem.printMessage("Weighing");
+      }
+      hangTimerSystem.addTime(newWeight);
+    }
+    else // if has stopped:
+    {
+      if (hangTimerSystem.hasStarted)
+      {
+        displaySystem.printMessage("Final:", hangTimerSystem.getFinalResult());
+      }
+    }
   }
+
+}
+
+void MainSystem::stopCurrent() {
+  // hack just stop all
+  pullupSystem.stop();
+  weighingSystem.stop();
+  hangTimerSystem.stop();
+  _currentMode = -1;
 }
 void MainSystem::startCurrentMode()
 {
@@ -204,18 +221,14 @@ void MainSystem::changeUser(int newUser)
 MainSystem mainSystem;
 
 /*
-*
-*  Main:
+
+   Main:
 */
 void setup()
 {
   Serial.begin(9600);
 
   mainSystem.init();
-
-  Serial.print("Polling interval: ");
-  Serial.println(mainSystem.pollingInterval);
-  mainSystem.runCurrentMode();
 }
 
 // @todo - refactor to class/file?
@@ -227,46 +240,50 @@ void interceptIRSignal()
 
     switch (IrReceiver.decodedIRData.command)
     {
-    case 12:
-      Serial.println("Pressed 1");
-      mainSystem.changeMode(1);
-      break;
-    case 24:
-      Serial.println("Pressed 2");
-      mainSystem.changeMode(2);
-      break;
-    case 94:
-      Serial.println("Pressed 3");
-      mainSystem.changeMode(3);
-      break;
-    case 8:
-      Serial.println("Pressed 4");
-      break;
-    case 28:
-      Serial.println("Pressed 5");
-      break;
-    case 90:
-      Serial.println("Pressed 6");
-      break;
-    case 66:
-      Serial.println("Pressed 7");
-      mainSystem.changeUser(1);
-      break;
-    case 82:
-      Serial.println("Pressed 8");
-      mainSystem.changeUser(2);
-      break;
-    case 74:
-      Serial.println("Pressed 9");
-      mainSystem.changeUser(3);
-      break;
-    case 67:
-      Serial.println("Pressed Play/Pause");
-      mainSystem.displaySystem.toggleLCD();
-      break;
-    default:
-      Serial.print("Unknown key:");
-      Serial.println(IrReceiver.decodedIRData.command);
+      case 12:
+        Serial.println("Pressed 1");
+        mainSystem.changeMode(1);
+        break;
+      case 24:
+        Serial.println("Pressed 2");
+        mainSystem.changeMode(2);
+        break;
+      case 94:
+        Serial.println("Pressed 3");
+        mainSystem.changeMode(3);
+        break;
+      case 8:
+        Serial.println("Pressed 4");
+        break;
+      case 28:
+        Serial.println("Pressed 5");
+        break;
+      case 90:
+        Serial.println("Pressed 6");
+        break;
+      case 66:
+        Serial.println("Pressed 7");
+        mainSystem.changeUser(1);
+        break;
+      case 82:
+        Serial.println("Pressed 8");
+        mainSystem.changeUser(2);
+        break;
+      case 74:
+        Serial.println("Pressed 9");
+        mainSystem.changeUser(3);
+        break;
+      case 67:
+        Serial.println("Pressed Play/Pause");
+        mainSystem.displaySystem.toggleLCD();
+        break;
+      case 71:
+        Serial.println("Pressed global stop");
+        mainSystem.stopCurrent();
+        break;
+      default:
+        Serial.print("Unknown key:");
+        Serial.println(IrReceiver.decodedIRData.command);
     }
   }
 }

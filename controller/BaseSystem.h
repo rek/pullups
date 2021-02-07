@@ -15,7 +15,7 @@ public:
   //
   // base:
   //
-  String name;
+  String name = "Base";
   int start(String name);
   void baseStop();
   void baseReset();

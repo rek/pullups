@@ -44,7 +44,7 @@ int WeighingSystem::getPollingInterval() { return 1000; }
 
 String WeighingSystem::getFinalResult()
 {
-  return (String)(finalResult * -1) + " kg";
+  return (String)finalResult + " kg";
 }
 
 void WeighingSystem::reset()

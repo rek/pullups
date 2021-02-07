@@ -3,7 +3,8 @@
 
 float PullupSystem::addTime(float weight)
 {
-  Serial.println("[" + name + "] Adding weight: " + weight);
+  //  Serial.println("[" + name + "] Adding weight: " + weight);
+  Serial.println(weight);
 
   // has not started hanging yet
   if ((int)weight == 0)
@@ -24,12 +25,15 @@ float PullupSystem::addTime(float weight)
     
     return;
   }
+  
+  // reset inactive flag, since we detect weight
+  inactive = false;
 
   // record ... or something ...
 
 }
 
-int PullupSystem::getPollingInterval() { return 50; }
+int PullupSystem::getPollingInterval() { return 10; }
 
 void PullupSystem::stop()
 {

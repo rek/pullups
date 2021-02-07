@@ -3,48 +3,32 @@
 
 float HangTimerSystem::addTime(float weight)
 {
-  Serial.println("[" + name + "] Adding weight: " + weight);
-
   // has not started hanging yet
   if ((int)weight == 0)
   {
     return;
   }
 
+  Serial.println("[" + name + "] Adding weight: " + weight);
+
   if (isRunning == true)
   {
     hasStarted = true;
-    Serial.println(" - Running");
-    previous = (previous + weight) / 2;
+    //  Serial.println(" - Running");
 
-    Serial.print(" - Previous: ");
-    Serial.println(previous);
-    Serial.print(" - Asti: ");
-    Serial.println(asti);
-    Serial.print(" - Asti * 10: ");
-    Serial.println((int)asti * 10);
-    // eg: 11.41 -> 114.10 = int 114
-    if ((int)previous * 10 == (int)asti * 10)
-    {
-      stop();
-    }
-    else
-    {
-      asti = previous;
-    }
   }
 
-  Serial.println("[" + name + "] - Returning");
+//  Serial.println("[" + name + "] - Returning");
 
   return asti;
 }
 
 String HangTimerSystem::getFinalResult()
 {
-  return (String)(finalResult * -1) + " kg";
+  return (String)finalResult + " kg";
 }
 
-int HangTimerSystem::getPollingInterval() { return 1000; }
+int HangTimerSystem::getPollingInterval() { return 500; }
 
 void HangTimerSystem::reset()
 {
