@@ -1,5 +1,7 @@
 import {Firestore} from '@google-cloud/firestore';
 
+import data1 from './pullup_3.data'
+
 // Create a new client
 const firestore = new Firestore();
 
@@ -34,8 +36,16 @@ const generatePullups = (count: number) => {
 
 const runDataGeneration = async () => {
 
+	const type = 'pullup';
+
+	// const user = 'adam';
+	// const weight = 97;
+
+	const user = 'anette';
+	const weight = 67;
+
 	// firestore.collection("users").doc("adam.logs")
-	const ref = await firestore.collection("users").doc("adam")
+	const ref = await firestore.collection("users").doc(user)
 
 	const existing = await ref.get()
 	const data = existing.data();
@@ -44,15 +54,14 @@ const runDataGeneration = async () => {
 		logs: [
 			...data.logs,
 			{
-				data: generatePullups(getRandom(2, 5)),
+				// data: generatePullups(getRandom(2, 5)),
+				data: data1,
 				created: new Date(),
-				type: 'unknown'
+				weight,
+				type
 			}
 		]
 	});
 }
-
-
-
 
 runDataGeneration()
