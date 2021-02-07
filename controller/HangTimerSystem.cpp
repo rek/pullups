@@ -1,14 +1,13 @@
-#include "Arduino.h"
+#include <Arduino.h>
 #include "HangTimerSystem.h"
 
-int HangTimerSystem::addTime(int weight)
+float HangTimerSystem::addTime(float weight)
 {
-  //    Serial.print("Adding weight: ");
-  //    Serial.println(weight);
+  Serial.println("[" + name + "] Adding weight: " + weight);
 
-  if (weight == 0)
+  // has not started hanging yet
+  if ((int)weight == 0)
   {
-    // has not started hanging yet
     return;
   }
 
@@ -22,11 +21,12 @@ int HangTimerSystem::addTime(int weight)
     Serial.println(previous);
     Serial.print(" - Asti: ");
     Serial.println(asti);
-    if (previous == asti)
+    Serial.print(" - Asti * 10: ");
+    Serial.println((int)asti * 10);
+    // eg: 11.41 -> 114.10 = int 114
+    if ((int)previous * 10 == (int)asti * 10)
     {
-      asti = 0;
       stop();
-      Serial.println(" - Stopping");
     }
     else
     {
@@ -34,36 +34,30 @@ int HangTimerSystem::addTime(int weight)
     }
   }
 
-  Serial.println(" - Returning");
+  Serial.println("[" + name + "] - Returning");
 
   return asti;
 }
 
-void HangTimerSystem::start()
+String HangTimerSystem::getFinalResult()
 {
-  // clear any previous run information
-  reset();
-  isRunning = true;
-  startTime = millis();
-  Serial.println("[HangTimer] - Running start");
+  return (String)(finalResult * -1) + " kg";
 }
+
+int HangTimerSystem::getPollingInterval() { return 1000; }
 
 void HangTimerSystem::reset()
 {
-  startTime = 0;
-  stopTime = 0;
+  baseReset();
+  
   asti = -1;
   previous = 0;
-  isRunning = false;
-  hasStarted = false;
-  Serial.println("[HangTimer] - Running reset");
 }
 
 void HangTimerSystem::stop()
 {
-  Serial.println("[HangTimer] - Running stop");
-  finalResult = previous;
-  stopTime = millis();
+  baseStop();
+
   hangDuration = stopTime - startTime;
-  isRunning = false;
+  finalResult = previous;
 }

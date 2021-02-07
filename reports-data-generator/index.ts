@@ -50,8 +50,9 @@ const runDataGeneration = async () => {
 			}
 		]
 	});
-
 }
+
+
 
 
 runDataGeneration()

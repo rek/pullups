@@ -6,7 +6,8 @@
   "scripts": {
     "build": "esbuild index.ts --bundle --outfile=index.js --platform=node --external:*firestore",
     "start": "node ./index.js",
-    "g": "yarn build && GOOGLE_APPLICATION_CREDENTIALS=./pullups-3b3d9bb5e7d0.json yarn start"
+    "g": "yarn build && GOOGLE_APPLICATION_CREDENTIALS=./pullups-3b3d9bb5e7d0.json yarn start",
+    "postg": "rm ./index.js"
   },
   "author": "",
   "license": "ISC",

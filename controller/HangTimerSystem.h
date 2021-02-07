@@ -8,24 +8,23 @@
 * - if we have enough data - check variation
 * - if stable -> stop loop
 */
-class HangTimerSystem
+#include "BaseSystem.h"
+
+class HangTimerSystem : public BaseSystem
 {
 public:
-  bool hasStarted = false;
-  bool isRunning = false;
-
   unsigned long startTime;
   int hangDuration;
   unsigned long stopTime;
-  int addTime(int weight);
+  String getFinalResult();
 
-  int asti;
-  int finalResult;
-  int previous;
+  float asti;
+  float finalResult;
+  float previous;
 
-  void start();
-
-private:
+  // from baseSystem
+  int getPollingInterval();
+  float addTime(float weight);
   void stop();
   void reset();
 };

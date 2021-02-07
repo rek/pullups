@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "DisplaySystem.h"
 
 const int rs = 12;
@@ -24,21 +26,30 @@ void DisplaySystem::toggleLCD()
   Serial.print("Learn how to toggle the LCD on/off please...");
 }
 
-void DisplaySystem::printMessage(String line1, String line2)
+void DisplaySystem::printFirstLine(String line)
 {
-  if (!_currentLineOne.equals(line1))
+
+  if (_currentLineOne != line)
   {
     // easy debug:
     //     Serial.println("Drawing line 1");
     //     Serial.print("a: ");
     //     Serial.println(_currentLineOne);
     //     Serial.print("b: ");
-    //     Serial.println(line1);
+    //     Serial.println(line);
     clearFirstLine();
-    _currentLineOne = line1;
+    _currentLineOne = line;
     _lcd.setCursor(0, 0);
-    _lcd.print(line1);
+    _lcd.print(line);
   }
+}
+void DisplaySystem::printMessage(String line)
+{
+  printFirstLine(line);
+}
+void DisplaySystem::printMessage(String line1, String line2)
+{
+  printFirstLine(line1);
 
   if (_currentLineTwo != line2)
   {

@@ -1,10 +1,17 @@
 /*
 * PullupSystem
 */
+#include "BaseSystem.h"
 
-class BaseSystem
+class PullupSystem : public BaseSystem
 {
-};
-class PullupSystem implements BaseSystem
-{
+public:
+  bool inactive = false;
+  unsigned long inactiveStartTime;
+
+  // from baseSystem
+  int getPollingInterval();
+  float addTime(float weight);
+  void stop();
+  void reset();
 };
