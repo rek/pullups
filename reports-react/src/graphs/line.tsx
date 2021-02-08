@@ -1,6 +1,6 @@
 import React from "react";
 
-import {VictoryChart, VictoryContainer, VictoryLine, VictoryTheme} from 'victory';
+import {VictoryChart, VictoryVoronoiContainer, VictoryLine, VictoryTheme, VictoryTooltip} from 'victory';
 import {Loading} from "../common";
 
 export interface ChartDataItem {
@@ -56,7 +56,7 @@ export const Line: React.FC<Props> = ({data, medianLine, maxDomain}) => {
         width={1000}
         padding={{top: 5, bottom: 0, left: 100, right: 40}}
         containerComponent={
-          <VictoryContainer
+          <VictoryVoronoiContainer
             responsive={false}
           />
         }
@@ -65,7 +65,8 @@ export const Line: React.FC<Props> = ({data, medianLine, maxDomain}) => {
           data={data}
           interpolation="natural"
           domain={{y: [0, maxDomain || 1]}}
-
+          labels={({datum}) => datum.y}
+          labelComponent={<VictoryTooltip />}
         />
         {medianLine &&
           <VictoryLine

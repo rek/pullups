@@ -22,12 +22,32 @@ const StyledTableCell = withStyles((theme: Theme) =>
   }),
 )(TableCell);
 
+const useRowStyles = makeStyles({
+  rowRoot: {
+    '& > *': {
+      borderBottom: 'unset',
+    },
+    '&:hover': {
+      backgroundColor: '#777',
+    },
+  }
+});
+
+interface RowProps {data: string, align?: TableCellProps['align']}
 interface Props {
   columns: {name: string, align?: string}[];
-  data: {data: string, align?: TableCellProps['align']}[][];
+  data: RowProps[][];
+  handleRowClick?: (row: number) => void
 }
-export const Table: React.FC<Props> = ({columns, data}) => {
+export const Table: React.FC<Props> = ({columns, data, handleRowClick}) => {
   const classes = useStyles();
+  const {rowRoot} = useRowStyles();
+
+  const _handleRowClick = (row: number) => {
+    if (handleRowClick) {
+      return () => handleRowClick(row)
+    }
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -41,7 +61,7 @@ export const Table: React.FC<Props> = ({columns, data}) => {
         </TableHead>
         <TableBody>
           {data.map((row, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} className={rowRoot} onClick={_handleRowClick(index)}>
               {row.map((cell, index) => {
                 if (index === 0) {
                   return (

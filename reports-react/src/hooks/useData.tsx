@@ -2,7 +2,7 @@ import React from "react";
 import type firebase from 'firebase'
 
 import {firestore} from '../db'
-import type {Data, Log, UserLog} from "../types";
+import type {UserRecord, Log, UserLog} from "../types";
 
 interface Props {
   user?: string
@@ -16,7 +16,7 @@ export const useData = ({user}: Props) => {
         .doc(user)
         .onSnapshot(function (querySnapshot) {
 
-          const allData = querySnapshot.data() as Data;
+          const allData = querySnapshot.data() as UserRecord;
           // const allData = querySnapshot.data() as Data
 
           const final = allData.logs.map((log) => {

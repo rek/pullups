@@ -8,8 +8,17 @@ export interface Log {
 	weight: number; // the weight when you did this
 	created: {seconds: number} // date this data was created
 }
-export interface Data {
+export interface UserRecord {
 	logs: Log[];
 	active: boolean;
 	pullups: number;
+}
+export interface Report {
+	reportInfo: any;
+	data: ReportData[];
+	name: string;
+}
+export interface ReportData {
+	date: {seconds: number};
+	value: number;
 }
