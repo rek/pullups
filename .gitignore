@@ -1,4 +1,6 @@
 reports-data-generator/*.json
 reports-data-generator/*.js
 node_modules
+reports-react/yarn-error.log
+pullups.code-workspace
 
