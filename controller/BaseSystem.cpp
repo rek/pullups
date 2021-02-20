@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include "BaseSystem.h"
 
-
 void BaseSystem::baseReset() {
   startTime = 0;
   stopTime = 0;
@@ -27,4 +26,14 @@ int BaseSystem::start(String _name)
   Serial.println("[" + name + "] - Running start");
 
   return getPollingInterval();
+}
+
+void BaseSystem::addData(String i) {
+  FirebaseJson dataPoint;
+  dataPoint.add("integerValue", i);
+  _data.add(dataPoint);
+};
+
+FirebaseJsonArray BaseSystem::getData() {
+  return _data;
 }

@@ -2,42 +2,47 @@
 //#include <Firebase_ESP_Client.h>
 
 #include "FirestoreHelpers.h"
+//#include "Secrets.h"
 
 #define FIREBASE_HOST "https://pullups-4eb8a-default-rtdb.europe-west1.firebasedatabase.app"
 #define FIREBASE_PROJECT_ID "pullups-4eb8a"
-#define API_KEY "AIzaSyDWj9Gt6pjZGhlNUKRjnsWMfyqKjf6X7YI"
 #define USER_EMAIL "rekarnar@gmail.com"
 #define USER_PASSWORD "testingESP32__"
+#define SECRET_API_KEY "AIzaSyAuEqWHDa20NzsQutesSCp1ucvc7k2ud6Y"
 
 FirestoreHelpers::FirestoreHelpers()
 {
   Serial.print("Initializing Firestore... ");
-    
+
   /* Assign the project host and api key (required) */
   firebaseConfig.host = FIREBASE_HOST;
-  firebaseConfig.api_key = API_KEY;
+  firebaseConfig.api_key = SECRET_API_KEY;
 
   /* Assign the user sign in credentials */
   firebaseAuth.user.email = USER_EMAIL;
   firebaseAuth.user.password = USER_PASSWORD;
 
+  // Serial.println("Stage 1");
+
+  Firebase.reconnectWiFi(true);
+
+  // Serial.println("Stage 2");
   /* Initialize the library with the Firebase authen and config */
   Firebase.begin(&firebaseConfig, &firebaseAuth);
-  Firebase.reconnectWiFi(true);
-//  fbdo.setResponseSize(4096);
+  // Serial.println("Stage 3");
+  fbdo.setResponseSize(4096);
 
   /* Get the token status */
   struct token_info_t info = Firebase.authTokenInfo();
-  Serial.println("------------------------------------");
   if (info.status == token_status_error)
   {
     Serial.printf("Token info: type = %s, status = %s\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
     Serial.printf("Token error: %s\n\n", getTokenError(info).c_str());
+    //  abort();
   }
   else
   {
-    Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
-    abort();
+     Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
   }
   Serial.println("complete!");
 }
@@ -130,7 +135,7 @@ String FirestoreHelpers::getTokenError(struct token_info_t info)
 //      Serial.println("REASON: " + fbdo.errorReason());
 //      Serial.println("------------------------------------");
 //      Serial.println();
-//  } 
+//  }
 //
 //}
 //void FirestoreHelpers::addJsonArray(const char *documentPath, FirebaseJsonArray payload, const char *mask)
@@ -177,24 +182,24 @@ String FirestoreHelpers::getTokenError(struct token_info_t info)
 //    Serial.println();
 //  }
 //}
-//void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
-//{
-//  String content;
-//  payload.toString(content);
-//  Serial.println("Json add");
-//  if(Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, content.c_str()))
-//  {
-//    Serial.println("PASSED");
-//    Serial.println("------------------------------------");
-//    Serial.println(fbdo.payload());
-//    Serial.println("------------------------------------");
-//    Serial.println();
-//  }
-//  else
-//  {
-//    Serial.println("FAILED");
-//    Serial.println("REASON: " + fbdo.errorReason());
-//    Serial.println("------------------------------------");
-//    Serial.println();
-//  }
-//}
+void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
+{
+  String content;
+  payload.toString(content);
+  Serial.println("Json add");
+  if(Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, content.c_str()))
+  {
+    Serial.println("PASSED");
+    Serial.println("------------------------------------");
+    Serial.println(fbdo.payload());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+  else
+  {
+    Serial.println("FAILED");
+    Serial.println("REASON: " + fbdo.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+}

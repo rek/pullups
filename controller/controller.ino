@@ -12,6 +12,8 @@
 #include "WeighingSystem.h"
 #include "PullupSystem.h"
 
+//ESP32_PANIC=ESP32_PANIC_PRINT_HALT;
+
 /*
 *   Load cell Setup:
 */
@@ -94,7 +96,9 @@ void MainSystem::init()
   Serial.println("Setup complete.");
   displaySystem.printMessage("Ready");
 
-//  storage.addItem();
+//  Log l = pullupSystem.getLastLog();
+//  storage.addItem(l);
+
 }
 
 void MainSystem::runCurrentMode()

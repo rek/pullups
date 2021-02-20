@@ -1,3 +1,4 @@
+#pragma once
 #include <Firebase_ESP_Client.h>
 
 class FirestoreHelpers
@@ -17,7 +18,7 @@ public:
 //  void addJsonArray(const char *, FirebaseJsonArray a);
 //  void addJsonArray(const char *, FirebaseJsonArray a, const char *);
 //  void addJson(const char *documentPath, FirebaseJson payload, const char *);
-//  void addJson(const char *documentPath, FirebaseJson payload);
+  void addJson(const char *documentPath, FirebaseJson payload);
 
   /* The helper function to get the token status string */
   String getTokenStatus(struct token_info_t info);

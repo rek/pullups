@@ -1,5 +1,12 @@
 #pragma once
 #include <Arduino.h>
+#include <Firebase_ESP_Client.h>
+
+struct Log {
+  String name;
+//  Vector<int> data;
+  FirebaseJsonArray data;
+};
 
 class BaseSystem
 {
@@ -28,5 +35,12 @@ public:
   void setRunning(bool running)
   {
     isRunning = running;
-  }
+  };
+
+  void addData(String i);
+  FirebaseJsonArray getData();
+
+private:
+  // store the current data coming in in this object:
+  FirebaseJsonArray _data;
 };
