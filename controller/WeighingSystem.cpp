@@ -9,7 +9,7 @@ float WeighingSystem::addTime(float weight)
   if ((int)weight == 0)
   {
     // has not started hanging yet
-    return;
+    return 0.0;
   }
 
   if (isRunning == true)

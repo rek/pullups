@@ -4,26 +4,29 @@
 float PullupSystem::addTime(float weight)
 {
   //  Serial.println("[" + name + "] Adding weight: " + weight);
-  Serial.println(weight);
 
   // has not started hanging yet
   if ((int)weight == 0)
   {
     if (inactive == false) {
-      Serial.println("[" + name + "] Started inactivity");
+      Serial.println("[" + name + "] Started inactivity at: " + millis());
       inactiveStartTime = millis();
     }
     
     inactive = true;
-
-    // Serial.println("[" + name + "] " + millis() + " - " + inactiveStartTime);
 
     if ((millis() - inactiveStartTime) > 5000) {
       Serial.println("[" + name + "] Timeout due to inactivity");
       stop();
     }
     
-    return;
+    return 0.0;
+  }
+
+  Serial.println(weight);
+
+  if (inactive == true) {
+    Serial.println("[" + name + "] Started work at: " + millis());
   }
   
   // reset inactive flag, since we detect weight
@@ -33,7 +36,7 @@ float PullupSystem::addTime(float weight)
 
 }
 
-int PullupSystem::getPollingInterval() { return 10; }
+int PullupSystem::getPollingInterval() { return 1; }
 
 void PullupSystem::stop()
 {

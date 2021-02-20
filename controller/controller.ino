@@ -1,9 +1,9 @@
 /**
-
-  The pullup hanging system thing.
-
-  v0.1.1
-
+*
+*  The pullup hanging system thing.
+*
+*  v0.1.1
+*
 */
 #include <Arduino.h>
 
@@ -13,53 +13,53 @@
 #include "PullupSystem.h"
 
 /*
-   IR Setup:
-*/
-#include <IRremote.h> // version 3.0 +
-const int IR_RECEIVE_PIN = 9;
-const boolean IR_ENABLE_LED_FEEDBACK = false;
-
-/*
-
-   Load cell Setup:
+*   Load cell Setup:
 */
 #include "HX711.h"
 HX711 scale;
 float calibration_factor = -23690;
-#define LOADCELL_DOUT_PIN 6
-#define LOADCELL_SCK_PIN 7
+#define LOADCELL_DOUT_PIN 25 // esp32
+#define LOADCELL_SCK_PIN 33  // esp32
+//#define LOADCELL_DOUT_PIN 6 // arduino
+//#define LOADCELL_SCK_PIN 7 // arduino
 
 /*
+*   Storage Setup: (aka: firebase)
+*/
+#include "Storage.h"
 
-   Pullup system setup:
+/*
+*
+*   Main system setup:
 */
 class MainSystem
 {
-  public:
-    MainSystem();
-    DisplaySystem displaySystem;
-    HangTimerSystem hangTimerSystem;
-    WeighingSystem weighingSystem;
-    PullupSystem pullupSystem;
+public:
+  MainSystem();
+  DisplaySystem displaySystem;
+  HangTimerSystem hangTimerSystem;
+  WeighingSystem weighingSystem;
+  PullupSystem pullupSystem;
+  Storage storage;
 
-    int pollingInterval = 1000;
+  int pollingInterval = 1000;
 
-    void changeMode(int newMode);
-    void changeUser(int newUser);
+  void changeMode(int newMode);
+  void changeUser(int newUser);
 
-    void runCurrentMode();
-    void stopCurrent();
-    void init();
+  void runCurrentMode();
+  void stopCurrent();
+  void init();
 
-  private:
-    int _currentMode = -1;
-    int _currentUser;
+private:
+  int _currentMode = -1;
+  int _currentUser;
 
-    const int _MODE_PULLUPS = 1;
-    const int _MODE_SCALE = 2;
-    const int _MODE_TIMER = 3;
+  const int _MODE_PULLUPS = 1;
+  const int _MODE_SCALE = 2;
+  const int _MODE_TIMER = 3;
 
-    void startCurrentMode();
+  void startCurrentMode();
 };
 MainSystem::MainSystem()
 {
@@ -74,13 +74,6 @@ void MainSystem::init()
   Serial.println("Initializing main system.");
 
   /*
-     IR section
-  */
-  Serial.print("Initializing IR system... ");
-  IrReceiver.begin(IR_RECEIVE_PIN, IR_ENABLE_LED_FEEDBACK);
-  Serial.println("complete!");
-
-  /*
      Load cell section
   */
   Serial.print("Initializing scale system... ");
@@ -89,35 +82,42 @@ void MainSystem::init()
   scale.tare();                        // Reset the scale to 0
   Serial.println("complete!");
 
-  Serial.println("Initializing display system.");
   DisplaySystem displaySystem;
 
-  Serial.println("Initializing hang timer system.");
+  //  Serial.println("Initializing hang timer system.");
   HangTimerSystem hangTimerSystem;
 
-  Serial.println("Polling interval: " + (String)pollingInterval);
+  storage.setupWifi();
+  storage.setupFirebase();
 
+  Serial.println("Polling interval: " + (String)pollingInterval);
   Serial.println("Setup complete.");
   displaySystem.printMessage("Ready");
+
+//  storage.addItem();
 }
 
 void MainSystem::runCurrentMode()
 {
-  if (_currentMode == -1) {
-    // Serial.println("No mode set. Doing nothing");
-    return;
-  }
-
-  // if (true) // fake when scale not attached
-  if (!scale.is_ready())
+  if (true) // fake when scale not attached
+  // if (!scale.is_ready())
   {
     // Serial.println("Scale not ready, waiting for init..");
     return;
   }
 
   // invert units because 'we' mounted the load call upside down
-  float newWeight = scale.get_units() * - 1;
-  // float newWeight = 0.4; // fake when scale not attached
+  // float newWeight = scale.get_units();
+  float newWeight = 0.4; // fake when scale not attached
+
+  //  Serial.print("Weight:");
+  //  Serial.println(newWeight);
+
+  if (_currentMode == -1)
+  {
+    // Serial.println("No mode set. Doing nothing");
+    return;
+  }
 
   if (_currentMode == _MODE_PULLUPS)
   {
@@ -172,10 +172,10 @@ void MainSystem::runCurrentMode()
       }
     }
   }
-
 }
 
-void MainSystem::stopCurrent() {
+void MainSystem::stopCurrent()
+{
   // hack just stop all
   pullupSystem.stop();
   weighingSystem.stop();
@@ -221,71 +221,15 @@ void MainSystem::changeUser(int newUser)
 MainSystem mainSystem;
 
 /*
-
-   Main:
+*
+*  Main:
 */
 void setup()
 {
-  Serial.begin(9600);
+  // Serial.begin(9600); // arduino uno
+  Serial.begin(115200); // esp32
 
   mainSystem.init();
-}
-
-// @todo - refactor to class/file?
-void interceptIRSignal()
-{
-  if (IrReceiver.decode())
-  {
-    IrReceiver.resume();
-
-    switch (IrReceiver.decodedIRData.command)
-    {
-      case 12:
-        Serial.println("Pressed 1");
-        mainSystem.changeMode(1);
-        break;
-      case 24:
-        Serial.println("Pressed 2");
-        mainSystem.changeMode(2);
-        break;
-      case 94:
-        Serial.println("Pressed 3");
-        mainSystem.changeMode(3);
-        break;
-      case 8:
-        Serial.println("Pressed 4");
-        break;
-      case 28:
-        Serial.println("Pressed 5");
-        break;
-      case 90:
-        Serial.println("Pressed 6");
-        break;
-      case 66:
-        Serial.println("Pressed 7");
-        mainSystem.changeUser(1);
-        break;
-      case 82:
-        Serial.println("Pressed 8");
-        mainSystem.changeUser(2);
-        break;
-      case 74:
-        Serial.println("Pressed 9");
-        mainSystem.changeUser(3);
-        break;
-      case 67:
-        Serial.println("Pressed Play/Pause");
-        mainSystem.displaySystem.toggleLCD();
-        break;
-      case 71:
-        Serial.println("Pressed global stop");
-        mainSystem.stopCurrent();
-        break;
-      default:
-        Serial.print("Unknown key:");
-        Serial.println(IrReceiver.decodedIRData.command);
-    }
-  }
 }
 
 void loop()
@@ -296,7 +240,7 @@ void loop()
   // always check for signals from the remote
   // this will change the mode
   // when the right buttons are pressed
-  interceptIRSignal();
+  //  interceptIRSignal();
 
-  mainSystem.runCurrentMode();
+   mainSystem.runCurrentMode();
 }

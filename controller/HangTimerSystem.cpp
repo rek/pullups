@@ -6,7 +6,7 @@ float HangTimerSystem::addTime(float weight)
   // has not started hanging yet
   if ((int)weight == 0)
   {
-    return;
+    return 0.0;
   }
 
   Serial.println("[" + name + "] Adding weight: " + weight);

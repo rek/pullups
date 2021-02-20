@@ -2,12 +2,25 @@
 
 #include "DisplaySystem.h"
 
+/*
+ * Esp32
+ *
+*/
+const int rs = 19;
+const int en = 23;
+const int d4 = 18;
+const int d5 = 17;
+const int d6 = 16;
+const int d7 = 15;
+/*
+ * Arduino
 const int rs = 12;
 const int en = 11;
 const int d4 = 5;
 const int d5 = 4;
 const int d6 = 3;
 const int d7 = 2;
+ */
 
 /*
 *
@@ -16,6 +29,7 @@ const int d7 = 2;
 
 DisplaySystem::DisplaySystem() : _lcd(rs, en, d4, d5, d6, d7)
 {
+  Serial.println("Initializing display system.");
   _lcd.begin(16, 2);
   _lcd.clear();
   printMessage("Initializing", "");
