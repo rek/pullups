@@ -2,13 +2,12 @@
 //#include <Firebase_ESP_Client.h>
 
 #include "FirestoreHelpers.h"
-//#include "Secrets.h"
+#include "Secrets.h"
 
 #define FIREBASE_HOST "https://pullups-4eb8a-default-rtdb.europe-west1.firebasedatabase.app"
 #define FIREBASE_PROJECT_ID "pullups-4eb8a"
 #define USER_EMAIL "rekarnar@gmail.com"
 #define USER_PASSWORD "testingESP32__"
-#define SECRET_API_KEY "AIzaSyAuEqWHDa20NzsQutesSCp1ucvc7k2ud6Y"
 
 FirestoreHelpers::FirestoreHelpers()
 {
@@ -20,7 +19,7 @@ FirestoreHelpers::FirestoreHelpers()
 
   /* Assign the user sign in credentials */
   firebaseAuth.user.email = USER_EMAIL;
-  firebaseAuth.user.password = USER_PASSWORD;
+  firebaseAuth.user.password = SECRET_USER_PASSWORD;
 
   // Serial.println("Stage 1");
 
@@ -42,7 +41,7 @@ FirestoreHelpers::FirestoreHelpers()
   }
   else
   {
-     Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
+    Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
   }
   Serial.println("complete!");
 }
@@ -187,7 +186,7 @@ void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
   String content;
   payload.toString(content);
   Serial.println("Json add");
-  if(Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, content.c_str()))
+  if (Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, content.c_str()))
   {
     Serial.println("PASSED");
     Serial.println("------------------------------------");
