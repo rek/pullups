@@ -1,5 +1,5 @@
 #include <WiFi.h>
-#include <Firebase_ESP_Client.h>
+//#include <Firebase_ESP_Client.h>
 #include "Storage.h"
 
 #include "FirestoreHelpers.h"
@@ -24,30 +24,38 @@ void Storage::setupWifi()
 //Firebase + Firestore
 void Storage::setupFirebase()
 {
-//  FirestoreHelpers firestoreHelpers;
-//  _firestoreHelpers = firestoreHelpers;
+  //  FirestoreHelpers firestoreHelpers;
+  //  _firestoreHelpers = firestoreHelpers;
+ 
 }
 
 void Storage::readItem()
 {
 }
+
 void Storage::addItem(Log l)
 {
-  return;
-  
   FirestoreHelpers _firestoreHelpers;
   
   FirebaseJson oneLog;
-  oneLog.set("fields/logs/arrayValue/values", l.data);
-//  oneLog.set("fields/weight/integerValue", 97);
   oneLog.set("fields/duration/integerValue", 101);
 
-  // make the users path
-  const char *user = "adam"; 
-  char documentPath[100];   
-  strcpy(documentPath,"testing/");
-  strcat(documentPath,user);  
-  strcat(documentPath,"/logs");
+  // need to get this part working:
+//  oneLog.set("fields/logs/arrayValue/values", l.data);
 
+  //  oneLog.set("fields/weight/integerValue", 97);
+
+  Serial.println("===trying to add:");
+  String content2;
+  oneLog.toString(content2);
+  Serial.println(content2.c_str());
+  
+  // make the users path
+  char documentPath[100];
+  strcpy(documentPath, "testing/");
+  strcat(documentPath, l.name);
+  strcat(documentPath, "/logs");
+
+  _firestoreHelpers.addJson(documentPath, content2);
 //  _firestoreHelpers.addJson(documentPath, oneLog);
 }

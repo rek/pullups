@@ -96,8 +96,7 @@ void MainSystem::init()
   Serial.println("Setup complete.");
   displaySystem.printMessage("Ready");
 
-//  Log l = pullupSystem.getLastLog();
-//  storage.addItem(l);
+  storage.addItem(pullupSystem.getLastLog());
 
 }
 

@@ -6,8 +6,11 @@
 
 #define FIREBASE_HOST "https://pullups-4eb8a-default-rtdb.europe-west1.firebasedatabase.app"
 #define FIREBASE_PROJECT_ID "pullups-4eb8a"
-#define USER_EMAIL "rekarnar@gmail.com"
-#define USER_PASSWORD "testingESP32__"
+  
+// NOTE: these 3 need to be global
+FirebaseData fbdo;
+FirebaseAuth firebaseAuth;
+FirebaseConfig firebaseConfig;
 
 FirestoreHelpers::FirestoreHelpers()
 {
@@ -18,7 +21,7 @@ FirestoreHelpers::FirestoreHelpers()
   firebaseConfig.api_key = SECRET_API_KEY;
 
   /* Assign the user sign in credentials */
-  firebaseAuth.user.email = USER_EMAIL;
+  firebaseAuth.user.email = SECRET_USER_EMAIL;
   firebaseAuth.user.password = SECRET_USER_PASSWORD;
 
   // Serial.println("Stage 1");
@@ -26,11 +29,12 @@ FirestoreHelpers::FirestoreHelpers()
   Firebase.reconnectWiFi(true);
 
   // Serial.println("Stage 2");
-  /* Initialize the library with the Firebase authen and config */
+  /* Initialize the library with the Firebase auth and config */
   Firebase.begin(&firebaseConfig, &firebaseAuth);
   // Serial.println("Stage 3");
   fbdo.setResponseSize(4096);
-
+  Serial.println("complete!");
+  
   /* Get the token status */
   struct token_info_t info = Firebase.authTokenInfo();
   if (info.status == token_status_error)
@@ -43,7 +47,7 @@ FirestoreHelpers::FirestoreHelpers()
   {
     Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
   }
-  Serial.println("complete!");
+
 }
 
 /* The helper function to get the token type string */
@@ -181,6 +185,24 @@ String FirestoreHelpers::getTokenError(struct token_info_t info)
 //    Serial.println();
 //  }
 //}
+void FirestoreHelpers::addJson(const char *documentPath, String payload)
+{
+  if(Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, payload.c_str()))
+  {
+    Serial.println("PASSED");
+    Serial.println("------------------------------------");
+    Serial.println(fbdo.payload());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+  else
+  {
+    Serial.println("FAILED");
+    Serial.println("REASON: " + fbdo.errorReason());
+    Serial.println("------------------------------------");
+    Serial.println();
+  }
+}
 void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
 {
   String content;

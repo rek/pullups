@@ -8,29 +8,21 @@ Log PullupSystem::getLastLog()
   struct Log log;
 
   addData("22");
-//  
-//  FirebaseJson entry;
-//  entry.add("integerValue", "1");
-//
-//  _data.add(entry);
-//  FirebaseJson entry1;
-//  entry1.add("integerValue", "2");
-//
-//  FirebaseJsonArray container;
-//  container.add(entry);
-//  container.add(entry1);
-
 
   log.name = "test";
-  log.data = getData();
+//  log.data = getData();
+
+  Serial.println("===");
+  String content;
+  getData().toString(content);
+  Serial.println(content.c_str());
+  log.data = content.c_str();
 
 //  const int ELEMENT_COUNT_MAX = 1000;
 //  int storage_array[ELEMENT_COUNT_MAX];
 //  Vector<int> vector(storage_array);
 //  vector.push_back(2);
 //  vector.push_back(77);
-
-//  log.data = vector;
 
   return log;
 }

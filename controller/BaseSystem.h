@@ -3,9 +3,10 @@
 #include <Firebase_ESP_Client.h>
 
 struct Log {
-  String name;
+  char *name;
 //  Vector<int> data;
-  FirebaseJsonArray data;
+  // FirebaseJsonArray data;
+  String data;
 };
 
 class BaseSystem
@@ -38,6 +39,7 @@ public:
   };
 
   void addData(String i);
+  void clearData();  
   FirebaseJsonArray getData();
 
 private:

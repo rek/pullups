@@ -1,4 +1,5 @@
-//#pragma once
+#pragma once
+#include <Firebase_ESP_Client.h>
 //#include "FirestoreHelpers.h"
 
 #include "BaseSystem.h"

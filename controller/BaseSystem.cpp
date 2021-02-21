@@ -28,6 +28,8 @@ int BaseSystem::start(String _name)
   return getPollingInterval();
 }
 
+void BaseSystem::clearData() {
+}
 void BaseSystem::addData(String i) {
   FirebaseJson dataPoint;
   dataPoint.add("integerValue", i);
