@@ -3,14 +3,21 @@
         {
             "name": "Linux",
             "includePath": [
+                "/home/rek/Arduino/tools/**",
+                "/home/rek/Arduino/libraries/**",
+                "/home/rek/Downloads/arduino-1.8.13/libraries/**",
+                "/home/rek/Arduino/hardware/espressif/esp32/**",
                 "~/Arduino/libraries/**",
                 "${workspaceFolder}/**"
             ],
-            "defines": [],
+            "defines": [
+                "USBCON"
+            ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu11",
             "cppStandard": "gnu++14",
-            "intelliSenseMode": "linux-gcc-x64"
+            "intelliSenseMode": "linux-gcc-x64",
+            "forcedInclude": []
         }
     ],
     "version": 4

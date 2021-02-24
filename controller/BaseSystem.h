@@ -2,6 +2,8 @@
 #include <Arduino.h>
 #include <Firebase_ESP_Client.h>
 
+extern FirebaseJsonArray _data;
+
 struct Log {
   char *name;
 //  Vector<int> data;
@@ -39,10 +41,9 @@ public:
   };
 
   void addData(String i);
-  void clearData();  
-  FirebaseJsonArray getData();
+  FirebaseJsonArray* getData();
 
 private:
   // store the current data coming in in this object:
-  FirebaseJsonArray _data;
+//  FirebaseJsonArray _data;
 };

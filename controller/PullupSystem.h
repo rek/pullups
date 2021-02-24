@@ -10,7 +10,8 @@ public:
   bool inactive = false;
   unsigned long inactiveStartTime;
 
-  Log getLastLog();
+  // Log getLastLog();
+  FirebaseJsonArray* getLastLog();
 
   // from baseSystem
   int getPollingInterval();

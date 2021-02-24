@@ -3,28 +3,13 @@
 
 //#include <Vector.h>
 
-Log PullupSystem::getLastLog()
+// not used:
+FirebaseJsonArray* PullupSystem::getLastLog()
 {
   struct Log log;
-
   addData("22");
-
   log.name = "test";
-//  log.data = getData();
-
-  Serial.println("===");
-  String content;
-  getData().toString(content);
-  Serial.println(content.c_str());
-  log.data = content.c_str();
-
-//  const int ELEMENT_COUNT_MAX = 1000;
-//  int storage_array[ELEMENT_COUNT_MAX];
-//  Vector<int> vector(storage_array);
-//  vector.push_back(2);
-//  vector.push_back(77);
-
-  return log;
+  return getData();
 }
 
 float PullupSystem::addTime(float weight)
@@ -41,7 +26,7 @@ float PullupSystem::addTime(float weight)
     
     inactive = true;
 
-    if ((millis() - inactiveStartTime) > 5000) {
+    if ((millis() - inactiveStartTime) > 2000) {
       Serial.println("[" + name + "] Timeout due to inactivity");
       stop();
     }
@@ -54,12 +39,11 @@ float PullupSystem::addTime(float weight)
   if (inactive == true) {
     Serial.println("[" + name + "] Started work at: " + millis());
   }
+
+  addData((String)weight);
   
   // reset inactive flag, since we detect weight
   inactive = false;
-
-  // record ... or something ...
-
 }
 
 int PullupSystem::getPollingInterval() { return 1; }

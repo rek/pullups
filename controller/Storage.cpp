@@ -24,38 +24,28 @@ void Storage::setupWifi()
 //Firebase + Firestore
 void Storage::setupFirebase()
 {
-  //  FirestoreHelpers firestoreHelpers;
-  //  _firestoreHelpers = firestoreHelpers;
- 
+  FirestoreHelpers firestoreHelpers;
+  _firestoreHelpers = firestoreHelpers;
 }
 
 void Storage::readItem()
 {
 }
 
-void Storage::addItem(Log l)
+void Storage::addItem(char *name)
 {
-  FirestoreHelpers _firestoreHelpers;
-  
   FirebaseJson oneLog;
-  oneLog.set("fields/duration/integerValue", 101);
-
-  // need to get this part working:
-//  oneLog.set("fields/logs/arrayValue/values", l.data);
-
-  //  oneLog.set("fields/weight/integerValue", 97);
-
-  Serial.println("===trying to add:");
-  String content2;
-  oneLog.toString(content2);
-  Serial.println(content2.c_str());
+  oneLog.set("fields/duration/integerValue", 103);
+  oneLog.set("fields/logs/arrayValue/values", _data);
+  
+  String finalContent;
+  oneLog.toString(finalContent);
   
   // make the users path
   char documentPath[100];
   strcpy(documentPath, "testing/");
-  strcat(documentPath, l.name);
+  strcat(documentPath, name);
   strcat(documentPath, "/logs");
-
-  _firestoreHelpers.addJson(documentPath, content2);
-//  _firestoreHelpers.addJson(documentPath, oneLog);
+  
+  _firestoreHelpers.addJson(documentPath, finalContent);
 }

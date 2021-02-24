@@ -19,7 +19,9 @@
 */
 #include "HX711.h"
 HX711 scale;
-float calibration_factor = -23690;
+
+float calibration_factor = -10690; // esp32
+//float calibration_factor = -23690; // arduino
 #define LOADCELL_DOUT_PIN 25 // esp32
 #define LOADCELL_SCK_PIN 33  // esp32
 //#define LOADCELL_DOUT_PIN 6 // arduino
@@ -34,6 +36,9 @@ float calibration_factor = -23690;
 *
 *   Main system setup:
 */
+const int _MODE_PULLUPS = 1;
+const int _MODE_SCALE = 2;
+const int _MODE_TIMER = 3;
 class MainSystem
 {
 public:
@@ -54,18 +59,15 @@ public:
   void init();
 
 private:
-  int _currentMode = -1;
+  int _currentMode = -1; // nothing auto starts
   int _currentUser;
-
-  const int _MODE_PULLUPS = 1;
-  const int _MODE_SCALE = 2;
-  const int _MODE_TIMER = 3;
 
   void startCurrentMode();
 };
 MainSystem::MainSystem()
 {
-  _currentMode = _MODE_TIMER;
+  // set mode here if you want to force it:
+  _currentMode = _MODE_PULLUPS;
 }
 
 // doing this stuff here, because the constructor
@@ -85,8 +87,6 @@ void MainSystem::init()
   Serial.println("complete!");
 
   DisplaySystem displaySystem;
-
-  //  Serial.println("Initializing hang timer system.");
   HangTimerSystem hangTimerSystem;
 
   storage.setupWifi();
@@ -96,29 +96,28 @@ void MainSystem::init()
   Serial.println("Setup complete.");
   displaySystem.printMessage("Ready");
 
-  storage.addItem(pullupSystem.getLastLog());
-
+  startCurrentMode();
 }
 
 void MainSystem::runCurrentMode()
 {
-  if (true) // fake when scale not attached
-  // if (!scale.is_ready())
+//  if (true) // fake when scale not attached
+   if (!scale.is_ready())
   {
-    // Serial.println("Scale not ready, waiting for init..");
+//    Serial.println("Scale not ready, waiting for init..");
     return;
   }
 
   // invert units because 'we' mounted the load call upside down
-  // float newWeight = scale.get_units();
-  float newWeight = 0.4; // fake when scale not attached
+   float newWeight = scale.get_units();
+//  float newWeight = 0.4; // fake when scale not attached
 
-  //  Serial.print("Weight:");
-  //  Serial.println(newWeight);
+//    Serial.print("Weight:");
+//    Serial.println(newWeight);
 
   if (_currentMode == -1)
   {
-    // Serial.println("No mode set. Doing nothing");
+    Serial.println("No mode set. Doing nothing");
     return;
   }
 
@@ -135,6 +134,16 @@ void MainSystem::runCurrentMode()
     else // if has stopped:
     {
       displaySystem.printMessage("Stopped");
+
+      // save to firebase
+      if (_data.size() != 0) {
+        Serial.println("Going to save now");
+        char *name = "test4";
+        storage.addItem(name);  
+        _data.clear();
+      }
+
+      pullupSystem.start("test");
     }
   }
 

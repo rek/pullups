@@ -45,7 +45,7 @@ FirestoreHelpers::FirestoreHelpers()
   }
   else
   {
-    Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
+    // Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
   }
 
 }

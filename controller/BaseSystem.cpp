@@ -1,11 +1,14 @@
 #include <Arduino.h>
 #include "BaseSystem.h"
 
+FirebaseJsonArray _data;
+
 void BaseSystem::baseReset() {
   startTime = 0;
   stopTime = 0;
   isRunning = false;
   hasStarted = false;
+  //  _data.clear(); // cleared after save now
   Serial.println("[" + name + "] - Running reset");
   
 }
@@ -28,14 +31,14 @@ int BaseSystem::start(String _name)
   return getPollingInterval();
 }
 
-void BaseSystem::clearData() {
-}
 void BaseSystem::addData(String i) {
   FirebaseJson dataPoint;
   dataPoint.add("integerValue", i);
+//  Serial.print("Adding data point: ");
+//  Serial.println(i);
   _data.add(dataPoint);
 };
 
-FirebaseJsonArray BaseSystem::getData() {
-  return _data;
+FirebaseJsonArray* BaseSystem::getData() {
+  return &_data;
 }
