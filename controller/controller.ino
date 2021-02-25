@@ -109,7 +109,7 @@ void MainSystem::runCurrentMode()
   }
 
   // invert units because 'we' mounted the load call upside down
-   float newWeight = scale.get_units();
+   float newWeight = scale.get_units() * -1;
 //  float newWeight = 0.4; // fake when scale not attached
 
 //    Serial.print("Weight:");

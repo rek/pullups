@@ -2,7 +2,7 @@
 #include "PullupSystem.h"
 
 //#include <Vector.h>
-
+#include <string>  
 // not used:
 FirebaseJsonArray* PullupSystem::getLastLog()
 {
@@ -40,7 +40,7 @@ float PullupSystem::addTime(float weight)
     Serial.println("[" + name + "] Started work at: " + millis());
   }
 
-  addData((String)weight);
+  addData(weight);
   
   // reset inactive flag, since we detect weight
   inactive = false;

@@ -41,6 +41,7 @@ public:
   };
 
   void addData(String i);
+  void addData(float i);
   FirebaseJsonArray* getData();
 
 private:

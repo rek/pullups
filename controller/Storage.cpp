@@ -24,8 +24,8 @@ void Storage::setupWifi()
 //Firebase + Firestore
 void Storage::setupFirebase()
 {
-  FirestoreHelpers firestoreHelpers;
-  _firestoreHelpers = firestoreHelpers;
+//  FirestoreHelpers firestoreHelpers;
+//  _firestoreHelpers = firestoreHelpers;
 }
 
 void Storage::readItem()
@@ -34,6 +34,7 @@ void Storage::readItem()
 
 void Storage::addItem(char *name)
 {
+  FirestoreHelpers _firestoreHelpers;
   FirebaseJson oneLog;
   oneLog.set("fields/duration/integerValue", 103);
   oneLog.set("fields/logs/arrayValue/values", _data);

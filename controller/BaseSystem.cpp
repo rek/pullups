@@ -31,10 +31,15 @@ int BaseSystem::start(String _name)
   return getPollingInterval();
 }
 
+void BaseSystem::addData(float i) {
+  FirebaseJson dataPoint;
+  dataPoint.add("doubleValue", i);
+  _data.add(dataPoint);
+};
 void BaseSystem::addData(String i) {
   FirebaseJson dataPoint;
   dataPoint.add("integerValue", i);
-//  Serial.print("Adding data point: ");
+//  Serial.print("Adding string data point: ");
 //  Serial.println(i);
   _data.add(dataPoint);
 };
