@@ -189,11 +189,11 @@ void FirestoreHelpers::addJson(const char *documentPath, String payload)
 {
   if(Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, payload.c_str()))
   {
-    Serial.println("PASSED");
-    Serial.println("------------------------------------");
-    Serial.println(fbdo.payload());
-    Serial.println("------------------------------------");
-    Serial.println();
+//    Serial.println("PASSED");
+//    Serial.println("------------------------------------");
+//    Serial.println(fbdo.payload());
+//    Serial.println("------------------------------------");
+//    Serial.println();
   }
   else
   {
@@ -210,11 +210,11 @@ void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
   Serial.println("Json add");
   if (Firebase.Firestore.createDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath, content.c_str()))
   {
-    Serial.println("PASSED");
-    Serial.println("------------------------------------");
-    Serial.println(fbdo.payload());
-    Serial.println("------------------------------------");
-    Serial.println();
+//    Serial.println("PASSED");
+//    Serial.println("------------------------------------");
+//    Serial.println(fbdo.payload());
+//    Serial.println("------------------------------------");
+//    Serial.println();
   }
   else
   {

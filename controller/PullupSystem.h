@@ -18,4 +18,6 @@ public:
   float addTime(float weight);
   void stop();
   void reset();
+private:
+  int pollingInterval;
 };

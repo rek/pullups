@@ -4,6 +4,9 @@ import type firebase from 'firebase'
 import {firestore} from '../db'
 import type {UserRecord, Log, UserLog} from "../types";
 
+const mainKey = "users";
+// const mainKey = "testing";
+
 interface Props {
   user?: string
 }
@@ -12,7 +15,7 @@ export const useData = ({user}: Props) => {
 
   React.useEffect(() => {
     if (user) {
-      firestore.collection("users")
+      firestore.collection(mainKey)
         .doc(user)
         .onSnapshot(function (querySnapshot) {
 
@@ -30,15 +33,40 @@ export const useData = ({user}: Props) => {
           setData(final);
         });
     } else {
-      getUsers(firestore).then((newData) => {
-        if (!data) {
-          setData(newData)
-        }
 
-        if (newData && data) {
-          setData([...data, ...newData])
-        }
-      })
+      firestore.collection(mainKey)
+        .doc('j')
+        .collection('logs')
+        .onSnapshot(function (querySnapshot) {
+          const result: UserLog[] = [];
+
+          querySnapshot.docs.forEach((log) => {
+            const logData = log.data();
+            // console.log('log', log)
+            // console.log('logData', logData)
+
+            result.push({
+              data: logData.logs,
+              start: '',
+              type: 'pullup ',
+              weight: logData.weight,
+              created: {seconds: 1},
+              user: 'test4',
+            })
+          })
+          setData(result)
+        })
+
+
+      // getUsers(firestore).then((newData) => {
+      //   if (!data) {
+      //     setData(newData)
+      //   }
+
+      //   if (newData && data) {
+      //     setData([...data, ...newData])
+      //   }
+      // })
     }
   }, [])
 
@@ -47,7 +75,8 @@ export const useData = ({user}: Props) => {
 
 const getUsers = async (firestore: firebase.firestore.Firestore) => {
   const result: UserLog[] = [];
-  await firestore.collection("users")
+
+  await firestore.collection(mainKey)
     .where("active", "==", true)
     .get()
     .then((querySnapshot) => {
@@ -55,7 +84,7 @@ const getUsers = async (firestore: firebase.firestore.Firestore) => {
       // doc.data() is never undefined for query doc snapshots
       querySnapshot.forEach((doc) => {
         // user -> {logs: xx, etc}
-        // console.log(doc.id, " => ", doc.data());
+        console.log(doc.id, " => ", doc.data());
 
         const logs = doc.data().logs as Log[]
         // console.log('logs', logs);
@@ -66,9 +95,7 @@ const getUsers = async (firestore: firebase.firestore.Firestore) => {
               user: doc.id
             })
           })
-
         }
-
       })
     })
 

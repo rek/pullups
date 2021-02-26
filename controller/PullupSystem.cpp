@@ -3,6 +3,7 @@
 
 //#include <Vector.h>
 #include <string>  
+
 // not used:
 FirebaseJsonArray* PullupSystem::getLastLog()
 {
@@ -28,12 +29,14 @@ float PullupSystem::addTime(float weight)
 
     if ((millis() - inactiveStartTime) > 2000) {
       Serial.println("[" + name + "] Timeout due to inactivity");
+      pollingInterval = 2000;
       stop();
     }
     
     return 0.0;
   }
 
+  pollingInterval = 1;
   Serial.println(weight);
 
   if (inactive == true) {
@@ -46,7 +49,7 @@ float PullupSystem::addTime(float weight)
   inactive = false;
 }
 
-int PullupSystem::getPollingInterval() { return 1; }
+int PullupSystem::getPollingInterval() { return pollingInterval; }
 
 void PullupSystem::stop()
 {
@@ -56,6 +59,7 @@ void PullupSystem::stop()
 void PullupSystem::reset()
 {
   baseReset();
+  pollingInterval = 1;
 
   inactive = false;
 }

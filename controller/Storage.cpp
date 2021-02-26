@@ -36,7 +36,8 @@ void Storage::addItem(char *name)
 {
   FirestoreHelpers _firestoreHelpers;
   FirebaseJson oneLog;
-  oneLog.set("fields/duration/integerValue", 103);
+  oneLog.set("fields/duration/integerValue", 100);
+  oneLog.set("fields/weight/integerValue", 85);
   oneLog.set("fields/logs/arrayValue/values", _data);
   
   String finalContent;
@@ -44,7 +45,7 @@ void Storage::addItem(char *name)
   
   // make the users path
   char documentPath[100];
-  strcpy(documentPath, "testing/");
+  strcpy(documentPath, "users/");
   strcat(documentPath, name);
   strcat(documentPath, "/logs");
   

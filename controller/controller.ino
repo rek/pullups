@@ -20,7 +20,7 @@
 #include "HX711.h"
 HX711 scale;
 
-float calibration_factor = -10690; // esp32
+float calibration_factor = -11840; // esp32
 //float calibration_factor = -23690; // arduino
 #define LOADCELL_DOUT_PIN 25 // esp32
 #define LOADCELL_SCK_PIN 33  // esp32
@@ -123,8 +123,11 @@ void MainSystem::runCurrentMode()
 
   if (_currentMode == _MODE_PULLUPS)
   {
+    pollingInterval = pullupSystem.getPollingInterval();  
+        
     if (pullupSystem.isRunning)
     {
+      displaySystem.printMessage("Recording");
       if (pullupSystem.hasStarted)
       {
         displaySystem.printMessage("Running...");
@@ -138,7 +141,7 @@ void MainSystem::runCurrentMode()
       // save to firebase
       if (_data.size() != 0) {
         Serial.println("Going to save now");
-        char *name = "test4";
+        char *name = "j";
         storage.addItem(name);  
         _data.clear();
       }
@@ -247,7 +250,8 @@ void setup()
 void loop()
 {
   //  Serial.println("Polling: " + (String) mainSystem.pollingInterval);
-  delay(mainSystem.pollingInterval);
+//  delay(0.1);
+//  delay(mainSystem.pollingInterval);
 
   // always check for signals from the remote
   // this will change the mode

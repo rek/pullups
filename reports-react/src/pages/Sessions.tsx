@@ -142,7 +142,6 @@ const columns = [
 export function Sessions() {
   const sessionData = useData({user: ''}) // '' = all users
 
-  console.log('sessionData', sessionData)
   if (!sessionData) {
     return <Loading />
   }
