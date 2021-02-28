@@ -2,17 +2,33 @@
   "scripts": {
     "start": "snowpack dev",
     "generate": "tsc -b scripts && node scripts/fake_data.js",
-    "build": "snowpack build"
+    "build": "snowpack build",
+    "test": "jest"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@snowpack/app-scripts-react": "^2.0.0",
+    "@snowpack/plugin-babel": "^2.1.4",
     "@snowpack/plugin-dotenv": "^2.0.5",
     "@snowpack/plugin-react-refresh": "^2.4.0",
     "@snowpack/plugin-typescript": "^1.2.1",
+    "@types/jest": "^26.0.20",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-grid-layout": "^1.1.1",
     "@types/react-router-dom": "^5.1.7",
     "@types/snowpack-env": "^2.3.3",
+    "@types/styled-components": "^5.1.7",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
+    "babel-jest": "^26.2.2",
+    "babel-preset-react-app": "^9.1.2",
+    "eslint": "^7.21.0",
+    "eslint-plugin-react": "^7.22.0",
+    "jest": "^26.6.3",
     "snowpack": "^3.0.13"
   },
   "dependencies": {
@@ -20,7 +36,6 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@rebass/preset": "^4.0.5",
-    "@types/styled-components": "^5.1.7",
     "dayjs": "^1.10.4",
     "emotion-theming": "^11.0.0",
     "firebase": "^8.2.3",
