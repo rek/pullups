@@ -1,4 +1,3 @@
-import mean from 'lodash/mean'
 import max from 'lodash/max'
 import min from 'lodash/min'
 

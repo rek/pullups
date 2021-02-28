@@ -1,86 +1,45 @@
 import mean from 'lodash/mean'
-import max from 'lodash/max'
-import min from 'lodash/min'
 
-type Line = number[];
-
-type FlatSections = Line[];
-
-export const isLineInRange = (line: Line = [], allowedDeviation = 1) => {
-  if ((max(line) || 0) - (min(line) || 0) > allowedDeviation) {
-    return false;
-  }
-}
-
-// algo: is any number +- the average?
-export const isLineLevelIsh = (line: Line = [], allowedDeviation = 1) => {
-  const lineMean = mean(line);
-
-  const hasPointPastDeviation = line.some((point) => {
-    // find distance from average
-    const distanceFromMean = lineMean - point;
-
-    // make sure we handle points below and above the average the same
-    const isAbove = distanceFromMean >= 0
-    let correctedDistance = distanceFromMean;
-    if (!isAbove) {
-      correctedDistance = distanceFromMean * - 1
-    }
-
-    // check if any point is outside the allowed deviation
-    const isTooFarAway = correctedDistance > allowedDeviation;
-
-    // console.log('{isAbove', {isAbove, correctedDistance, point, isTooFarAway})
-
-    return isTooFarAway;
-  })
-
-  console.log('hasPointPastDeviation', {line, hasPointPastDeviation})
-
-  // if all is still good, do a check of first and last,
-  // to make sure they are not drifting too far apart
-  if (!hasPointPastDeviation) {
-
-  }
-
-  return !hasPointPastDeviation;
-}
-
-export const detectFlats = (data: Line) => {
-  const result: FlatSections[] = []
-
-  const total = data.length;
-
-  const windowSize = 3
-  const slidingWindow = new Array(windowSize);
-
-  data.forEach((item, index) => {
-    slidingWindow.push(item);
-
-    if (slidingWindow.length < windowSize) {
-      return;
-    }
-
-    // remove the first element in the window, to keep it sliding
-    slidingWindow.shift();
-
-    // check if window is level
-    const isLevel = isLineLevelIsh(slidingWindow)
-  })
-
-  total
-
-
-  return result;
-}
+import type {Line} from './types'
+import {detectFlatSections, FlatSectionResult} from './utils/detectFlatSections';
 
 /*
 * Detect the weight of a person from a 'hanglog'
 */
 export const detectWeight = (data: Line) => {
-  const flats = detectFlats(data)
+  const flats = detectFlatSections(data, 5)
 
-  return flats[0] || -1;
+  if (flats.length > 0) {
+    if (flats.length === 1) {
+      const firstFlatSection = flats[0];
+
+      const average = mean(firstFlatSection.data)
+
+      return average
+    } else {
+      // if there are multiple.... then... ???
+      // console.log(flats)
+
+      // 1. first test, take the highest ?
+      // const averages = flats.map((item) => mean(item.data))
+
+      // 2. take the longest?
+      const longest = flats.reduce((longest, item) => {
+        if (item.data.length > longest.data.length) {
+          return item
+        }
+
+        return longest
+      }, <FlatSectionResult>{data: [], start: 0, end: 0})
+
+      return mean(longest.data)
+
+      // 3. take the most common?
+      // const averages = flats.map((item) => mean(item.data))
+
+    }
+  } else {
+    return -1
+  }
 }
-
 
