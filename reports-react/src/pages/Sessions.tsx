@@ -162,6 +162,7 @@ export function Sessions() {
   let rows: RowProps[] = [];
   // @ts-expect-error fix me
   rows = sessionData.reduce(
+    // @ts-expect-error fix me
     (result, { user, data, created, type, ...rest }, index) => {
       if (!data || !created) {
         return result;

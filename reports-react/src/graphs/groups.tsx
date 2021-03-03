@@ -50,9 +50,9 @@ export const GroupGraph: React.FC<Props> = ({ data }) => {
 
   return (
     <VictoryGroup offset={25} colorScale={["tomato", "orange", "gold"]}>
-      <VictoryBar data={data[0]} />
-      <VictoryBar data={data[1]} />
-      <VictoryBar data={data[2]} />
+      {data.map((item) => (
+        <VictoryBar data={item} />
+      ))}
     </VictoryGroup>
   );
 };

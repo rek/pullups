@@ -1,8 +1,8 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/analytics";
 import "firebase/auth";
-// import 'firebase/database';
+// import "firebase/database";
 
 const firebaseConfig = {
   apiKey: import.meta.env.SNOWPACK_PUBLIC_apiKey,
@@ -16,8 +16,21 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig);
 
-firebase.analytics();
+const email = import.meta.env.SNOWPACK_PUBLIC_user || "";
+const password = import.meta.env.SNOWPACK_PUBLIC_pass || "";
 
 const firestore = app.firestore();
 
-export { app, firestore };
+const firebaseDoingAuth = firebase
+  .auth()
+  .signInWithEmailAndPassword(email, password)
+  .catch((error) => {
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    console.log("errorCode", errorCode);
+    console.log("errorMessage", errorMessage);
+  });
+
+firebase.analytics();
+
+export { app, firestore, firebaseDoingAuth };

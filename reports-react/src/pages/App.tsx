@@ -13,9 +13,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import { Wrapper, NavBar } from "../common";
+import { Wrapper, NavBar, Loading } from "../common";
 
 import { Dashboard, Settings, Users, Sessions, UserTotals } from "../pages";
+
+import { firebaseDoingAuth } from "../db";
 
 /* background-color: grey; */
 // const Item = styled.div`
@@ -26,12 +28,24 @@ import { Dashboard, Settings, Users, Sessions, UserTotals } from "../pages";
 const queryClient = new QueryClient();
 
 export const App = () => {
+  const [loading, setLoading] = React.useState(false);
+
   // const height = 150
   // const layout = [
   //   {i: 'a', x: 0, y: 0, w: 10, h: 5},
   //   {i: 'b', x: 0, y: 0, w: 5, h: 5},
   //   {i: 'c', x: 0, y: 0, w: 5, h: 5}
   // ];
+
+  React.useEffect(() => {
+    firebaseDoingAuth.then(() => {
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <RecoilRoot>
