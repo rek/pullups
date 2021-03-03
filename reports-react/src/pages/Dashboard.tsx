@@ -1,20 +1,23 @@
 import React from "react";
 
-import Typography from '@material-ui/core/Typography';
+import Typography from "@material-ui/core/Typography";
 
-import {GroupGraphDemo} from '../graphs/groups'
+import { GroupGraphUser } from "../graphs/groups";
+
+const UserGraph = () => {
+  const [data] = React.useState([]);
+
+  return <GroupGraphUser data={data} />;
+};
 
 export const Dashboard = () => {
   return (
     <>
-      <Typography paragraph>
-        Here will be dashboards of totals etc.
-      </Typography>
+      <Typography paragraph>Overview</Typography>
 
       <div>
-        <GroupGraphDemo />
+        <UserGraph />
       </div>
     </>
-
-  )
-}
+  );
+};

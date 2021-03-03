@@ -1,50 +1,50 @@
-import React from 'react';
-import dayjs from 'dayjs'
+import React from "react";
+import dayjs from "dayjs";
 
-import {makeStyles} from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell, {TableCellProps} from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell, { TableCellProps } from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 // import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Paper from "@material-ui/core/Paper";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 // import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 
-import {useData} from "../hooks/useData";
-import {Loading} from "../common";
-import {UserChart} from './UserLineGraph'
-import type {UserLog} from '../types';
+import { useData } from "../hooks/useData";
+import { Loading } from "../common";
+import { UserChart } from "./UserLineGraph";
+import type { UserLog } from "../types";
 
 const useRowStyles = makeStyles({
   root: {
-    '& > *': {
-      borderBottom: 'unset',
+    "& > *": {
+      borderBottom: "unset",
     },
-    '&:hover': {
-      backgroundColor: '#777',
+    "&:hover": {
+      backgroundColor: "#777",
     },
-  }
+  },
 });
 
 interface RowProps extends UserLog {
-  id: number,
-  date: string,
-  processed?: boolean,
+  id: number;
+  date: string;
+  processed?: boolean;
 }
-function Row(props: {row: RowProps}) {
-  const {row} = props;
+function Row(props: { row: RowProps }) {
+  const { row } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -69,11 +69,18 @@ function Row(props: {row: RowProps}) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleDelete}><DeleteIcon />Delete</MenuItem>
+        <MenuItem onClick={handleDelete}>
+          <DeleteIcon />
+          Delete
+        </MenuItem>
       </Menu>
       <TableRow className={classes.root}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -83,15 +90,19 @@ function Row(props: {row: RowProps}) {
         </TableCell>
         <TableCell align="right">{row.user}</TableCell>
         <TableCell align="right">{row.type}</TableCell>
-        <TableCell align="right">{row.processed ? 'yes' : 'no'}</TableCell>
+        <TableCell align="right">{row.processed ? "yes" : "no"}</TableCell>
         <TableCell align="right">
-          <Button aria-controls="user-session-menu" aria-haspopup="true" onClick={handleOpenMenu}>
+          <Button
+            aria-controls="user-session-menu"
+            aria-haspopup="true"
+            onClick={handleOpenMenu}
+          >
             <MoreVertIcon />
           </Button>
         </TableCell>
       </TableRow>
       <TableRow>
-        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               {/*
@@ -128,44 +139,50 @@ function Row(props: {row: RowProps}) {
           </Collapse>
         </TableCell>
       </TableRow>
-    </React.Fragment >
+    </React.Fragment>
   );
 }
 
 const columns = [
-  {value: 'Date', align: 'left'},
-  {value: 'User', align: 'right'},
-  {value: 'Type', align: 'right'},
-  {value: 'Processed', align: 'right'},
-  {value: '', align: 'right'}
-]
+  { value: "Date", align: "left" },
+  { value: "User", align: "right" },
+  { value: "Type", align: "right" },
+  { value: "Processed", align: "right" },
+  { value: "", align: "right" },
+];
 export function Sessions() {
-  const sessionData = useData({user: ''}) // '' = all users
+  const sessionData = useData({ user: "" }); // '' = all users
 
   if (!sessionData) {
-    return <Loading />
+    return <Loading />;
   }
 
-  console.log('sessionData', sessionData)
+  console.log("sessionData", sessionData);
 
   let rows: RowProps[] = [];
   // @ts-expect-error fix me
-  rows = sessionData.reduce((result, {user, data, created, type, ...rest}, index) => {
-    if (!data || !created) {
-      return result
-    }
-    return [
-      ...result,
-      {
-        id: index,
-        date: created ? dayjs(created.seconds * 1000).format('D ddd MMM YYYY HH:mm:ss') : 'unknown',
-        user,
-        type,
-        data,
-        processed: false,
-        ...rest
-      }]
-  }, rows)
+  rows = sessionData.reduce(
+    (result, { user, data, created, type, ...rest }, index) => {
+      if (!data || !created) {
+        return result;
+      }
+      return [
+        ...result,
+        {
+          id: index,
+          date: created
+            ? dayjs(created.seconds * 1000).format("D ddd MMM YYYY HH:mm:ss")
+            : "unknown",
+          user,
+          type,
+          data,
+          processed: false,
+          ...rest,
+        },
+      ];
+    },
+    rows
+  );
 
   // console.log('rows', rows)
 
@@ -176,7 +193,12 @@ export function Sessions() {
           <TableRow>
             <TableCell />
             {columns.map((column, index) => (
-              <TableCell key={`columns-header-${index}`} align={column.align as TableCellProps['align']}>{column.value}</TableCell>
+              <TableCell
+                key={`columns-header-${index}`}
+                align={column.align as TableCellProps["align"]}
+              >
+                {column.value}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>

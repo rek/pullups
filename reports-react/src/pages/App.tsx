@@ -1,23 +1,21 @@
-import React from 'react'
-import {
-  RecoilRoot,
-} from 'recoil';
+import React from "react";
+import { RecoilRoot } from "recoil";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
-import GridLayout from 'react-grid-layout';
-import styled from 'styled-components'
-import {QueryClient, QueryClientProvider} from 'react-query'
+import GridLayout from "react-grid-layout";
+import styled from "styled-components";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
-import {Wrapper, NavBar} from '../common'
+import { Wrapper, NavBar } from "../common";
 
-import {Dashboard, Settings, Users, Sessions, UserTotals} from '../pages'
+import { Dashboard, Settings, Users, Sessions, UserTotals } from "../pages";
 
 /* background-color: grey; */
 // const Item = styled.div`
@@ -25,7 +23,7 @@ import {Dashboard, Settings, Users, Sessions, UserTotals} from '../pages'
 // const Title = styled.div`
 // font-weight: 20px;
 // `
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export const App = () => {
   // const height = 150
@@ -65,13 +63,12 @@ export const App = () => {
                 <Route path="/home">
                   <Dashboard />
                 </Route>
-                <Redirect path="/" to='/home' />
+                <Redirect path="/" to="/home" />
               </Switch>
             </NavBar>
-
           </Wrapper>
         </Router>
       </QueryClientProvider>
-    </RecoilRoot >
-  )
-}
+    </RecoilRoot>
+  );
+};

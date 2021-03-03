@@ -1,30 +1,32 @@
-import * as React from 'react'
-import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import * as React from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
-export const Wrapper: React.FC = ({children}) => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+export const Wrapper: React.FC = ({ children }) => {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const theme = React.useMemo(
     () =>
       createMuiTheme({
         palette: {
-          type: prefersDarkMode ? 'dark' : 'light',
+          type: prefersDarkMode ? "dark" : "light",
 
           primary: {
-            main: '#00897b',
+            main: "#00897b",
           },
           secondary: {
-            main: '#ccc',
+            main: "#ccc",
           },
-
         },
       }),
-    [prefersDarkMode],
+    [prefersDarkMode]
   );
 
   return (
-    <ThemeProvider theme={theme}><CssBaseline />{children}</ThemeProvider>
-  )
-}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </ThemeProvider>
+  );
+};

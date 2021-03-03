@@ -1,18 +1,21 @@
-import {isLineInRange} from './isLineInRange';
-import {isLineLevel} from './isLineLevel';
+import { isLineInRange } from "./isLineInRange";
+import { isLineLevel } from "./isLineLevel";
 
-import type {Line} from '../types'
+import type { Line } from "../types";
 
 export type FlatSectionResult = {
-  start: number,
-  end: number,
-  data: Line,
-}
+  start: number;
+  end: number;
+  data: Line;
+};
 type FlatSectionResults = FlatSectionResult[];
 
-export const detectFlatSections = (data: Line, windowSize = 3): FlatSectionResults => {
-  const result: FlatSectionResults = []
-  let currentSection: Line = []
+export const detectFlatSections = (
+  data: Line,
+  windowSize = 3
+): FlatSectionResults => {
+  const result: FlatSectionResults = [];
+  let currentSection: Line = [];
 
   const total = data.length;
   const slidingWindow: Line = [];
@@ -39,31 +42,30 @@ export const detectFlatSections = (data: Line, windowSize = 3): FlatSectionResul
 
       if (recordingRange) {
         // add last item in this window
-        currentSection.push(slidingWindow[windowSize - 1])
+        currentSection.push(slidingWindow[windowSize - 1]);
       } else {
         // add whole window when we first find one:
-        currentSection = currentSection.concat(slidingWindow)
+        currentSection = currentSection.concat(slidingWindow);
 
-        recordingRange = true
+        recordingRange = true;
       }
-
     } else {
       // range has just finished
       if (recordingRange) {
         result.push({
           start: index - currentSection.length,
           end: index - 1,
-          data: [...currentSection]
-        })
-        recordingRange = false
+          data: [...currentSection],
+        });
+        recordingRange = false;
       }
 
-      currentSection = []
+      currentSection = [];
     }
 
     // remove the first element in the window, to keep it sliding
     slidingWindow.shift();
-  })
+  });
 
   return result;
-}
+};

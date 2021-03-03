@@ -1,21 +1,24 @@
-import mean from 'lodash/mean'
+import mean from "lodash/mean";
 
-import type {Line} from './types'
-import {detectFlatSections, FlatSectionResult} from './utils/detectFlatSections';
+import type { Line } from "./types";
+import {
+  detectFlatSections,
+  FlatSectionResult,
+} from "./utils/detectFlatSections";
 
 /*
-* Detect the weight of a person from a 'hanglog'
-*/
+ * Detect the weight of a person from a 'hanglog'
+ */
 export const detectWeight = (data: Line) => {
-  const flats = detectFlatSections(data, 5)
+  const flats = detectFlatSections(data, 5);
 
   if (flats.length > 0) {
     if (flats.length === 1) {
       const firstFlatSection = flats[0];
 
-      const average = mean(firstFlatSection.data)
+      const average = mean(firstFlatSection.data);
 
-      return average
+      return average;
     } else {
       // if there are multiple.... then... ???
       // console.log(flats)
@@ -24,22 +27,23 @@ export const detectWeight = (data: Line) => {
       // const averages = flats.map((item) => mean(item.data))
 
       // 2. take the longest?
-      const longest = flats.reduce((longest, item) => {
-        if (item.data.length > longest.data.length) {
-          return item
-        }
+      const longest = flats.reduce(
+        (longest, item) => {
+          if (item.data.length > longest.data.length) {
+            return item;
+          }
 
-        return longest
-      }, <FlatSectionResult>{data: [], start: 0, end: 0})
+          return longest;
+        },
+        <FlatSectionResult>{ data: [], start: 0, end: 0 }
+      );
 
-      return mean(longest.data)
+      return mean(longest.data);
 
       // 3. take the most common?
       // const averages = flats.map((item) => mean(item.data))
-
     }
   } else {
-    return -1
+    return -1;
   }
-}
-
+};

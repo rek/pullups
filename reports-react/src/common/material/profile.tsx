@@ -1,13 +1,13 @@
-import * as React from 'react'
+import * as React from "react";
 
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import PersonIcon from '@material-ui/icons/Person';
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import PersonIcon from "@material-ui/icons/Person";
 
 interface Props {
-  handleClick: () => void
+  handleClick: () => void;
 }
-export const Profile: React.FC<Props> = ({handleClick}) => {
+export const Profile: React.FC<Props> = ({ handleClick }) => {
   return (
     <div onClick={handleClick}>
       <Tooltip title="Current user name" aria-label="add">
@@ -16,6 +16,5 @@ export const Profile: React.FC<Props> = ({handleClick}) => {
         </IconButton>
       </Tooltip>
     </div>
-
-  )
-}
+  );
+};
