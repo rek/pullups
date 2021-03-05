@@ -4,3 +4,4 @@ export * from "./UserLineGraph";
 export * from "./Sessions";
 export * from "./Users";
 export * from "./UserTotals";
+export * from "./UserLogs";

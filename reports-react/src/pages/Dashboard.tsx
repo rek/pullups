@@ -7,13 +7,15 @@ import { useReport, mutateReportPullups } from "../hooks/useReports";
 
 const UserGraph = () => {
   const [data] = React.useState([]);
-  const mutatePullups = mutateReportPullups("adam");
+  // const mutatePullups = mutateReportPullups("adam");
 
-  // const { data: reportData } = useReport("adam");
-  // console.log("reportData", reportData);
+  const { data: reportData } = useReport("adam", "weight");
+  console.log("reportData", reportData);
 
   React.useEffect(() => {
-    mutatePullups.mutate(0);
+    // mutatePullups.mutate({
+    //   count: 0,
+    // });
   }, []);
 
   return <GroupGraphUser data={data} />;

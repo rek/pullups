@@ -14,59 +14,49 @@ export const useData = ({ user }: Props) => {
   const [data, setData] = React.useState<UserLog[]>();
 
   React.useEffect(() => {
-    if (user) {
-      firestore
-        .collection(mainKey)
-        .doc(user)
-        .onSnapshot(function (querySnapshot) {
-          const allData = querySnapshot.data() as UserRecord;
-          // const allData = querySnapshot.data() as Data
+    firestore
+      .collection(mainKey)
+      .doc(user)
+      .collection("logs")
+      .onSnapshot(function (querySnapshot) {
+        const result: UserLog[] = [];
 
-          const final = allData.logs.map((log) => {
-            // console.log('log', log)
-            return {
-              user,
-              ...log,
-            };
+        querySnapshot.docs.forEach((log) => {
+          const logData = log.data();
+          // console.log('log', log)
+          // console.log('logData', logData)
+
+          result.push({
+            data: logData.logs,
+            start: "",
+            type: "pullup ",
+            weight: logData.weight,
+            created: { seconds: 1 },
+            user: "test4",
           });
-
-          setData(final);
         });
-    } else {
-      firestore
-        .collection(mainKey)
-        .doc("j")
-        .collection("logs")
-        .onSnapshot(function (querySnapshot) {
-          const result: UserLog[] = [];
+        setData(result);
+      });
 
-          querySnapshot.docs.forEach((log) => {
-            const logData = log.data();
-            // console.log('log', log)
-            // console.log('logData', logData)
+    // if (user) {
+    //   firestore
+    //     .collection(mainKey)
+    //     .doc(user)
+    //     .onSnapshot(function (querySnapshot) {
+    //       const allData = querySnapshot.data() as UserRecord;
+    //       // const allData = querySnapshot.data() as Data
 
-            result.push({
-              data: logData.logs,
-              start: "",
-              type: "pullup ",
-              weight: logData.weight,
-              created: { seconds: 1 },
-              user: "test4",
-            });
-          });
-          setData(result);
-        });
+    //       const final = allData.logs.map((log) => {
+    //         // console.log('log', log)
+    //         return {
+    //           user,
+    //           ...log,
+    //         };
+    //       });
 
-      // getUsers(firestore).then((newData) => {
-      //   if (!data) {
-      //     setData(newData)
-      //   }
-
-      //   if (newData && data) {
-      //     setData([...data, ...newData])
-      //   }
-      // })
-    }
+    //       setData(final);
+    //     });
+    // }
   }, []);
 
   return data;

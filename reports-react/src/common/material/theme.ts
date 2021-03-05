@@ -60,4 +60,5 @@ export const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 650,
   },
+  menuItem: {},
 }));

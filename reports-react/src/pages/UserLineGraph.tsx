@@ -55,6 +55,12 @@ export const UserChart: React.FC<Props> = ({ data, user }) => {
 
   let medianLine: number | undefined = data.weight;
 
+  const groupLines = [
+    {
+      x: 5,
+    },
+  ];
+
   // defaults if weight is not logged
   // @TODO -
   // 1. (ok) calculate average weight,
@@ -65,8 +71,16 @@ export const UserChart: React.FC<Props> = ({ data, user }) => {
   if (!medianLine && user === "anette") {
     medianLine = 67; // make dynamic
   }
+  if (!medianLine && user === "j") {
+    medianLine = 61; // make dynamic
+  }
 
   return (
-    <Line data={formattedData} medianLine={medianLine} maxDomain={maxDomain} />
+    <Line
+      data={formattedData}
+      medianLine={medianLine}
+      maxDomain={maxDomain}
+      groupLines={groupLines}
+    />
   );
 };

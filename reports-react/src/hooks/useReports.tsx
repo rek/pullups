@@ -5,23 +5,44 @@ import { firestore } from "../db";
 
 const QUERY_KEY = "reports";
 
+export interface PullupReport {
+  count: number;
+}
 export const mutateReportPullups = (user: string) => {
-  const mutation = useMutation((pullups: number) => {
-    return firestore.collection("reports").doc(user).update({ pullups });
+  const mutation = useMutation((data: PullupReport) => {
+    return firestore
+      .collection("reports")
+      .doc(user)
+      .collection("pullups")
+      .add(data);
+  });
+
+  return mutation;
+};
+export interface WeightReport {
+  weight: number;
+}
+export const mutateReportWeight = (user: string) => {
+  const mutation = useMutation((data: WeightReport) => {
+    return firestore
+      .collection("reports")
+      .doc(user)
+      .collection("weight")
+      .add(data);
   });
 
   return mutation;
 };
 
-export const useReport = (user: string) => {
+export const useReport = (user: string, type: string) => {
   const { isLoading, error, data } = useQuery([QUERY_KEY, user], () =>
     firestore
-      .collection("users")
-      .doc(user)
       .collection("reports")
+      .doc(user)
+      .collection(type)
       .get()
       .then(function (querySnapshot) {
-        console.log(querySnapshot);
+        return querySnapshot.docs;
       })
   );
 

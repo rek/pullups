@@ -15,7 +15,14 @@ import "react-resizable/css/styles.css";
 
 import { Wrapper, NavBar, Loading } from "../common";
 
-import { Dashboard, Settings, Users, Sessions, UserTotals } from "../pages";
+import {
+  Dashboard,
+  Settings,
+  Users,
+  Sessions,
+  UserTotals,
+  UserLogs,
+} from "../pages";
 
 import { firebaseDoingAuth } from "../db";
 
@@ -67,6 +74,9 @@ export const App = () => {
                 </Route>
                 <Route path="/user/:id/totals">
                   <UserTotals />
+                </Route>
+                <Route path="/user/:id/logs">
+                  <UserLogs />
                 </Route>
                 <Route path="/sessions">
                   <Sessions />

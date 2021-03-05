@@ -13,6 +13,11 @@ export interface UserRecord {
   active: boolean;
   pullups: number;
 }
+export interface User {
+  active: boolean;
+  id: number;
+  name: string;
+}
 export interface Report {
   reportInfo: any;
   data: ReportData[];

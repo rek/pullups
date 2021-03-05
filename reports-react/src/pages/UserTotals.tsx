@@ -49,7 +49,7 @@ export const SingleReport: React.FC<{ user: string; type: string }> = ({
 };
 export const UserTotals = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: userData, isLoading } = useUser(Number(id));
+  const { data: userData, isLoading } = useUser(id);
 
   // console.log('userData', userData)
 

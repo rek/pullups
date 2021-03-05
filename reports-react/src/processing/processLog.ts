@@ -11,12 +11,17 @@ interface Report {
   items: PullupReport[];
 }
 
+export const processLogFromFirebase = (user: string, id: string) => {};
+
 export const processLog = (log: Line) => {
+  let type = "Unknown";
+  console.log("Starting to process log:", log);
+
   const pullups = detectPullup(log);
+  console.log("Detected pullups:", pullups);
 
-  console.log("pullups", pullups);
-
-  return pullups.map((pullup) => {
+  const results = pullups.map((pullup) => {
+    console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
 
@@ -29,4 +34,13 @@ export const processLog = (log: Line) => {
       pressureChange: pressureChange.toFixed(2),
     };
   });
+
+  if (results.length > 0) {
+    type = "Pullup";
+  }
+
+  return {
+    results,
+    type,
+  };
 };

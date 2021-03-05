@@ -9,16 +9,26 @@ import {
 } from "victory";
 import { Loading } from "../common";
 
+export interface GroupLine {
+  x: number;
+  stroke?: string;
+}
 export interface ChartDataItem {
   x: number;
   y: number;
 }
 export interface Props {
   data: ChartDataItem[];
+  groupLines?: GroupLine[];
   medianLine?: number;
   maxDomain?: number;
 }
-export const Line: React.FC<Props> = ({ data, medianLine, maxDomain }) => {
+export const Line: React.FC<Props> = ({
+  data,
+  medianLine,
+  maxDomain,
+  groupLines,
+}) => {
   if (!data) {
     return <Loading />;
   }
@@ -63,6 +73,20 @@ export const Line: React.FC<Props> = ({ data, medianLine, maxDomain }) => {
         padding={{ top: 5, bottom: 0, left: 100, right: 40 }}
         containerComponent={<VictoryVoronoiContainer responsive={false} />}
       >
+        {groupLines &&
+          groupLines.map((groupLine, index) => (
+            <VictoryLine
+              key={`group-line-${index}`}
+              style={{
+                data: { stroke: groupLine.stroke || "#999" },
+                parent: { border: "1px dotted #ccc" },
+              }}
+              data={[
+                { x: groupLine.x, y: 0 },
+                { x: groupLine.x, y: maxDomain },
+              ]}
+            />
+          ))}
         <VictoryLine
           data={data}
           interpolation="natural"

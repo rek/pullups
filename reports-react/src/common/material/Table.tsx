@@ -14,6 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import { useStyles } from "./theme";
+import { MenuAction, IsolatedMenu } from "./IsolatedMenu";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -39,6 +40,7 @@ const useRowStyles = makeStyles({
 });
 
 interface RowProps {
+  id?: string;
   data: string;
   align?: TableCellProps["align"];
 }
@@ -46,8 +48,14 @@ interface Props {
   columns: { name: string; align?: string }[];
   data: RowProps[][];
   handleRowClick?: (row: number) => void;
+  actions?: MenuAction[];
 }
-export const Table: React.FC<Props> = ({ columns, data, handleRowClick }) => {
+export const Table: React.FC<Props> = ({
+  columns,
+  data,
+  handleRowClick,
+  actions = [],
+}) => {
   const classes = useStyles();
   const { rowRoot } = useRowStyles();
 
@@ -63,30 +71,44 @@ export const Table: React.FC<Props> = ({ columns, data, handleRowClick }) => {
         <TableHead>
           <TableRow>
             {columns.map(({ name, align }) => (
-              <StyledTableCell align={align as TableCellProps["align"]}>
+              <StyledTableCell
+                key={`head-cell-${name}`}
+                align={align as TableCellProps["align"]}
+              >
                 {name}
               </StyledTableCell>
             ))}
+            {actions && <StyledTableCell align="right">Action</StyledTableCell>}
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, index) => (
+          {data.map((row, rowIndex) => (
             <TableRow
-              key={index}
+              key={`row-${rowIndex}`}
               className={rowRoot}
-              onClick={_handleRowClick(index)}
+              onClick={_handleRowClick(rowIndex)}
             >
-              {row.map((cell, index) => {
-                if (index === 0) {
+              <>
+                {row.map((cell, index) => {
+                  if (index === 0) {
+                    return (
+                      <TableCell
+                        key={`cell-${cell.id}-${index}`}
+                        component="th"
+                        scope="row"
+                      >
+                        {cell.data}
+                      </TableCell>
+                    );
+                  }
                   return (
-                    <TableCell component="th" scope="row">
+                    <TableCell key={`cell-${cell.id}-${index}`} align="right">
                       {cell.data}
                     </TableCell>
                   );
-                }
-
-                return <TableCell align="right">{cell.data}</TableCell>;
-              })}
+                })}
+                <IsolatedMenu row={rowIndex} actions={actions} />
+              </>
             </TableRow>
           ))}
         </TableBody>

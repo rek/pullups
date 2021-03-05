@@ -16,10 +16,10 @@ export const detectPullup = (data: Line) => {
   const segments: Line[] = [];
 
   const bodyWeight = detectWeight(data);
-  // console.log("bodyWeight", bodyWeight);
+  console.log("Body weight found:", bodyWeight);
 
   const flats = detectFlatSections(data, 5);
-  // console.log("flats", flats);
+  console.log("Detected flats:", flats);
 
   flats.forEach((flat) => {
     const currentPotentialPullup = detectFirstAscendingFromPoint(
