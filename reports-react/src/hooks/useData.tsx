@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 
 import { firestore } from "../db";
 import type { UserRecord, Log, UserLog } from "../types";
+import { useMutation } from "react-query";
 
 const mainKey = "users";
 // const mainKey = "testing";
@@ -28,6 +29,7 @@ export const useData = ({ user }: Props) => {
           // console.log("logData", logData);
 
           result.push({
+            _id: log.id,
             data: logData.logs,
             start: "",
             type: "pullup ",
@@ -90,6 +92,7 @@ const getUsers = async (firestore: firebase.firestore.Firestore) => {
           logs.forEach((info) => {
             result.push({
               ...info,
+              _id: doc.id,
               user: doc.id,
             });
           });
@@ -98,4 +101,17 @@ const getUsers = async (firestore: firebase.firestore.Firestore) => {
     });
 
   return result;
+};
+
+export const deleteLogData = (user: string) => {
+  const mutation = useMutation((logId: string) => {
+    return firestore
+      .collection("users")
+      .doc(user)
+      .collection("logs")
+      .doc(logId)
+      .delete();
+  });
+
+  return mutation;
 };

@@ -21,7 +21,7 @@ const columns = [
 ];
 export interface Action {
   name: string;
-  action: (id: number) => void;
+  action: (id: number | string) => void;
 }
 export function List({
   rows,

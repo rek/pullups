@@ -7,12 +7,17 @@ import { Loading } from "../common";
 import { Action, List, RowProps } from "./logs";
 import { useUser } from "../hooks/useUser";
 import type { User } from "../types";
-// import { mutateReportPullups, mutateReportWeight } from "../hooks/useReports";
+import {
+  mutateReportPullups,
+  mutateReportWeight,
+  deleteLogData,
+} from "../hooks";
 import { processLog } from "../processing/processLog";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const sessionData = useData({ user: user.name });
-  // const mutatePullups = mutateReportPullups(user.name);
+  const mutatePullups = mutateReportPullups(user.name);
+  const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
   const [extra, setExtra] = React.useState<any>();
 
@@ -48,15 +53,16 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const actions: Action[] = [
     {
       name: "delete",
-      action: async (id: number) => {
-        console.log("Delete:", id);
+      action: async (id) => {
+        // console.log("Delete:", id);
+        deleteLog.mutate(id as string);
       },
     },
     {
       name: "process",
-      action: async (id: number) => {
+      action: async (id) => {
         // console.log("Row:", rows[id]);
-        const result = await processLog(rows[id].data);
+        const result = await processLog(rows[id as number].data);
         console.log("Processing result:", result);
         // rows[id].markers = result;
         setExtra(result);

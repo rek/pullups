@@ -1,4 +1,5 @@
 export interface UserLog extends Log {
+  _id: string;
   user: string;
 }
 interface DateObject {

@@ -47,6 +47,7 @@ function Row({ row, actions }: { row: RowProps; actions?: Action[] }) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // console.log("Rendering row for:", row);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -62,7 +63,7 @@ function Row({ row, actions }: { row: RowProps; actions?: Action[] }) {
         return action.name === "delete";
       });
       if (selectedAction) {
-        selectedAction.action(row.id);
+        selectedAction.action(row._id);
       }
     }
     handleClose();
