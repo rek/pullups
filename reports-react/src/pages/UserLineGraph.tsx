@@ -55,11 +55,12 @@ export const UserChart: React.FC<Props> = ({ data, user }) => {
 
   let medianLine: number | undefined = data.weight;
 
-  const groupLines = [
-    {
-      x: 5,
-    },
-  ];
+  const groupLines = data.groups || [];
+  // [
+  //   {
+  //     x: 5,
+  //   },
+  // ];
 
   // defaults if weight is not logged
   // @TODO -

@@ -14,6 +14,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const sessionData = useData({ user: user.name });
   const mutatePullups = mutateReportPullups(user.name);
   const mutateWeight = mutateReportWeight(user.name);
+  const [extra, setExtra] = React.useState<any>();
 
   if (!sessionData) {
     return <Loading />;
@@ -22,6 +23,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   console.log("All session data: ", sessionData);
 
   let rows: RowProps[] = [];
+
   // @ts-expect-error fix me
   rows = sessionData.reduce(
     // @ts-expect-error fix me
@@ -50,15 +52,16 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const actions: Action[] = [
     {
       name: "process",
-      action: (id: number) => {
+      action: async (id: number) => {
         // console.log("Row:", rows[id]);
-        const result = processLog(rows[id].data);
+        const result = await processLog(rows[id].data);
         console.log("Processing result:", result);
+        setExtra(result);
       },
     },
   ];
 
-  return <List rows={rows} actions={actions} />;
+  return <List rows={rows} actions={actions} extra={extra} />;
 };
 
 export function UserLogs() {

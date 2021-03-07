@@ -1,4 +1,5 @@
 import React from "react";
+import get from "lodash/get";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
@@ -42,7 +43,15 @@ export interface RowProps extends UserLog {
   date: string;
   processed?: boolean;
 }
-function Row({ row, actions }: { row: RowProps; actions?: Action[] }) {
+function Row({
+  row,
+  actions,
+  extra,
+}: {
+  row: RowProps;
+  actions?: Action[];
+  extra?: any;
+}) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -70,6 +79,18 @@ function Row({ row, actions }: { row: RowProps; actions?: Action[] }) {
     }
     handleClose();
   };
+
+  console.log("extra", extra);
+  console.log("row", row);
+  const dips = get(extra, "results.pullups.algo2.dips", []);
+  console.log("dips", dips);
+  if (dips) {
+    row.groups = [...(row.groups || []), ...dips];
+  }
+  const peaks = get(extra, "results.pullups.algo2.peaks", []);
+  if (peaks) {
+    row.groups = [...(row.groups || []), ...peaks];
+  }
 
   return (
     <React.Fragment>

@@ -14,32 +14,34 @@ interface Report {
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
-export const processLog = (log: Line) => {
+export const processLog = async (log: Line) => {
   let type = "Unknown";
   const weight = detectWeight(log);
   console.log("Starting to process log:", log);
 
-  const pullups = detectPullup(log, weight);
+  const pullups = await detectPullup(log, weight);
   console.log("Detected pullups:", pullups);
 
-  const results = pullups.map((pullup) => {
-    console.log("Starting to process:", pullup);
-    const polltime = 100; // ms
-    const dataPoints = pullup.length;
+  const results = { pullups };
 
-    const pressureChange = pullup[pullup.length - 1] - pullup[0];
+  // const results = pullups.map((pullup) => {
+  //   console.log("Starting to process:", pullup);
+  //   const polltime = 100; // ms
+  //   const dataPoints = pullup.length;
 
-    console.log("pressureChange", pressureChange);
+  //   const pressureChange = pullup[pullup.length - 1] - pullup[0];
 
-    return {
-      force: -1,
-      pressureChange: pressureChange.toFixed(2),
-    };
-  });
+  //   console.log("pressureChange", pressureChange);
 
-  if (results.length > 0) {
-    type = "Pullup";
-  }
+  //   return {
+  //     force: -1,
+  //     pressureChange: pressureChange.toFixed(2),
+  //   };
+  // });
+
+  // if (results.length > 0) {
+  //   type = "Pullup";
+  // }
 
   return {
     results,

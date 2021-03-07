@@ -3,13 +3,16 @@ import * as functions from "firebase-functions";
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-/**
- * This Function updates the `/created` with the timestamp of the
- * last write to `/users/{user}/logs/{logid}`.
- */
-exports.touch = functions.database
-  .ref("/users/{user}/logs/{logid}")
-  // .ref("/users/{user}/logs/{logid}/logs")
-  .onWrite((change, context) =>
-    admin.database().ref("/created").set(context.timestamp)
-  );
+exports.addCreatedDateToLogs = functions.firestore
+  .document("/users/{user}/logs/{logId}")
+  .onCreate((snap, context) => {
+    // Access the parameter `{user}` with `context.params`
+    // functions.logger.log("Detected addition of log:", context.params.logId);
+
+    // You must return a Promise when performing asynchronous tasks inside a Functions such as
+    // writing to Cloud Firestore.
+    return snap.ref.set(
+      { created: context.timestamp, processed: false },
+      { merge: true }
+    );
+  });

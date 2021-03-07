@@ -26,9 +26,11 @@ export interface Action {
 export function List({
   rows,
   actions,
+  extra,
 }: {
   rows: RowProps[];
   actions?: Action[];
+  extra?: any;
 }) {
   return (
     <TableContainer component={Paper}>
@@ -48,7 +50,12 @@ export function List({
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <Row actions={actions} key={`session-data-${index}`} row={row} />
+            <Row
+              extra={extra}
+              actions={actions}
+              key={`session-data-${index}`}
+              row={row}
+            />
           ))}
         </TableBody>
       </Table>

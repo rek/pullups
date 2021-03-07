@@ -24,14 +24,16 @@ export const useData = ({ user }: Props) => {
         querySnapshot.docs.forEach((log) => {
           const logData = log.data();
           // console.log('log', log)
-          // console.log('logData', logData)
+          // console.log("logData", logData);
 
           result.push({
             data: logData.logs,
             start: "",
             type: "pullup ",
             weight: logData.weight,
-            created: { seconds: 1 },
+            created: {
+              seconds: new Date(logData.created).getTime() / 1000,
+            },
             user: "test4",
           });
         });

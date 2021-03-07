@@ -7,6 +7,8 @@ export interface Log {
   type: string; // pullup, weight, scale
   weight: number; // the weight when you did this
   created: { seconds: number }; // date this data was created
+
+  groups?: { x: number }[];
 }
 export interface UserRecord {
   logs: Log[];

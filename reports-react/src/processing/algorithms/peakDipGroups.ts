@@ -1,8 +1,16 @@
-import { detectDips } from "../utils";
+import { detectDips, detectPeaks } from "../utils";
 
-import type { Line } from "../types";
+import type { Line, XY } from "../types";
 
+interface Result {
+  dips: XY[];
+  peaks: XY[];
+}
 export const peakDipGroups = async (line: Line) => {
+  // let results: Result[] = [];
+
+  const peaks = await detectPeaks(line);
+
   /*
    * need to remove the first and last in a clean graph
    * because those are the weight on and weight off the bar dips
@@ -24,5 +32,8 @@ export const peakDipGroups = async (line: Line) => {
     cleanDips.push(dips[0]);
   }
 
-  console.log("cleanDips", cleanDips);
+  // console.log("peaks", peaks);
+  // console.log("dips", cleanDips);
+
+  return { dips, peaks };
 };
