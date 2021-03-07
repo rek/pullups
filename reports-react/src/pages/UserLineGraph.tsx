@@ -26,7 +26,7 @@ export const UserChart: React.FC<Props> = ({ data, user }) => {
   >([]);
   const [maxDomain, setMaxDomain] = React.useState<number>(1);
 
-  console.log("UserChart data from db:", data);
+  // console.log("UserChart data from db:", data);
 
   const convertDataIntoLine = (log: Log) => {
     const result = log.data.map((value, index) => {

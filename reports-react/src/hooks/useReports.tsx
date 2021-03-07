@@ -6,7 +6,10 @@ import { firestore } from "../db";
 const QUERY_KEY = "reports";
 
 export interface PullupReport {
+  logId: string;
   count: number;
+  weight: number;
+  created: string,
 }
 export const mutateReportPullups = (user: string) => {
   const mutation = useMutation((data: PullupReport) => {

@@ -24,6 +24,10 @@ export const processLog = async (log: Line) => {
 
   const results = { pullups };
 
+  if (pullups.algo1.count > 0) {
+    type = "pullup";
+  }
+
   // const results = pullups.map((pullup) => {
   //   console.log("Starting to process:", pullup);
   //   const polltime = 100; // ms

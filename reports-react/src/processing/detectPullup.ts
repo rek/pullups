@@ -14,10 +14,12 @@ export const detectPullup = async (line: Line, weight?: number) => {
   const bodyWeight = weight || detectWeight(line);
   console.log("Body weight found:", bodyWeight);
 
-  const algo1 = flatThenSpike(line, { bodyWeight });
+  const flatThenSpikeData = flatThenSpike(line, { bodyWeight });
+  const algo1 = { count: flatThenSpikeData.length, data: flatThenSpikeData };
   console.log("algo1", algo1);
 
-  const algo2 = await peakDipGroups(line);
+  const peakDipGroupsData = await peakDipGroups(line);
+  const algo2 = { count: -1, data: peakDipGroupsData };
   console.log("algo2", algo2);
 
   return { algo1, algo2 };

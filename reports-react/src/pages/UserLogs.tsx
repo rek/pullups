@@ -16,7 +16,7 @@ import { processLog } from "../processing/processLog";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const sessionData = useData({ user: user.name });
-  const mutatePullups = mutateReportPullups(user.name);
+  const addPullupReport = mutateReportPullups(user.name);
   const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
   const [extra, setExtra] = React.useState<any>();
@@ -62,9 +62,17 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       name: "process",
       action: async (id) => {
         // console.log("Row:", rows[id]);
-        const result = await processLog(rows[id as number].data);
+        const row = rows[id as number];
+        const result = await processLog(row.data);
         console.log("Processing result:", result);
-        // rows[id].markers = result;
+        if (result.type === "pullup") {
+          addPullupReport.mutate({
+            logId: row._id,
+            count: result.results.pullups.algo1.count,
+            weight: result.weight,
+            created: new Date().toDateString(),
+          });
+        }
         setExtra(result);
       },
     },

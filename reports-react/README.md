@@ -1,3 +1,10 @@
 # Pullup analysis system - Admin (React)
 
-react grid layout to show multi
+## TODO:
+
+- see all processing results
+- delete processing results?
+- overlay report onto log
+- when generating report, also update: total count? processed: false
+-
+- react grid layout to show multi something?
