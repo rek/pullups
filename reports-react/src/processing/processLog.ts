@@ -1,5 +1,6 @@
 import type { Line } from "./types";
 import { detectPullup } from "./detectPullup";
+import { detectWeight } from "./detectWeight";
 
 interface PullupReport {
   // quailty: number;
@@ -15,9 +16,10 @@ export const processLogFromFirebase = (user: string, id: string) => {};
 
 export const processLog = (log: Line) => {
   let type = "Unknown";
+  const weight = detectWeight(log);
   console.log("Starting to process log:", log);
 
-  const pullups = detectPullup(log);
+  const pullups = detectPullup(log, weight);
   console.log("Detected pullups:", pullups);
 
   const results = pullups.map((pullup) => {
@@ -41,6 +43,7 @@ export const processLog = (log: Line) => {
 
   return {
     results,
+    weight,
     type,
   };
 };

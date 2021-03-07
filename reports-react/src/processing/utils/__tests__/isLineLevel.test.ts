@@ -1,4 +1,5 @@
 import { isLineLevel } from "../isLineLevel";
+import { goodCases } from "./fixtures/flats";
 
 const negativeCases = [
   [[1, 2, 3.1]],
@@ -8,13 +9,6 @@ const negativeCases = [
   [[1, 1, 1, 4]],
   [[6, 5, 4, 4, 4]],
   [[-5, 5, 0]],
-];
-const goodCases = [
-  [[1, 1, 1]],
-  [[2, 2, 2]],
-  [[2.1, 1.9, 1.8]],
-  [[21, 20, 20.5]],
-  [[21, 20, 20.5]],
 ];
 
 describe("should fail straight detection", () => {
