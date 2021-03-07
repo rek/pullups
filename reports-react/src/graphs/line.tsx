@@ -8,18 +8,14 @@ import {
   VictoryTooltip,
 } from "victory";
 import { Loading } from "../common";
+import type { XY } from "../types";
 
-export interface GroupLine {
-  x: number;
+export interface Marker extends XY {
   stroke?: string;
 }
-export interface ChartDataItem {
-  x: number;
-  y: number;
-}
 export interface Props {
-  data: ChartDataItem[];
-  groupLines?: GroupLine[];
+  data: XY[];
+  markers?: Marker[];
   medianLine?: number;
   maxDomain?: number;
 }
@@ -27,7 +23,7 @@ export const Line: React.FC<Props> = ({
   data,
   medianLine,
   maxDomain,
-  groupLines,
+  markers,
 }) => {
   if (!data) {
     return <Loading />;
@@ -73,17 +69,17 @@ export const Line: React.FC<Props> = ({
         padding={{ top: 5, bottom: 0, left: 100, right: 40 }}
         containerComponent={<VictoryVoronoiContainer responsive={false} />}
       >
-        {groupLines &&
-          groupLines.map((groupLine, index) => (
+        {markers &&
+          markers.map((marker, index) => (
             <VictoryLine
               key={`group-line-${index}`}
               style={{
-                data: { stroke: groupLine.stroke || "#999" },
+                data: { stroke: marker.stroke || "#999" },
                 parent: { border: "1px dotted #ccc" },
               }}
               data={[
-                { x: groupLine.x, y: 0 },
-                { x: groupLine.x, y: maxDomain },
+                { x: marker.x, y: 0 },
+                { x: marker.x, y: maxDomain },
               ]}
             />
           ))}

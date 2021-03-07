@@ -19,7 +19,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { UserChart } from "../UserLineGraph";
 import type { Action } from "./List";
-import type { UserLog } from "../../types";
+import type { XY, UserLog } from "../../types";
 
 const useRowStyles = makeStyles({
   menu: {
@@ -40,18 +40,10 @@ const useRowStyles = makeStyles({
 
 export interface RowProps extends UserLog {
   id: number;
-  date: string;
+  markers: XY[];
   processed?: boolean;
 }
-function Row({
-  row,
-  actions,
-  extra,
-}: {
-  row: RowProps;
-  actions?: Action[];
-  extra?: any;
-}) {
+function Row({ row, actions }: { row: RowProps; actions?: Action[] }) {
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -65,32 +57,28 @@ function Row({
   };
 
   const handleDelete = () => {
-    handleClose();
-  };
-
-  const handleProcess = () => {
     if (actions) {
-      const processAction = actions.find((action) => {
-        return action.name === "process";
+      const selectedAction = actions.find((action) => {
+        return action.name === "delete";
       });
-      if (processAction) {
-        processAction.action(row.id);
+      if (selectedAction) {
+        selectedAction.action(row.id);
       }
     }
     handleClose();
   };
 
-  console.log("extra", extra);
-  console.log("row", row);
-  const dips = get(extra, "results.pullups.algo2.dips", []);
-  console.log("dips", dips);
-  if (dips) {
-    row.groups = [...(row.groups || []), ...dips];
-  }
-  const peaks = get(extra, "results.pullups.algo2.peaks", []);
-  if (peaks) {
-    row.groups = [...(row.groups || []), ...peaks];
-  }
+  const handleProcess = () => {
+    if (actions) {
+      const selectedAction = actions.find((action) => {
+        return action.name === "process";
+      });
+      if (selectedAction) {
+        selectedAction.action(row.id);
+      }
+    }
+    handleClose();
+  };
 
   return (
     <React.Fragment>
@@ -124,7 +112,7 @@ function Row({
         </TableCell>
 
         <TableCell component="th" scope="row">
-          {row.date}
+          {row.created.date}
         </TableCell>
         <TableCell align="right">{row.user}</TableCell>
         <TableCell align="right">{row.type}</TableCell>

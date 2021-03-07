@@ -50,12 +50,7 @@ export function List({
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <Row
-              extra={extra}
-              actions={actions}
-              key={`session-data-${index}`}
-              row={row}
-            />
+            <Row actions={actions} key={`session-data-${index}`} row={row} />
           ))}
         </TableBody>
       </Table>

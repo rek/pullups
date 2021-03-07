@@ -1,6 +1,7 @@
 import { detectDips, detectPeaks } from "../utils";
 
-import type { Line, XY } from "../types";
+import type { Line } from "../types";
+import type { XY } from "../../types";
 
 interface Result {
   dips: XY[];

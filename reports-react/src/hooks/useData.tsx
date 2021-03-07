@@ -1,5 +1,6 @@
 import React from "react";
 import type firebase from "firebase";
+import dayjs from "dayjs";
 
 import { firestore } from "../db";
 import type { UserRecord, Log, UserLog } from "../types";
@@ -32,7 +33,12 @@ export const useData = ({ user }: Props) => {
             type: "pullup ",
             weight: logData.weight,
             created: {
-              seconds: new Date(logData.created).getTime() / 1000,
+              seconds: logData.created
+                ? new Date(logData.created).getTime()
+                : -1,
+              date: logData.created
+                ? dayjs(logData.created).format("D ddd MMM YYYY HH:mm:ss")
+                : "Unknown",
             },
             user: "test4",
           });

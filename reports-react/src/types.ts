@@ -1,14 +1,18 @@
 export interface UserLog extends Log {
   user: string;
 }
+interface DateObject {
+  seconds: number;
+  date: string;
+}
 export interface Log {
   data: number[];
   start: string; // start time??
   type: string; // pullup, weight, scale
   weight: number; // the weight when you did this
-  created: { seconds: number }; // date this data was created
+  created: DateObject; // date this data was created
 
-  groups?: { x: number }[];
+  groups?: XY[];
 }
 export interface UserRecord {
   logs: Log[];
@@ -26,6 +30,11 @@ export interface Report {
   name: string;
 }
 export interface ReportData {
-  date: { seconds: number };
+  date: DateObject;
   value: number;
 }
+
+export type XY = {
+  x: number;
+  y?: number;
+};
