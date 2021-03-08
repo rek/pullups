@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 
 import { firestore } from "../db";
 
-const USERS_KEY = "users";
+const QUERY_USERS_KEY = "users";
 
 export interface User {
   active: boolean;
@@ -13,7 +13,7 @@ export interface User {
 
 export const useUsers = () => {
   const { isLoading, error, data } = useQuery<User[]>(
-    USERS_KEY,
+    QUERY_USERS_KEY,
     () =>
       firestore
         .collection("users")

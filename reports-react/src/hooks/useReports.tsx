@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery, useMutation } from "react-query";
 
 import { firestore } from "../db";
@@ -9,7 +8,7 @@ export interface PullupReport {
   logId: string;
   count: number;
   weight: number;
-  created: string,
+  created: string;
 }
 export const mutateReportPullups = (user: string) => {
   const mutation = useMutation((data: PullupReport) => {

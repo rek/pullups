@@ -1,26 +1,27 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import Typography from "@material-ui/core/Typography";
-// import DeleteIcon from "@material-ui/icons/Delete";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
-import { useUsers } from "../hooks/useUsers";
-import { Loading } from "../common";
-import { Table } from "../common";
+import { useSettings, useUsers, mutateSettings } from "../hooks";
+import { Text, Table, LeftRightContainer, Title, Loading } from "../common";
 
 export const Users = () => {
   const { data: users } = useUsers();
+  const { data: settings } = useSettings();
+  const updateSettings = mutateSettings()
   // console.log("Users:", users);
+  // console.log("Settings:", settings);
 
   const history = useHistory();
 
-  if (!users) {
+  if (!users || !settings) {
     return <Loading />;
   }
 
   if (users.length === 0) {
-    return <Typography paragraph>No users yet.</Typography>;
+    return <Text>No users yet.</Text>;
   }
 
   const columns = [
@@ -41,18 +42,24 @@ export const Users = () => {
       },
       renderIcon: () => <LibraryBooksIcon />,
     },
-    // {
-    //   name: "Delete",
-    //   action: (row: number) => {
-    //     console.log("Delete not possible:", row);
-    //   },
-    //   renderIcon: () => <DeleteIcon />,
-    // },
+    {
+      name: "Set active",
+      action: (row: number) => {
+        console.log(users[row].name);
+        updateSettings.mutate({ active: users[row].name });
+      },
+      renderIcon: () => <AddCircleOutlineIcon />,
+    },
   ];
+
+  const activeUser = settings ? settings.active : "";
 
   return (
     <>
-      <Typography paragraph>All users</Typography>
+      <LeftRightContainer>
+        <Title title="All users" />
+        <Text>Active user: {activeUser}</Text>
+      </LeftRightContainer>
       <Table
         actions={actions}
         columns={columns}

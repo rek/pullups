@@ -34,8 +34,10 @@ export const IsolatedMenu = (
   };
 
   const handleClose = (event?: any) => {
-    if ("stopPropagation" in event) {
-      event.stopPropagation();
+    if (event) {
+      if ("stopPropagation" in event) {
+        event.stopPropagation();
+      }
     }
     setAnchorEl(null);
   };
@@ -55,6 +57,7 @@ export const IsolatedMenu = (
               onClick={(event) => {
                 event.stopPropagation();
                 action(row);
+                handleClose();
               }}
               className={classes.menuItem}
             >

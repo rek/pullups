@@ -9,6 +9,7 @@ import {
 import GridLayout from "react-grid-layout";
 import styled from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -92,6 +93,7 @@ export const App = () => {
             </NavBar>
           </Wrapper>
         </Router>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </RecoilRoot>
   );
