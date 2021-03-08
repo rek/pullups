@@ -32,7 +32,7 @@ export const useData = ({ user }: Props) => {
             _id: log.id,
             data: logData.logs,
             start: "",
-            type: "pullup ",
+            type: "pullup",
             weight: logData.weight,
             created: {
               seconds: logData.created
@@ -42,7 +42,7 @@ export const useData = ({ user }: Props) => {
                 ? dayjs(logData.created).format("D ddd MMM YYYY HH:mm:ss")
                 : "Unknown",
             },
-            user: "test4",
+            user: user || '',
           });
         });
         setData(result);
@@ -72,36 +72,36 @@ export const useData = ({ user }: Props) => {
   return data;
 };
 
-const getUsers = async (firestore: firebase.firestore.Firestore) => {
-  const result: UserLog[] = [];
+// const getUsers = async (firestore: firebase.firestore.Firestore) => {
+//   const result: UserLog[] = [];
 
-  await firestore
-    .collection(mainKey)
-    .where("active", "==", true)
-    .get()
-    .then((querySnapshot) => {
-      // console.log('querySnapshot', querySnapshot);
-      // doc.data() is never undefined for query doc snapshots
-      querySnapshot.forEach((doc) => {
-        // user -> {logs: xx, etc}
-        console.log(doc.id, " => ", doc.data());
+//   await firestore
+//     .collection(mainKey)
+//     .where("active", "==", true)
+//     .get()
+//     .then((querySnapshot) => {
+//       // console.log('querySnapshot', querySnapshot);
+//       // doc.data() is never undefined for query doc snapshots
+//       querySnapshot.forEach((doc) => {
+//         // user -> {logs: xx, etc}
+//         console.log(doc.id, " => ", doc.data());
 
-        const logs = doc.data().logs as Log[];
-        // console.log('logs', logs);
-        if (logs) {
-          logs.forEach((info) => {
-            result.push({
-              ...info,
-              _id: doc.id,
-              user: doc.id,
-            });
-          });
-        }
-      });
-    });
+//         const logs = doc.data().logs as Log[];
+//         // console.log('logs', logs);
+//         if (logs) {
+//           logs.forEach((info) => {
+//             result.push({
+//               ...info,
+//               _id: doc.id,
+//               user: doc.id,
+//             });
+//           });
+//         }
+//       });
+//     });
 
-  return result;
-};
+//   return result;
+// };
 
 export const deleteLogData = (user: string) => {
   const mutation = useMutation((logId: string) => {

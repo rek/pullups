@@ -5,6 +5,7 @@ import { useData } from "../hooks/useData";
 import { Loading } from "../common";
 import { List, RowProps } from "./logs";
 
+// DEPRECATED, changed to user/logs now
 export function Sessions() {
   const sessionData = useData({ user: "" }); // '' = all users
 

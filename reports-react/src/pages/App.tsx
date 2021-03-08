@@ -6,21 +6,21 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import GridLayout from "react-grid-layout";
-import styled from "styled-components";
+// import GridLayout from "react-grid-layout";
+// import styled from "styled-components";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-import { Wrapper, NavBar, Loading } from "../common";
-
+import { Wrapper, Loading } from "../common";
+import { Sidebar } from "./nav";
 import {
   Dashboard,
   Settings,
   Users,
-  Sessions,
+  // Sessions,
   UserTotals,
   UserLogs,
 } from "../pages";
@@ -60,7 +60,7 @@ export const App = () => {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Wrapper>
-            <NavBar>
+            <Sidebar>
               {/**
               <GridLayout className="layout" layout={layout} cols={12} rowHeight={height} width={1200}>
               <Item key="a">
@@ -79,9 +79,9 @@ export const App = () => {
                 <Route path="/user/:id/logs">
                   <UserLogs />
                 </Route>
-                <Route path="/sessions">
+                {/* <Route path="/sessions">
                   <Sessions />
-                </Route>
+                </Route> */}
                 <Route path="/settings">
                   <Settings />
                 </Route>
@@ -90,7 +90,7 @@ export const App = () => {
                 </Route>
                 <Redirect path="/" to="/home" />
               </Switch>
-            </NavBar>
+            </Sidebar>
           </Wrapper>
         </Router>
         <ReactQueryDevtools initialIsOpen={false} />

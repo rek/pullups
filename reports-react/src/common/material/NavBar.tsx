@@ -27,7 +27,10 @@ import { useHistory } from "react-router-dom";
 import { useStyles } from "./theme";
 import { Profile } from "./profile";
 
-export const NavBar: React.FC = ({ children }) => {
+export const NavBar: React.FC<{
+  title: string;
+  leftPagesPrimary: string[];
+}> = ({ title, leftPagesPrimary, children }) => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -74,7 +77,7 @@ export const NavBar: React.FC = ({ children }) => {
           {/* whatever is on the left side */}
           <Box display="flex" flexGrow={1}>
             <Typography variant="h6" noWrap>
-              Another Damn Awesome Measurer
+              {title}
             </Typography>
           </Box>
 
@@ -102,7 +105,7 @@ export const NavBar: React.FC = ({ children }) => {
         </div>
         <Divider />
         <List>
-          {["Home", "Sessions", "Users"].map((text) => (
+          {leftPagesPrimary.map((text) => (
             <ListItem button key={text} onClick={handleClick(text)}>
               {text === "Users" && (
                 <ListItemIcon>
