@@ -8,7 +8,6 @@
 FirebaseJsonArray* PullupSystem::getLastLog()
 {
   struct Log log;
-  addData("22");
   log.name = "test";
   return getData();
 }

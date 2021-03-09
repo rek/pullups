@@ -224,3 +224,59 @@ void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
     Serial.println();
   }
 }
+
+void printResult(FirebaseData &data)
+{
+    FirebaseJson &json = data.jsonObject();
+    Serial.println("Pretty printed JSON data:");
+    String jsonStr;
+    json.toString(jsonStr, true);
+    Serial.println(jsonStr);
+    Serial.println();
+    Serial.println("Iterate JSON data:");
+    Serial.println();
+    size_t len = json.iteratorBegin();
+    String key, value = "";
+    int type = 0;
+    for (size_t i = 0; i < len; i++)
+    {
+        json.iteratorGet(i, type, key, value);
+        Serial.print(i);
+        Serial.print(", ");
+        Serial.print("Type: ");
+        Serial.print(type == FirebaseJson::JSON_OBJECT ? "object" : "array");
+        if (type == FirebaseJson::JSON_OBJECT)
+        {
+            Serial.print(", Key: ");
+            Serial.print(key);
+        }
+        Serial.print(", Value: ");
+        Serial.println(value);
+    }
+    json.iteratorEnd();
+}
+void FirestoreHelpers::getDocument(FirebaseJson *jsonResult) 
+{
+    String documentPath = "settings";
+//    String mask = "active";
+
+    Serial.println("------------------------------------");
+    Serial.println("Get a document...");
+
+    if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath.c_str()))
+//    if (Firebase.Firestore.getDocument(&fbdo, FIREBASE_PROJECT_ID, "", documentPath.c_str(), mask.c_str()))
+    {
+//        Serial.println("PASSED");
+//        Serial.println("------------------------------------");
+        String result = fbdo.payload();
+        // Serial.println("Result:"+result);
+        jsonResult->setJsonData(result);
+    }
+    else
+    {
+        Serial.println("FAILED");
+        Serial.println("REASON: " + fbdo.errorReason());
+        Serial.println("------------------------------------");
+        Serial.println();
+    }
+}

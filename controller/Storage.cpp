@@ -24,20 +24,35 @@ void Storage::setupWifi()
 //Firebase + Firestore
 void Storage::setupFirebase()
 {
-//  FirestoreHelpers firestoreHelpers;
-//  _firestoreHelpers = firestoreHelpers;
+  FirestoreHelpers _firestoreHelpers;
+  FirebaseJson result;
+  _firestoreHelpers.getDocument(&result);
+
+  FirebaseJsonData extractedData;
+  result.get(extractedData, "documents/[0]/fields/active/stringValue");
+  Serial.println("Current user: " + extractedData.stringValue);
+
 }
 
 void Storage::readItem()
 {
 }
 
-void Storage::addItem(char *name)
+void Storage::addItem()
 {
   FirestoreHelpers _firestoreHelpers;
+
+  // GET CURRENT USER:
+  FirebaseJson result;
+  _firestoreHelpers.getDocument(&result);
+  FirebaseJsonData extractedData;
+  result.get(extractedData, "documents/[0]/fields/active/stringValue");
+  String currentUser = extractedData.stringValue;
+  //Serial.println("Current user: " + currentUser);
+
+  // make the object to add:
   FirebaseJson oneLog;
   oneLog.set("fields/duration/integerValue", 100);
-  oneLog.set("fields/weight/integerValue", 85);
   oneLog.set("fields/logs/arrayValue/values", _data);
   
   String finalContent;
@@ -46,7 +61,7 @@ void Storage::addItem(char *name)
   // make the users path
   char documentPath[100];
   strcpy(documentPath, "users/");
-  strcat(documentPath, name);
+  strcat(documentPath, currentUser.c_str());
   strcat(documentPath, "/logs");
   
   _firestoreHelpers.addJson(documentPath, finalContent);

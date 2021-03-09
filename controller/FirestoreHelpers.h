@@ -12,6 +12,7 @@ public:
   void addJson(const char *documentPath, FirebaseJson payload);
 //  void addJson(String& documentPath, FirebaseJson& payload);
   void addJson(const char *documentPath, String payload);
+  void getDocument(FirebaseJson *result);
 
 
   /* The helper function to get the token status string */

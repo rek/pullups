@@ -141,8 +141,7 @@ void MainSystem::runCurrentMode()
       // save to firebase
       if (_data.size() != 0) {
         Serial.println("Going to save now");
-        char *name = "j";
-        storage.addItem(name);  
+        storage.addItem();  
         _data.clear();
       }
 
