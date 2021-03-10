@@ -10,7 +10,7 @@ import { Text, Table, LeftRightContainer, Title, Loading } from "../common";
 export const Users = () => {
   const { data: users } = useUsers();
   const { data: settings } = useSettings();
-  const updateSettings = mutateSettings()
+  const updateSettings = mutateSettings();
   // console.log("Users:", users);
   // console.log("Settings:", settings);
 

@@ -1,89 +1,42 @@
-import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import * as WebBrowser from "expo-web-browser";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import Colors from '../constants/Colors';
-import { MonoText } from './StyledText';
-import { Text, View } from './Themed';
-
-export default function EditScreenInfo({ path }: { path: string }) {
-  return (
-    <View>
-      <View style={styles.getStartedContainer}>
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Open up the code for this screen:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          darkColor="rgba(255,255,255,0.05)"
-          lightColor="rgba(0,0,0,0.05)">
-          <MonoText>{path}</MonoText>
-        </View>
-
-        <Text
-          style={styles.getStartedText}
-          lightColor="rgba(0,0,0,0.8)"
-          darkColor="rgba(255,255,255,0.8)">
-          Change any of the text, save the file, and your app will automatically update.
-        </Text>
-      </View>
-
-      <View style={styles.helpContainer}>
-        <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-          <Text style={styles.helpLinkText} lightColor={Colors.light.tint}>
-            Tap here if your app doesn't automatically update after making changes
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
-  );
-}
+import Colors from "../constants/Colors";
+import { Text, View } from "./Themed";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   developmentModeText: {
     marginBottom: 20,
     fontSize: 14,
     lineHeight: 19,
-    textAlign: 'center',
+    textAlign: "center",
   },
   contentContainer: {
     paddingTop: 30,
   },
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
     marginBottom: 20,
   },
   welcomeImage: {
     width: 100,
     height: 80,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginTop: 3,
     marginLeft: -10,
   },
-  getStartedContainer: {
-    alignItems: 'center',
+  wrapper: {
+    alignItems: "center",
     marginHorizontal: 50,
   },
   homeScreenFilename: {
     marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
   },
   codeHighlightContainer: {
     borderRadius: 3,
@@ -92,17 +45,50 @@ const styles = StyleSheet.create({
   getStartedText: {
     fontSize: 17,
     lineHeight: 24,
-    textAlign: 'center',
+    textAlign: "center",
   },
-  helpContainer: {
+  userContainer: {
     marginTop: 15,
     marginHorizontal: 20,
-    alignItems: 'center',
-  },
-  helpLink: {
+    alignItems: "center",
     paddingVertical: 15,
+    backgroundColor: "#ccc",
+    width: 300,
   },
-  helpLinkText: {
-    textAlign: 'center',
+  userText: {
+    textAlign: "left",
   },
 });
+
+export default function EditScreenInfo({
+  users,
+  active,
+  handleChange,
+}: {
+  users: string[];
+  active: string;
+  handleChange: (user: string) => () => void;
+}) {
+  return (
+    <View>
+      <View style={styles.wrapper}>
+        {users.map((user) => {
+          return (
+            <TouchableOpacity key={user} onPress={handleChange(user)}>
+              <View style={styles.userContainer}>
+                <Text
+                  style={styles.userText}
+                  lightColor={
+                    active === user ? Colors.light.tint : Colors.dark.tint
+                  }
+                >
+                  {user}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
