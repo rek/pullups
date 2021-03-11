@@ -8,10 +8,12 @@ export type BottomTabParamList = {
   Users: undefined;
 };
 
-export type TabOneParamList = {
-  TabOneScreen: undefined;
+export type StatsParamList = {
+  StatsScreen: undefined;
 };
 
-export type TabTwoParamList = {
-  TabTwoScreen: undefined;
+export type UsersParamList = {
+  UsersScreen: undefined;
 };
+
+export type IDToken = { idToken?: string };

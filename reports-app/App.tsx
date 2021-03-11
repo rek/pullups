@@ -6,33 +6,37 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
-import { Text, View } from "./components/Themed";
 
-import { firebaseDoingAuth } from "./db";
+import { useFirebase } from "./hooks/useFirebase";
 
 const queryClient = new QueryClient();
 
 export default function App() {
   const isCacheLoaded = useCachedResources();
   const colorScheme = useColorScheme();
-  const [dbLoading, setLoading] = React.useState(true);
 
-  React.useEffect(() => {
-    firebaseDoingAuth.then(() => {
-      setLoading(false);
-    });
-  }, []);
-
-  if (!isCacheLoaded || dbLoading) {
+  if (!isCacheLoaded) {
     return null;
   }
 
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
+        <AuthProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </AuthProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
   );
 }
+
+const AuthProvider: React.FC = ({ children }) => {
+  const { isLoading } = useFirebase();
+
+  if (isLoading) {
+    return null;
+  }
+
+  return <>{children}</>;
+};
