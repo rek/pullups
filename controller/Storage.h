@@ -11,6 +11,6 @@ public:
   
   void setupWifi();
   void setupFirebase();
-  void addItem();
+  void addItem(int duration);
   void readItem();
 };

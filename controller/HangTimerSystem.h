@@ -14,7 +14,6 @@ class HangTimerSystem : public BaseSystem
 {
 public:
   unsigned long startTime;
-  int hangDuration;
   unsigned long stopTime;
   String getFinalResult();
 

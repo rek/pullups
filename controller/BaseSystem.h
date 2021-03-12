@@ -29,6 +29,7 @@ public:
   int start(String name);
   void baseStop();
   void baseReset();
+  int hangDuration;  
   unsigned long startTime;
   unsigned long stopTime;
 

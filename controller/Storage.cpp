@@ -24,13 +24,13 @@ void Storage::setupWifi()
 //Firebase + Firestore
 void Storage::setupFirebase()
 {
-  FirestoreHelpers _firestoreHelpers;
-  FirebaseJson result;
-  _firestoreHelpers.getDocument(&result);
-
-  FirebaseJsonData extractedData;
-  result.get(extractedData, "documents/[0]/fields/active/stringValue");
-  Serial.println("Current user: " + extractedData.stringValue);
+//  FirestoreHelpers _firestoreHelpers;
+//  FirebaseJson result;
+//  _firestoreHelpers.getDocument(&result);
+//
+//  FirebaseJsonData extractedData;
+//  result.get(extractedData, "documents/[0]/fields/active/stringValue");
+//  Serial.println("Current user: " + extractedData.stringValue);
 
 }
 
@@ -38,7 +38,7 @@ void Storage::readItem()
 {
 }
 
-void Storage::addItem()
+void Storage::addItem(int duration)
 {
   FirestoreHelpers _firestoreHelpers;
 
@@ -52,7 +52,7 @@ void Storage::addItem()
 
   // make the object to add:
   FirebaseJson oneLog;
-  oneLog.set("fields/duration/integerValue", 100);
+  oneLog.set("fields/duration/integerValue", duration);
   oneLog.set("fields/logs/arrayValue/values", _data);
   
   String finalContent;

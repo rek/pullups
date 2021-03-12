@@ -17,6 +17,7 @@ void BaseSystem::baseStop(){
   Serial.println("[" + name + "] - Running stop");
   isRunning = false;
   stopTime = millis();  
+  hangDuration = stopTime - startTime;  
 }
 
 int BaseSystem::start(String _name)
