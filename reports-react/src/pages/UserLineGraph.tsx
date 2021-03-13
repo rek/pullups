@@ -79,7 +79,7 @@ export const UserChart: React.FC<Props> = ({ data, user }) => {
         maxDomain={maxDomain}
         markers={groupLines}
       />
-      <div>Stats:</div>
+      <div>Stats: coming soon...</div>
     </>
   );
 };

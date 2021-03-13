@@ -3,16 +3,28 @@ import { useParams } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 
-import { useUser } from "../hooks/useUser";
-import { useReports } from "../hooks/useReports";
-import { LineMulti, LineMultiDataItem, LineOnGraph } from "../graphs/lineMulti";
+import { useProcessedLogsForUser, useUser } from "../hooks";
+import { Bar, LineMulti, LineMultiDataItem, LineOnGraph } from "../graphs";
 import { Loading, Title, SubTitle } from "../common";
-import type { Report } from "../types";
+// import type { Report } from "../types";
+export interface Report {
+  reportInfo: any;
+  data: ReportData[];
+  name: string;
+}
+export interface ReportData {
+  date: {
+    seconds: number;
+    date: string;
+  };
+  value: number;
+}
 
 export const SingleReport: React.FC<{ user: string; type: string }> = ({
   user,
 }) => {
-  const { data: reportData, isLoading } = useReports(user);
+  // const { data: reportData, isLoading } = useReports(user);
+  const { data: reportData, isLoading } = useProcessedLogsForUser(user);
 
   if (isLoading) {
     return <Loading />;
@@ -22,12 +34,15 @@ export const SingleReport: React.FC<{ user: string; type: string }> = ({
     return <div>Missing data for this report</div>;
   }
 
-  // console.log('data', reportData.data)
-  const reportInfo = reportData as Report;
-  const mappedData = reportInfo.data.map(({ date, value }) => {
-    return { x: new Date(date.seconds * 1000), y: value };
+  console.log("data", reportData);
+  const reportInfo = reportData;
+  const reportName = "Weight"; // fix
+  // const mappedData: LineOnGraph["data"] = [];
+  const mappedData = reportInfo.map(({ created, weight }) => {
+    return { x: created, y: weight };
+    // return { x: new Date(created), y: weight };
   });
-  // console.log('mappedData', mappedData)
+  console.log("mappedData", mappedData);
 
   const line1: LineOnGraph = {
     data: mappedData,
@@ -42,11 +57,13 @@ export const SingleReport: React.FC<{ user: string; type: string }> = ({
 
   return (
     <div>
-      <SubTitle title={reportData.name} />
-      <LineMulti config={[line1, line2]} labelX="Kgs" />
+      <SubTitle title={reportName} />
+      <Bar data={mappedData} />
+      {/* <LineMulti config={[line1, line2]} labelX="Kgs" /> */}
     </div>
   );
 };
+
 export const UserTotals = () => {
   const { id } = useParams<{ id: string }>();
   const { data: userData, isLoading } = useUser(id);
@@ -82,7 +99,7 @@ export const UserTotals = () => {
   return (
     <Typography paragraph>
       <Title title={`User: ${userData.name || "unknown"}`} />
-      <SingleReport user={userData.name} type="scale" />
+      <SingleReport user={userData.name} type="weight" />
     </Typography>
   );
 };

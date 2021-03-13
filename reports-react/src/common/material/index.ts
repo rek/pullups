@@ -5,3 +5,4 @@ export * from "./Loading";
 export * from "./Title";
 export * from "./Text";
 export * from "./SubTitle";
+export * from "./icons";

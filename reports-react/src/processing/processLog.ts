@@ -16,39 +16,45 @@ export const processLogFromFirebase = (user: string, id: string) => {};
 
 export const processLog = async (log: Line) => {
   let type = "Unknown";
-  const weight = detectWeight(log);
-  console.log("Starting to process log:", log);
+  const weight = detectWeight([...log]);
+  // console.log("Starting to process log:", log);
 
   const pullups = await detectPullup(log, weight);
   console.log("Detected pullups:", pullups);
 
-  const results = { pullups };
-
-  if (pullups.algo1.count > 0) {
+  if (pullups.algo1.count > 0 && pullups.algo2.count > 0) {
     type = "pullup";
   }
 
-  // const results = pullups.map((pullup) => {
-  //   console.log("Starting to process:", pullup);
-  //   const polltime = 100; // ms
-  //   const dataPoints = pullup.length;
+  if (type !== "pullup") {
+    if (log.length > 20) {
+      type = "weight";
+    }
+  }
 
-  //   const pressureChange = pullup[pullup.length - 1] - pullup[0];
+  const results = pullups.algo1.data.map((pullup) => {
+    console.log("Starting to process:", pullup);
+    const polltime = 100; // ms
+    const dataPoints = pullup.length;
 
-  //   console.log("pressureChange", pressureChange);
+    const pressureChange = pullup[pullup.length - 1] - pullup[0];
 
-  //   return {
-  //     force: -1,
-  //     pressureChange: pressureChange.toFixed(2),
-  //   };
-  // });
+    console.log("pressureChange", pressureChange);
+
+    return {
+      confidence: 0.5, // is pullup
+      force: -1,
+      pressureChange: pressureChange.toFixed(2),
+    };
+  });
+  console.log("results algo1:", results);
 
   // if (results.length > 0) {
   //   type = "Pullup";
   // }
 
   return {
-    results,
+    // results,
     weight,
     type,
   };

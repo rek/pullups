@@ -3,20 +3,26 @@ import get from "lodash/get";
 import { useParams } from "react-router-dom";
 
 import { useData } from "../hooks/useData";
-import { Loading } from "../common";
-import { Action, List, RowProps } from "./logs";
+import {
+  Loading,
+  Table,
+  TableActions,
+  TableRow,
+  TableRows,
+  DeleteIcon,
+  AddCircleOutlineIcon,
+  Title,
+} from "../common";
 import { useUser } from "../hooks/useUser";
 import type { User } from "../types";
-import {
-  mutateReportPullups,
-  mutateReportWeight,
-  deleteLogData,
-} from "../hooks";
+import { mutateProcessedLogs, deleteLogData } from "../hooks";
 import { processLog } from "../processing/processLog";
+import { UserChart } from "./UserLineGraph";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const sessionData = useData({ user: user.name });
-  const addPullupReport = mutateReportPullups(user.name);
+  const addProcessedLog = mutateProcessedLogs(user.name);
+  // const addProcessedLog = mutateReport(user.name);
   const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
   const [extra, setExtra] = React.useState<any>();
@@ -27,58 +33,87 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
 
   console.log("All session data: ", sessionData);
 
-  let rows: RowProps[] = [];
+  let rows: TableRows = [];
 
-  rows = sessionData.reduce((result, item, index) => {
-    if (!item.data || !item.created) {
-      return result;
-    }
-    return [
-      ...result,
-      {
-        id: index,
-        markers: [],
-        // processed: false,
-        ...item,
-      },
-    ];
-  }, rows);
+  const columns = [
+    { name: "Id", align: "left" },
+    { name: "Date", align: "center" },
+    // { name: "Type", align: "right" },
+    // { name: "Processed", align: "right" },
+  ];
 
-  rows.sort((a, b) => {
+  // display all logs in order
+  // with newist at the bottom
+  sessionData.sort((a, b) => {
     const aTime = get(a, "created.seconds");
     const bTime = get(b, "created.seconds");
-    return aTime - bTime;
+    return bTime - aTime;
   });
 
-  const actions: Action[] = [
+  rows = sessionData.reduce((result, userLog, index) => {
+    // don't show data without the right fields
+    if (!userLog.data || !userLog.created) {
+      return result;
+    }
+
+    const newRow: TableRow[] = [
+      { data: userLog._id },
+      { data: userLog.created.date },
+    ];
+
+    return [...result, newRow];
+  }, rows);
+
+  const actions: TableActions = [
     {
-      name: "delete",
-      action: async (id) => {
-        // console.log("Delete:", id);
-        deleteLog.mutate(id as string);
+      name: "Delete",
+      action: async (rowId) => {
+        // console.log("Delete:", rows[rowId]);
+        deleteLog.mutate(sessionData[rowId]._id);
       },
+      renderIcon: () => <DeleteIcon />,
     },
     {
-      name: "process",
+      name: "Process",
+      renderIcon: () => <AddCircleOutlineIcon />,
       action: async (id) => {
-        // console.log("Row:", rows[id]);
-        const row = rows[id as number];
+        const row = sessionData[id as number];
+        // console.log("Row:", row);
         const result = await processLog(row.data);
-        console.log("Processing result:", result);
-        if (result.type === "pullup") {
-          addPullupReport.mutate({
-            logId: row._id,
-            count: result.results.pullups.algo1.count,
-            weight: result.weight,
-            created: new Date().toDateString(),
-          });
-        }
+        // console.log("Processing result:", result);
+        addProcessedLog.mutate({
+          logId: row._id,
+          // count: result.results.pullups.algo1.count,
+          weight: result.weight,
+          created: row.created.seconds,
+          processed: +new Date(),
+        });
         setExtra(result);
       },
     },
   ];
 
-  return <List rows={rows} actions={actions} extra={extra} />;
+  return (
+    <Table
+      actions={actions}
+      columns={columns}
+      data={rows}
+      options={{
+        expandable: true,
+        expandableContent: (row, rowIndex) => {
+          return (
+            <UserChart
+              user={sessionData[rowIndex].user}
+              data={sessionData[rowIndex]}
+            />
+          );
+        },
+      }}
+      // handleRowClick={handleRowClick}
+    />
+  );
+
+  // return <List rows={rows} actions={actions} extra={extra} />;
 };
 
 export function UserLogs() {
@@ -94,5 +129,10 @@ export function UserLogs() {
     return <div>This users data is missing: {id}</div>;
   }
 
-  return <UserLogList user={userData} />;
+  return (
+    <>
+      <Title title={`User: ${userData.name || "unknown"}`} />
+      <UserLogList user={userData} />
+    </>
+  );
 }

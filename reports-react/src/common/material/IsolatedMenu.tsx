@@ -15,8 +15,8 @@ const IconWrapper = styled.div`
 
 export interface MenuAction {
   name: string;
-  action: (id: number) => void;
-  renderIcon: () => React.ReactElement;
+  action: (rowId: number) => void;
+  renderIcon?: () => React.ReactElement;
 }
 
 export const IsolatedMenu = (
@@ -62,7 +62,9 @@ export const IsolatedMenu = (
               className={classes.menuItem}
             >
               <>
-                <IconWrapper>{renderIcon()}</IconWrapper>
+                {renderIcon && (
+                  <IconWrapper>{renderIcon && renderIcon()}</IconWrapper>
+                )}
                 {name}
               </>
             </MenuItem>

@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { firestore } from "../db";
 import type { User } from "../types";
 import { generateUserRecord } from "../__tests__/utils";
+import { FIREBASE_COLLECTION_USERS } from "./useUsers";
 
 const QUERY_KEY = "user";
 
@@ -16,7 +17,7 @@ export const useUser = (id: string) => {
     [QUERY_KEY, id],
     () =>
       firestore
-        .collection("users")
+        .collection(FIREBASE_COLLECTION_USERS)
         .doc(id)
         .get()
         .then(function (querySnapshot) {

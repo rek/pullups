@@ -3,7 +3,7 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 
 import { GroupGraphUser } from "../graphs/groups";
-import { useReport, mutateReportPullups } from "../hooks/useReports";
+import { useReport } from "../hooks/useReports";
 
 const UserGraph = () => {
   const [data] = React.useState([]);

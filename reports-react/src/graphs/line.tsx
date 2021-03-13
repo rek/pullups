@@ -87,7 +87,7 @@ export const Line: React.FC<Props> = ({
           data={data}
           interpolation="natural"
           domain={{ y: [0, maxDomain || 1] }}
-          labels={({ datum }) => datum.y}
+          labels={({ datum }) => `${datum.y} (${datum.x})`}
           labelComponent={<VictoryTooltip />}
         />
         {medianLine && (

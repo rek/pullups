@@ -17,11 +17,12 @@ export const detectFlatSections = (
   const result: FlatSectionResults = [];
   let currentSection: Line = [];
 
-  const total = data.length;
+  // const total = data.length;
   const slidingWindow: Line = [];
 
   let recordingRange = false;
 
+  // console.log("[Detect flat] Working on data:", data);
   data.forEach((item, index) => {
     slidingWindow.push(item);
 

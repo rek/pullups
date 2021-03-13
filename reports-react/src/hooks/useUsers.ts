@@ -5,6 +5,8 @@ import { firestore } from "../db";
 
 const QUERY_USERS_KEY = "users";
 
+export const FIREBASE_COLLECTION_USERS = "users";
+
 export interface User {
   active: boolean;
   id: number;
@@ -16,7 +18,7 @@ export const useUsers = () => {
     QUERY_USERS_KEY,
     () =>
       firestore
-        .collection("users")
+        .collection(FIREBASE_COLLECTION_USERS)
         .where("active", "==", true)
         .get()
         .then(function (querySnapshot) {

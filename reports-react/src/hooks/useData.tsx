@@ -12,6 +12,7 @@ const mainKey = "users";
 interface Props {
   user?: string;
 }
+// FIX: put into query
 export const useData = ({ user }: Props) => {
   const [data, setData] = React.useState<UserLog[]>();
 
@@ -32,7 +33,7 @@ export const useData = ({ user }: Props) => {
             _id: log.id,
             data: logData.logs,
             start: "",
-            type: "pullup",
+            type: "",
             weight: logData.weight,
             created: {
               seconds: logData.created
@@ -42,7 +43,7 @@ export const useData = ({ user }: Props) => {
                 ? dayjs(logData.created).format("D ddd MMM YYYY HH:mm:ss")
                 : "Unknown",
             },
-            user: user || '',
+            user: user || "",
           });
         });
         setData(result);

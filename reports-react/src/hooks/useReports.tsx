@@ -1,31 +1,24 @@
 import { useQuery, useMutation } from "react-query";
 
 import { firestore } from "../db";
+import type { ProcessedLog } from "../types";
 
 const QUERY_KEY = "reports";
 
-export interface PullupReport {
-  logId: string;
-  count: number;
-  weight: number;
-  created: string;
-}
-export const mutateReportPullups = (user: string) => {
-  const mutation = useMutation((data: PullupReport) => {
+export const mutateReport = (user: string, version: string = "v1") => {
+  const mutation = useMutation((data: ProcessedLog) => {
     return firestore
       .collection("reports")
       .doc(user)
-      .collection("pullups")
+      .collection(version)
       .add(data);
   });
 
   return mutation;
 };
-export interface WeightReport {
-  weight: number;
-}
+
 export const mutateReportWeight = (user: string) => {
-  const mutation = useMutation((data: WeightReport) => {
+  const mutation = useMutation((data: ProcessedLog) => {
     return firestore
       .collection("reports")
       .doc(user)

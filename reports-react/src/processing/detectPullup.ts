@@ -14,7 +14,7 @@ export const detectPullup = async (line: Line, weight?: number) => {
   const bodyWeight = weight || detectWeight(line);
   console.log("Body weight found:", bodyWeight);
 
-  const flatThenSpikeData = flatThenSpike(line, { bodyWeight });
+  const flatThenSpikeData = flatThenSpike(line, { bodyWeight, minLength: 4 });
   const algo1 = { count: flatThenSpikeData.length, data: flatThenSpikeData };
   console.log("algo1", algo1);
 

@@ -1,20 +1,55 @@
-export interface UserLog extends Log {
-  _id: string;
-  user: string;
-}
-interface DateObject {
-  seconds: number;
-  date: string;
-}
+// =====================
+//
+//   Logs
+//
+// =====================
+
+export type UserLog = Log & UserInfo;
 export interface Log {
-  data: number[];
+  data: number[]; // this is the raw log data
   start: string; // start time??
   type: string; // pullup, weight, scale
   weight: number; // the weight when you did this
   created: DateObject; // date this data was created
 
-  groups?: XY[];
+  groups?: XY[]; // ?
 }
+
+// =====================
+//
+//   Processed Logs
+//
+// =====================
+// export interface BaseProcessedObject {
+//   logId: string;
+//   created: string;
+//   weight: number;
+// }
+export interface ProcessedLog {
+  logId: string;
+  created: number;
+  processed: number;
+  weight: number;
+}
+
+// export interface ProcessedPulluptLog extends BaseProcessedObject {
+//   count: number;
+// }
+
+// export interface ProcessedWeightLog extends BaseProcessedObject {
+//   weight: number;
+// }
+
+// =====================
+//
+//   Users
+//
+// =====================
+export interface UserInfo {
+  _id: string;
+  user: string;
+}
+
 export interface UserRecord {
   logs: Log[];
   active: boolean;
@@ -25,10 +60,20 @@ export interface User {
   id: number;
   name: string;
 }
-export interface Report {
-  reportInfo: any;
+
+// =====================
+//
+//   Reports
+//
+// =====================
+
+// a custom report added by a user to their page
+export interface UserReport {
+  type: string; // eg: bar, chart
+  title: string; // eg: Weight
+  user: string; // who to display this for
+  // data???
   data: ReportData[];
-  name: string;
 }
 export interface ReportData {
   date: DateObject;
@@ -39,3 +84,13 @@ export type XY = {
   x: number;
   y?: number;
 };
+
+// =====================
+//
+//   Misc
+//
+// =====================
+interface DateObject {
+  seconds: number;
+  date: string;
+}

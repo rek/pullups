@@ -5,6 +5,8 @@ import {
   createStyles,
   Theme,
 } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Collapse from "@material-ui/core/Collapse";
 import MaterialTable from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell, { TableCellProps } from "@material-ui/core/TableCell";
@@ -12,7 +14,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
 
+import { KeyboardArrowDownIcon, KeyboardArrowRightIcon } from "./icons";
 import { useStyles } from "./theme";
 import { MenuAction, IsolatedMenu } from "./IsolatedMenu";
 
@@ -39,25 +43,38 @@ const useRowStyles = makeStyles({
   },
 });
 
-interface RowProps {
+// this is actually a TableCell
+export interface TableRow {
   id?: string;
   data: string;
   align?: TableCellProps["align"];
 }
+// export type TableRows = TableRow[][];
+export type TableRows = TableRow[][];
+export type TableActions = MenuAction[];
+export type Options = {
+  expandable?: boolean;
+  expandableContent?: (row: TableRow[], rowIndex: number) => React.ReactElement;
+};
 interface Props {
   columns: { name: string; align?: string }[];
-  data: RowProps[][];
+  data: TableRows;
   handleRowClick?: (row: number) => void;
-  actions?: MenuAction[];
+  actions?: TableActions;
+  options?: Options;
 }
 export const Table: React.FC<Props> = ({
   columns,
   data,
   handleRowClick,
   actions = [],
+  options = { expandable: false },
 }) => {
   const classes = useStyles();
   const { rowRoot } = useRowStyles();
+  const [openRows, setOpenRows] = React.useState<{
+    [openRowId: number]: boolean;
+  }>({});
 
   const _handleRowClick = (row: number) => {
     if (handleRowClick) {
@@ -65,11 +82,21 @@ export const Table: React.FC<Props> = ({
     }
   };
 
+  const toggleRow = (row: number) => {
+    setOpenRows({
+      ...openRows,
+      [row]: openRows[row] === undefined ? true : !openRows[row],
+    });
+  };
+
   return (
     <TableContainer component={Paper}>
       <MaterialTable className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
+            {options.expandable && (
+              <StyledTableCell align="right"></StyledTableCell>
+            )}
             {columns.map(({ name, align }) => (
               <StyledTableCell
                 key={`head-cell-${name}`}
@@ -83,33 +110,67 @@ export const Table: React.FC<Props> = ({
         </TableHead>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow
-              key={`row-${rowIndex}`}
-              className={rowRoot}
-              onClick={_handleRowClick(rowIndex)}
-            >
-              <>
-                {row.map((cell, index) => {
-                  if (index === 0) {
-                    return (
-                      <TableCell
-                        key={`cell-${cell.id}-${index}`}
-                        component="th"
-                        scope="row"
+            <>
+              <TableRow
+                key={`row-${rowIndex}`}
+                className={rowRoot}
+                onClick={_handleRowClick(rowIndex)}
+              >
+                <>
+                  {options.expandable && (
+                    <TableCell>
+                      <IconButton
+                        aria-label="expand row"
+                        size="small"
+                        onClick={() => toggleRow(rowIndex)}
                       >
+                        {openRows[rowIndex] ? (
+                          <KeyboardArrowDownIcon />
+                        ) : (
+                          <KeyboardArrowRightIcon />
+                        )}
+                      </IconButton>
+                    </TableCell>
+                  )}
+                  {row.map((cell, index) => {
+                    if (index === 0) {
+                      return (
+                        <TableCell
+                          key={`cell-${cell.id}-${index}`}
+                          component="th"
+                          scope="row"
+                        >
+                          {cell.data}
+                        </TableCell>
+                      );
+                    }
+                    return (
+                      <TableCell key={`cell-${cell.id}-${index}`} align="right">
                         {cell.data}
                       </TableCell>
                     );
-                  }
-                  return (
-                    <TableCell key={`cell-${cell.id}-${index}`} align="right">
-                      {cell.data}
-                    </TableCell>
-                  );
-                })}
-                <IsolatedMenu row={rowIndex} actions={actions} />
-              </>
-            </TableRow>
+                  })}
+                  <IsolatedMenu row={rowIndex} actions={actions} />
+                </>
+              </TableRow>
+              <TableRow>
+                <TableCell
+                  style={{ paddingBottom: 0, paddingTop: 0 }}
+                  colSpan={6}
+                >
+                  <Collapse
+                    in={openRows[rowIndex]}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <Box margin={1}>
+                      {options.expandableContent &&
+                        options.expandableContent(row, rowIndex)}
+                    </Box>
+                  </Collapse>
+                </TableCell>
+              </TableRow>
+            </>
           ))}
         </TableBody>
       </MaterialTable>

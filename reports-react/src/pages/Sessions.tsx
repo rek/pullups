@@ -41,7 +41,8 @@ export function Sessions() {
     rows
   );
 
-  // console.log('rows', rows)
+  console.log("rows", rows);
 
-  return <List rows={rows} />;
+  return <List />;
+  // return <List rows={rows} />;
 }
