@@ -2,14 +2,21 @@ import { detectDips, detectPeaks } from "../utils";
 
 import type { Line } from "../types";
 import type { XY } from "../../types";
+import { isValidBodyWeight } from "../utils/isValidBodyWeight";
+import { isAmountWithinDeviation } from "../utils/isAmountWithinDeviation";
 
 interface Result {
   dips: XY[];
   peaks: XY[];
 }
-export const peakDipGroups = async (line: Line) => {
-  // let results: Result[] = [];
-
+interface Options {
+  bodyWeight: number;
+  devation?: number;
+}
+export const peakDipGroups = async (
+  line: Line,
+  { bodyWeight, devation }: Options
+) => {
   const peaks = await detectPeaks(line);
 
   /*
@@ -22,19 +29,51 @@ export const peakDipGroups = async (line: Line) => {
    * (perhaps it started recording late)
    */
   const dips = await detectDips(line);
-  const cleanDips = [];
-  if (dips.length > 2) {
-    // remove first and last
-    dips.slice(1, dips.length - 1).forEach((dip) => cleanDips.push(dip));
-  } else {
-    // assume late start timing,
-    // eg: this starts with weight already on bar
-    //     so no initial weight 'ramp up' (eg: from dip)
-    cleanDips.push(dips[0]);
+
+  // console.log("Raw peaks", peaks);
+  // console.log("Raw dips", dips);
+
+  let cleanDips = [...dips];
+
+  // do we need to handle this case:
+  // assume late start timing,
+  // eg: this starts with weight already on bar
+  //     so no initial weight 'ramp up' (eg: from dip)
+
+  // if the first item starts at 0
+  // remove it, since it is the 'getting on the bar' entry
+  if (cleanDips[0].x === 0) {
+    // console.log("Removing first");
+    cleanDips.shift();
   }
 
-  // console.log("peaks", peaks);
-  // console.log("dips", cleanDips);
+  // if the last item in the dips is also the last data point
+  // remove it, since it is the 'letting go of the bar' entry
+  if (cleanDips[cleanDips.length - 1].x === line.length - 1) {
+    // console.log("Removing last");
+    cleanDips.pop();
+  }
 
-  return { dips, peaks } as Result;
+  // remove any other dips that are within deviation of bodyweight
+  // since we only really want the noticaable ones
+  if (isValidBodyWeight(bodyWeight)) {
+    cleanDips = cleanDips.filter((dip) => {
+      const dipIsTooCloseToBodyWeight = isAmountWithinDeviation(
+        bodyWeight,
+        dip.y || 0
+      );
+
+      if (dipIsTooCloseToBodyWeight) {
+        return false;
+        console.log("Removing bad dip:", dip);
+      }
+
+      return true;
+    });
+  }
+
+  // console.log("Final peaks", peaks);
+  // console.log("Final dips", cleanDips);
+
+  return { dips: cleanDips, peaks } as Result;
 };
