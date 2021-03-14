@@ -23,12 +23,16 @@ export interface LineOnGraph {
   name: string;
   color?: string;
 }
-export interface Props {
+export interface LineMultiProps {
   config: LineOnGraph[];
   labelX?: string;
   labelY?: string;
 }
-export const LineMulti: React.FC<Props> = ({ config, labelX, labelY }) => {
+export const LineMulti: React.FC<LineMultiProps> = ({
+  config,
+  labelX,
+  labelY,
+}) => {
   if (!config) {
     return <Loading />;
   }

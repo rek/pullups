@@ -1,48 +1,44 @@
 import React from "react";
+import get from "lodash/get";
 import { useParams } from "react-router-dom";
 
 import Typography from "@material-ui/core/Typography";
 
-import { useProcessedLogsForUser, useUser } from "../hooks";
-import { Bar, LineMulti, LineMultiDataItem, LineOnGraph } from "../graphs";
+import { useProcessedLogsForUser, useReports, useUser } from "../hooks";
+import {
+  BarWeight,
+  LineMulti,
+  LineMultiDataItem,
+  LineOnGraph,
+} from "../graphs";
 import { Loading, Title, SubTitle } from "../common";
-// import type { Report } from "../types";
-export interface Report {
-  reportInfo: any;
-  data: ReportData[];
-  name: string;
+import type { UserReport } from "../types";
+interface SingleReportProps {
+  user: string;
+  report: UserReport;
 }
-export interface ReportData {
-  date: {
-    seconds: number;
-    date: string;
-  };
-  value: number;
-}
-
-export const SingleReport: React.FC<{ user: string; type: string }> = ({
-  user,
-}) => {
-  // const { data: reportData, isLoading } = useReports(user);
+export const SingleReport: React.FC<SingleReportProps> = ({ user, report }) => {
   const { data: reportData, isLoading } = useProcessedLogsForUser(user);
 
   if (isLoading) {
     return <Loading />;
   }
 
-  if (!reportData) {
+  if (!reportData || reportData.length === 0) {
     return <div>Missing data for this report</div>;
   }
 
-  console.log("data", reportData);
+  // console.log("data", reportData);
   const reportInfo = reportData;
-  const reportName = "Weight"; // fix
+
   // const mappedData: LineOnGraph["data"] = [];
-  const mappedData = reportInfo.map(({ created, weight }) => {
-    return { x: created, y: weight };
-    // return { x: new Date(created), y: weight };
+  const mappedData = reportInfo.map(({ created, ...rest }) => {
+    // just one field for now!
+    const yData = get(rest, report.fields[0]);
+    // console.log("yData", yData);
+    return { x: created, y: yData };
   });
-  console.log("mappedData", mappedData);
+  // console.log("mappedData", mappedData);
 
   const line1: LineOnGraph = {
     data: mappedData,
@@ -57,10 +53,28 @@ export const SingleReport: React.FC<{ user: string; type: string }> = ({
 
   return (
     <div>
-      <SubTitle title={reportName} />
-      <Bar data={mappedData} />
+      <SubTitle title={report.name} />
+      {report.type === "BarWeight" && <BarWeight data={mappedData} />}
       {/* <LineMulti config={[line1, line2]} labelX="Kgs" /> */}
     </div>
+  );
+};
+
+export const UserReports: React.FC<{ user: string }> = ({ user }) => {
+  const { data: reports } = useReports(user);
+
+  if (!reports) {
+    return <div>This user has no reports configured: {user}</div>;
+  }
+
+  // console.log("reports", reports);
+
+  return (
+    <>
+      {reports.map((report) => (
+        <SingleReport key={report.name} user={user} report={report} />
+      ))}
+    </>
   );
 };
 
@@ -97,9 +111,9 @@ export const UserTotals = () => {
    */
 
   return (
-    <Typography paragraph>
+    <>
       <Title title={`User: ${userData.name || "unknown"}`} />
-      <SingleReport user={userData.name} type="weight" />
-    </Typography>
+      <UserReports user={userData.name} />
+    </>
   );
 };

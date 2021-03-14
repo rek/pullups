@@ -24,11 +24,8 @@ export const Users = () => {
     return <Text>No users yet.</Text>;
   }
 
-  const columns = [
-    { name: "Name", align: "left" },
-    { name: "Records", align: "center" },
-  ];
-  const data = users.map((user) => [{ data: user.name }, { data: "N/A" }]);
+  const columns = [{ name: "Name", align: "left" }];
+  const data = users.map((user) => [{ data: user.name }]);
 
   const handleRowClick = (row: number) => {
     history.push(`user/${users[row].name}/totals`);

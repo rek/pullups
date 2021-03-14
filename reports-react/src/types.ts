@@ -11,6 +11,7 @@ export interface Log {
   type: string; // pullup, weight, scale
   weight: number; // the weight when you did this
   created: DateObject; // date this data was created
+  isProcessed: boolean; // is processed flag
 
   groups?: XY[]; // ?
 }
@@ -28,7 +29,7 @@ export interface Log {
 export interface ProcessedLog {
   logId: string;
   created: number;
-  processed: number;
+  processed: number; // processed date
   weight: number;
 }
 
@@ -69,11 +70,9 @@ export interface User {
 
 // a custom report added by a user to their page
 export interface UserReport {
-  type: string; // eg: bar, chart
-  title: string; // eg: Weight
-  user: string; // who to display this for
-  // data???
-  data: ReportData[];
+  type: string; // eg: bar, BarWeight, chart
+  name: string; // eg: Weight
+  fields: string[];
 }
 export interface ReportData {
   date: DateObject;

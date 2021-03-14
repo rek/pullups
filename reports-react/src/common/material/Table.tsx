@@ -136,7 +136,7 @@ export const Table: React.FC<Props> = ({
                     if (index === 0) {
                       return (
                         <TableCell
-                          key={`cell-${cell.id}-${index}`}
+                          key={`cell-${cell.id || index}`}
                           component="th"
                           scope="row"
                         >
@@ -145,31 +145,37 @@ export const Table: React.FC<Props> = ({
                       );
                     }
                     return (
-                      <TableCell key={`cell-${cell.id}-${index}`} align="right">
+                      <TableCell key={`cell-${cell.id || index}`} align="right">
                         {cell.data}
                       </TableCell>
                     );
                   })}
-                  <IsolatedMenu row={rowIndex} actions={actions} />
+                  <IsolatedMenu
+                    key={`actions-${rowIndex}`}
+                    row={rowIndex}
+                    actions={actions}
+                  />
                 </>
               </TableRow>
-              <TableRow>
-                <TableCell
-                  style={{ paddingBottom: 0, paddingTop: 0 }}
-                  colSpan={6}
-                >
-                  <Collapse
-                    in={openRows[rowIndex]}
-                    timeout="auto"
-                    unmountOnExit
+              {options.expandable && (
+                <TableRow key={`row-expand-${rowIndex}`}>
+                  <TableCell
+                    style={{ paddingBottom: 0, paddingTop: 0 }}
+                    colSpan={6}
                   >
-                    <Box margin={1}>
-                      {options.expandableContent &&
-                        options.expandableContent(row, rowIndex)}
-                    </Box>
-                  </Collapse>
-                </TableCell>
-              </TableRow>
+                    <Collapse
+                      in={openRows[rowIndex]}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <Box margin={1}>
+                        {options.expandableContent &&
+                          options.expandableContent(row, rowIndex)}
+                      </Box>
+                    </Collapse>
+                  </TableCell>
+                </TableRow>
+              )}
             </>
           ))}
         </TableBody>

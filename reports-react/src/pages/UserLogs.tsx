@@ -20,45 +20,45 @@ import { processLog } from "../processing/processLog";
 import { UserChart } from "./UserLineGraph";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
-  const sessionData = useData({ user: user.name });
+  const allDataForUser = useData({ user: user.name });
   const addProcessedLog = mutateProcessedLogs(user.name);
   // const addProcessedLog = mutateReport(user.name);
   const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
   const [extra, setExtra] = React.useState<any>();
 
-  if (!sessionData) {
+  if (!allDataForUser) {
     return <Loading />;
   }
 
-  console.log("All session data: ", sessionData);
+  console.log("All session data: ", allDataForUser);
 
   let rows: TableRows = [];
 
   const columns = [
-    { name: "Id", align: "left" },
+    // { name: "Id", align: "left" },
     { name: "Date", align: "center" },
     // { name: "Type", align: "right" },
-    // { name: "Processed", align: "right" },
+    { name: "Processed", align: "right" },
   ];
 
   // display all logs in order
   // with newist at the bottom
-  sessionData.sort((a, b) => {
+  allDataForUser.sort((a, b) => {
     const aTime = get(a, "created.seconds");
     const bTime = get(b, "created.seconds");
     return bTime - aTime;
   });
 
-  rows = sessionData.reduce((result, userLog, index) => {
+  rows = allDataForUser.reduce((result, userLog, index) => {
     // don't show data without the right fields
     if (!userLog.data || !userLog.created) {
       return result;
     }
 
     const newRow: TableRow[] = [
-      { data: userLog._id },
       { data: userLog.created.date },
+      { data: userLog.isProcessed ? "Yes" : "No" },
     ];
 
     return [...result, newRow];
@@ -69,7 +69,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       name: "Delete",
       action: async (rowId) => {
         // console.log("Delete:", rows[rowId]);
-        deleteLog.mutate(sessionData[rowId]._id);
+        deleteLog.mutate(allDataForUser[rowId]._id);
       },
       renderIcon: () => <DeleteIcon />,
     },
@@ -77,7 +77,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       name: "Process",
       renderIcon: () => <AddCircleOutlineIcon />,
       action: async (id) => {
-        const row = sessionData[id as number];
+        const row = allDataForUser[id as number];
         // console.log("Row:", row);
         const result = await processLog(row.data);
         // console.log("Processing result:", result);
@@ -103,8 +103,8 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         expandableContent: (row, rowIndex) => {
           return (
             <UserChart
-              user={sessionData[rowIndex].user}
-              data={sessionData[rowIndex]}
+              user={allDataForUser[rowIndex].user}
+              data={allDataForUser[rowIndex]}
             />
           );
         },

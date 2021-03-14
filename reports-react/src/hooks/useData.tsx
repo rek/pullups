@@ -13,6 +13,7 @@ interface Props {
   user?: string;
 }
 // FIX: put into query
+// FIX: rename to useDataForUser
 export const useData = ({ user }: Props) => {
   const [data, setData] = React.useState<UserLog[]>();
 
@@ -35,6 +36,7 @@ export const useData = ({ user }: Props) => {
             start: "",
             type: "",
             weight: logData.weight,
+            isProcessed: logData.processed,
             created: {
               seconds: logData.created
                 ? new Date(logData.created).getTime()

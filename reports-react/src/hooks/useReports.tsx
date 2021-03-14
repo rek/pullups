@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "react-query";
 
 import { firestore } from "../db";
-import type { ProcessedLog } from "../types";
+import type { ProcessedLog, UserReport } from "../types";
 
 const QUERY_KEY = "reports";
 
@@ -44,25 +44,27 @@ export const useReport = (user: string, type: string) => {
   return { isLoading, error, data };
 };
 
-export const useReports = (user: string = "anette", type: string = "scale") => {
+export const useReports = (user: string) => {
   const { isLoading, error, data } = useQuery([QUERY_KEY, user], () =>
     firestore
       .collection("users")
       .doc(user)
       .collection("reports")
-      .doc(type)
       .get()
       .then(function (querySnapshot) {
-        // console.log(querySnapshot.data());
+        const result: UserReport[] = [];
+        querySnapshot.docs.forEach(function (doc) {
+          result.push(doc.data() as UserReport);
+        });
 
-        return querySnapshot.data();
+        return result;
       })
       .catch(function (error) {
         console.log("Error getting documents: ", error);
       })
   );
 
-  // console.log('Starting to get user', {id})
+  // console.log('Starting to get user reports for', {user})
 
   return { isLoading, error, data };
 };
