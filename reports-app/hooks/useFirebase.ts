@@ -105,6 +105,27 @@ export class FirebaseClient {
     throw result.createError();
   }
 
+  public static async getProcessedLogs({
+    idToken,
+    user,
+  }: {
+    idToken: string;
+    user: string;
+  }): Promise<any> {
+    const client: HttpClient = FirebaseClient.getFirestoreClient(idToken);
+
+    const result = await client.getAs<any>(
+      `users/${user}/processedLogs?key=${Constants.manifest.extra.apiKey}`
+    );
+
+    if (result.success) {
+      const json = result.value;
+      return json.documents;
+    }
+
+    throw result.createError();
+  }
+
   public static async writeData<T, K>({
     idToken,
     key,
