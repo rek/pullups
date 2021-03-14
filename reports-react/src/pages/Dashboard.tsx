@@ -1,7 +1,6 @@
 import React from "react";
 
-import Typography from "@material-ui/core/Typography";
-
+import { Text } from "../common";
 import { GroupGraphUser } from "../graphs/groups";
 import { useReport } from "../hooks/useReports";
 
@@ -24,7 +23,7 @@ const UserGraph = () => {
 export const Dashboard = () => {
   return (
     <>
-      <Typography paragraph>Overview</Typography>
+      <Text>Overview</Text>
 
       <div>
         <UserGraph />

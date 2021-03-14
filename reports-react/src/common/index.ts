@@ -4,3 +4,4 @@ export * from "./material";
 
 // generic:
 export * from "./styled";
+export * from "./components";

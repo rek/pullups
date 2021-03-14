@@ -1,9 +1,9 @@
 import React from "react";
 import dayjs from "dayjs";
 
-import { useData } from "../hooks/useData";
-import { Loading } from "../common";
-import { List, RowProps } from "./logs";
+import { useData } from "../../hooks/useData";
+import { Loading } from "../../common";
+import { List } from "../logs";
 
 // DEPRECATED, changed to user/logs now
 export function Sessions() {
@@ -15,10 +15,8 @@ export function Sessions() {
 
   console.log("sessionData", sessionData);
 
-  let rows: RowProps[] = [];
-  // @ts-expect-error fix me
+  let rows: any[] = [];
   rows = sessionData.reduce(
-    // @ts-expect-error fix me
     (result, { user, data, created, type, ...rest }, index) => {
       if (!data || !created) {
         return result;

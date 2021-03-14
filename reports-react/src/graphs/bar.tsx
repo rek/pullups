@@ -79,10 +79,15 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
 
   const barWidth = 16;
   const style = {
-    data: { fill: "#c43a31" },
+    data: {
+      // make the bars differnt for morning and evening.
+      fill: ({ datum }: { datum: XY }) => {
+        const afterLunch = Number(dayjs(datum.x).format("H")) > 12;
+        return afterLunch ? colours.redDark : colours.red;
+      },
+    },
     labels: {
       fontSize: 10,
-      // fill: ({ datum }) => (datum.x === 3 ? "#000000" : "#c43a31"),
       fill: "#000",
     },
   };
@@ -108,7 +113,8 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
       >
         <VictoryBar
           data={data}
-          // style={style}
+          // @ts-expect-error usng some advanced style stuff that is not in types
+          style={style}
           // barRatio={0.8}
           // padding={{ left: 20, right: 60 }}
           alignment="start"

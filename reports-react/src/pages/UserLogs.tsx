@@ -17,7 +17,9 @@ import { useUser } from "../hooks/useUser";
 import type { User } from "../types";
 import { mutateProcessedLogs, deleteLogData } from "../hooks";
 import { processLog } from "../processing/processLog";
-import { UserChart } from "./UserLineGraph";
+import { UserLogChart } from "./UserLogChart";
+import { UserName } from "../common/components/UserName";
+import type { Marker } from "../graphs";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const allDataForUser = useData({ user: user.name });
@@ -25,7 +27,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   // const addProcessedLog = mutateReport(user.name);
   const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
-  const [extra, setExtra] = React.useState<any>();
+  const [markers, setExtra] = React.useState<Marker[]>();
 
   if (!allDataForUser) {
     return <Loading />;
@@ -50,7 +52,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
     return bTime - aTime;
   });
 
-  rows = allDataForUser.reduce((result, userLog, index) => {
+  rows = allDataForUser.reduce((result, userLog) => {
     // don't show data without the right fields
     if (!userLog.data || !userLog.created) {
       return result;
@@ -80,15 +82,17 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         const row = allDataForUser[id as number];
         // console.log("Row:", row);
         const result = await processLog(row.data);
-        // console.log("Processing result:", result);
-        addProcessedLog.mutate({
-          logId: row._id,
-          // count: result.results.pullups.algo1.count,
-          weight: result.weight,
-          created: row.created.seconds,
-          processed: +new Date(),
-        });
-        setExtra(result);
+        console.log("Processing result:", result);
+
+        // addProcessedLog.mutate({
+        //   logId: row._id,
+        //   // count: result.results.pullups.algo1.count,
+        //   weight: result.weight,
+        //   created: row.created.seconds,
+        //   processed: +new Date(),
+        // });
+
+        setExtra(result.markers);
       },
     },
   ];
@@ -102,9 +106,11 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         expandable: true,
         expandableContent: (row, rowIndex) => {
           return (
-            <UserChart
+            <UserLogChart
               user={allDataForUser[rowIndex].user}
+              logId={allDataForUser[rowIndex]._id}
               data={allDataForUser[rowIndex]}
+              extras={markers}
             />
           );
         },
@@ -112,7 +118,6 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       // handleRowClick={handleRowClick}
     />
   );
-
   // return <List rows={rows} actions={actions} extra={extra} />;
 };
 
@@ -131,7 +136,7 @@ export function UserLogs() {
 
   return (
     <>
-      <Title title={`User: ${userData.name || "unknown"}`} />
+      <UserName name={userData.name} />
       <UserLogList user={userData} />
     </>
   );

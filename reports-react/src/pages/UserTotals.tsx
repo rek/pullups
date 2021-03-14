@@ -2,8 +2,6 @@ import React from "react";
 import get from "lodash/get";
 import { useParams } from "react-router-dom";
 
-import Typography from "@material-ui/core/Typography";
-
 import { useProcessedLogsForUser, useReports, useUser } from "../hooks";
 import {
   BarWeight,

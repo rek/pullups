@@ -1,7 +1,6 @@
 import React from "react";
-
-import Typography from "@material-ui/core/Typography";
+import { Text } from "../common";
 
 export const Settings = () => {
-  return <Typography paragraph>There are no settings yet.</Typography>;
+  return <Text>There are no settings yet.</Text>;
 };

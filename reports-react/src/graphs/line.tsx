@@ -8,6 +8,7 @@ import {
   VictoryTooltip,
 } from "victory";
 import { Loading } from "../common";
+import { colours } from "../styles/colours";
 import type { XY } from "../types";
 
 export interface Marker extends XY {
@@ -74,7 +75,7 @@ export const Line: React.FC<Props> = ({
             <VictoryLine
               key={`group-line-${index}`}
               style={{
-                data: { stroke: marker.stroke || "#999" },
+                data: { stroke: marker.stroke || colours.grey },
                 parent: { border: "1px dotted #ccc" },
               }}
               data={[

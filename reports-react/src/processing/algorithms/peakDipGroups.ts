@@ -36,5 +36,5 @@ export const peakDipGroups = async (line: Line) => {
   // console.log("peaks", peaks);
   // console.log("dips", cleanDips);
 
-  return { dips, peaks };
+  return { dips, peaks } as Result;
 };
