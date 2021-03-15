@@ -15,8 +15,8 @@ interface Report {
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
-export const processLog = async (log: Line) => {
-  const weight = detectWeight([...log]);
+export const processLog = async (log: Line, fallbackWeight?: number) => {
+  const weight = detectWeight([...log]) || fallbackWeight;
   // console.log("Starting to process log:", log);
 
   const pullups = await detectPullup(log, weight);

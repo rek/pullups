@@ -38,7 +38,7 @@ void Storage::readItem()
 {
 }
 
-void Storage::addItem(int duration)
+void Storage::addItem(int duration, int pollTime)
 {
   FirestoreHelpers _firestoreHelpers;
 
@@ -53,6 +53,8 @@ void Storage::addItem(int duration)
   // make the object to add:
   FirebaseJson oneLog;
   oneLog.set("fields/duration/integerValue", duration);
+  oneLog.set("fields/pollTime/integerValue", pollTime);
+  oneLog.set("fields/processed/booleanValue", false);
   oneLog.set("fields/logs/arrayValue/values", _data);
   
   String finalContent;

@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
 import { useSettings, useUsers, mutateSettings } from "../hooks";
 import { Text, Table, LeftRightContainer, Title, Loading } from "../common";
+import {getShortDate} from "../utils";
 
 export const Users = () => {
   const { data: users } = useUsers();
@@ -24,8 +25,8 @@ export const Users = () => {
     return <Text>No users yet.</Text>;
   }
 
-  const columns = [{ name: "Name", align: "left" }];
-  const data = users.map((user) => [{ data: user.name }]);
+  const columns = [{ name: "Name", align: "left" }, { name: "Weight", align: "right" }, { name: "Weight updated", align: "right" }];
+  const data = users.map((user) => [{ data: user.name },{ data: user.weight ? user.weight.toFixed(2): '' },{ data: getShortDate(user.weightLastUpdated) }]);
 
   const handleRowClick = (row: number) => {
     history.push(`user/${users[row].name}/totals`);

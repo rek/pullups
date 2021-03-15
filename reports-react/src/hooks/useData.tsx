@@ -37,6 +37,7 @@ export const useData = ({ user }: Props) => {
             type: "",
             weight: logData.weight,
             isProcessed: logData.processed,
+            duration: logData.duration,
             created: {
               seconds: logData.created
                 ? new Date(logData.created).getTime()

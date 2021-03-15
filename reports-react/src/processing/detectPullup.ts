@@ -18,7 +18,7 @@ export const detectPullup = async (line: Line, weight?: number) => {
   const algo1 = { count: flatThenSpikeData.length, data: flatThenSpikeData };
   console.log("algo1", algo1);
 
-  const peakDipGroupsData = await peakDipGroups(line, { bodyWeight });
+  const peakDipGroupsData = await peakDipGroups(line, { bodyWeight, devation: 0.8 });
   const algo2 = {
     count: peakDipGroupsData.dips.length,
     data: peakDipGroupsData,

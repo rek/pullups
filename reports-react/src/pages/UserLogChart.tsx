@@ -83,10 +83,44 @@ export const UserLogChart: React.FC<Props> = ({
         markers={extraMarkers}
       />
       {processedLogData && <LogStats logs={processedLogData} />}
+      {<RawStats log={data} />}
     </>
   );
 };
 
+const RawStats: React.FC<{ log: UserLog }> = ({ log }) => {
+  // console.log('log', log)
+
+  const Duration: React.FC<{ value?: number, total: number }> = ({ value, total }) => {
+    if (!value) {
+      return null
+    }
+
+    const calculatedDuration = value / total
+
+    return (
+        <>
+          <div>Duration: {value / 1000} s</div>
+          <div>Calculated interval: {calculatedDuration.toFixed(2)}</div>
+        </>
+    )
+  }
+
+  const hasStats = log.duration !== undefined
+
+  if (!hasStats) {
+    return null
+  }
+
+  return (
+    <>
+    <Title>Raw stats:</Title>
+    <Duration value={log.duration} total={log.data.length} />
+    </>
+  )
+}
+
+  // console.log("logs", RawStats);
 const LogStats: React.FC<{ logs: ProcessedLog[] }> = ({ logs }) => {
   // console.log("logs", logs);
   return (
@@ -95,7 +129,7 @@ const LogStats: React.FC<{ logs: ProcessedLog[] }> = ({ logs }) => {
       <div>{logs.length === 0 && "This log has not been processed."}</div>
       {logs.map((log) => {
         return (
-          <Text>Processed average weight found: {log.weight.toFixed(2)} </Text>
+          <Text key={log.logId}>Processed average weight found: {log.weight.toFixed(2)} </Text>
         );
       })}
     </div>

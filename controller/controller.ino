@@ -127,7 +127,7 @@ void MainSystem::runCurrentMode()
         
     if (pullupSystem.isRunning)
     {
-      displaySystem.printMessage("Recording");
+      displaySystem.printMessage("Recording", (String) _currentUser);
       if (pullupSystem.hasStarted)
       {
         displaySystem.printMessage("Running...");
@@ -141,7 +141,7 @@ void MainSystem::runCurrentMode()
       // save to firebase
       if (_data.size() != 0) {
         Serial.println("Going to save now");
-        storage.addItem(pullupSystem.hangDuration);  
+        storage.addItem(pullupSystem.hangDuration, pollingInterval);  
         _data.clear();
       }
 

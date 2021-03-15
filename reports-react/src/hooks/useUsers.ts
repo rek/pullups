@@ -2,16 +2,12 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import { firestore } from "../db";
+import type {User} from "../types";
+import {normalizeUser} from "./useUser";
 
 const QUERY_USERS_KEY = "users";
 
 export const FIREBASE_COLLECTION_USERS = "users";
-
-export interface User {
-  active: boolean;
-  id: number;
-  name: string;
-}
 
 export const useUsers = () => {
   const { isLoading, error, data } = useQuery<User[]>(
@@ -28,7 +24,7 @@ export const useUsers = () => {
             // doc.data() is never undefined for query doc snapshots
             // console.log(doc.id, " => ", doc.data());
             const info = doc.data();
-            users.push({ name: doc.id, active: info.active, id: info.id });
+            users.push(normalizeUser(doc.id, info as User));
           });
 
           return users;
