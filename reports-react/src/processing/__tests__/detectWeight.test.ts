@@ -9,6 +9,6 @@ it("get the right weight", () => {
 });
 
 it("should fail gracefully", () => {
-  expect(detectWeight([])).toEqual(-1);
-  expect(detectWeight(data[3])).toEqual(-1);
+  expect(detectWeight([])).toEqual(0);
+  expect(detectWeight(data[3])).toEqual(0);
 });

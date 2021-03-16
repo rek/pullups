@@ -2,7 +2,7 @@ import React from "react";
 import get from "lodash/get";
 import { useParams } from "react-router-dom";
 
-import { useData } from "../hooks/useData";
+import { markAsProcessedLogData, useData } from "../hooks/useData";
 import {
   Loading,
   Table,
@@ -24,7 +24,10 @@ import type { Marker } from "../graphs";
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const allDataForUser = useData({ user: user.name });
   const updateUserWeight = mutateUserWeight(user.name);
-  const addProcessedLog = mutateProcessedLogs(user.name);
+  const markAsProcessed = markAsProcessedLogData(user.name);
+  const addProcessedLog = mutateProcessedLogs(user.name, (log) => {
+    markAsProcessed.mutate(log.logId);
+  });
   // const addProcessedLog = mutateReport(user.name);
   const deleteLog = deleteLogData(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
@@ -35,7 +38,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   }
 
   console.log("All session data: ", allDataForUser);
-  console.log('User:', user)
+  console.log("User:", user);
 
   let rows: TableRows = [];
 
@@ -83,26 +86,26 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       action: async (id) => {
         const row = allDataForUser[id as number];
         // console.log("Row:", row);
-        const result = await processLog(row.data);
+        const result = await processLog(row.data, user.weight);
         console.log("Processing result:", result);
 
-        // addProcessedLog.mutate({
-        //   logId: row._id,
-        //   // count: result.results.pullups.algo1.count,
-        //   weight: result.weight,
-        //   created: row.created.seconds,
-        //   processed: +new Date(),
-        // });
+        addProcessedLog.mutate({
+          logId: row._id,
+          // count: result.results.pullups.algo1.count,
+          weight: result.weight,
+          created: row.created.seconds,
+          processed: +new Date(),
+        });
 
         // if we have a newer weight than that previous one, let's update it
         if (result.weight) {
-          console.log('result.weight', result.weight)
-          console.log('row.created.seconds', row.created.seconds)
-          console.log('last user weight recorded at:', user.weightLastUpdated)
           if (row.created.seconds > (user.weightLastUpdated || 0)) {
-            updateUserWeight.mutate({weight: result.weight, weightLastUpdated: row.created.seconds});
+            updateUserWeight.mutate({
+              ...user,
+              weight: result.weight,
+              weightLastUpdated: row.created.seconds,
+            });
           }
-
         }
 
         setExtra(result.markers);

@@ -1,9 +1,9 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 
 export const getShortDate = (timestamp?: number) => {
   if (!timestamp) {
-    return
+    return "";
   }
 
-  return dayjs(timestamp).format("ddd D/MM/YY ha")
-}
+  return dayjs(timestamp).format("ddd D/MM/YY ha");
+};

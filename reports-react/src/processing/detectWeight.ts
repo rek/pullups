@@ -24,7 +24,7 @@ export const detectWeight = (data: Line) => {
 
       return average;
     } else {
-      let finalChosenWeight = -1;
+      let finalChosenWeight = 0;
 
       // sort by ones with the most points first:
       const sortArrayByLength = sortBy(flats, [(item) => -item.data.length]);
@@ -33,7 +33,7 @@ export const detectWeight = (data: Line) => {
       // 1. first test, take the highest ?
       // const averages = flats.map((item) => mean(item.data))
 
-      // 2. start checkinf from the longest down
+      // 2. start checking from the longest down
       // take the first that is close to the total average
       const detectedWeight2 = sortArrayByLength.find((item) => {
         if (mean(item.data) > totalLogAverage * 0.9) {
@@ -51,6 +51,6 @@ export const detectWeight = (data: Line) => {
       return finalChosenWeight;
     }
   } else {
-    return -1;
+    return 0;
   }
 };

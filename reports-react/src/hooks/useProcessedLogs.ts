@@ -9,14 +9,22 @@ const QUERY_KEY_SINGLE = "processedLog";
 
 const FIREBASE_COLLECTION_PROCESSED_LOGS = "processedLogs";
 
-export const mutateProcessedLogs = (user: string) => {
-  const mutation = useMutation((data: ProcessedLog) => {
-    return firestore
-      .collection(FIREBASE_COLLECTION_USERS)
-      .doc(user)
-      .collection(FIREBASE_COLLECTION_PROCESSED_LOGS)
-      .add(data);
-  });
+export const mutateProcessedLogs = (
+  user: string,
+  onSuccess: (data: ProcessedLog) => void
+) => {
+  const mutation = useMutation(
+    (data: ProcessedLog) => {
+      return firestore
+        .collection(FIREBASE_COLLECTION_USERS)
+        .doc(user)
+        .collection(FIREBASE_COLLECTION_PROCESSED_LOGS)
+        .add(data);
+    },
+    {
+      onSuccess: (data, next) => onSuccess && onSuccess(next),
+    }
+  );
 
   return mutation;
 };

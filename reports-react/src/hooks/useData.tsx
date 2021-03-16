@@ -6,8 +6,8 @@ import { firestore } from "../db";
 import type { UserRecord, Log, UserLog } from "../types";
 import { useMutation } from "react-query";
 
-const mainKey = "users";
-// const mainKey = "testing";
+const USER_COLLECTION = "users";
+const LOG_COLLECTION = "logs";
 
 interface Props {
   user?: string;
@@ -19,9 +19,9 @@ export const useData = ({ user }: Props) => {
 
   React.useEffect(() => {
     firestore
-      .collection(mainKey)
+      .collection(USER_COLLECTION)
       .doc(user)
-      .collection("logs")
+      .collection(LOG_COLLECTION)
       .onSnapshot(function (querySnapshot) {
         const result: UserLog[] = [];
 
@@ -54,7 +54,7 @@ export const useData = ({ user }: Props) => {
 
     // if (user) {
     //   firestore
-    //     .collection(mainKey)
+    //     .collection(USER_COLLECTION)
     //     .doc(user)
     //     .onSnapshot(function (querySnapshot) {
     //       const allData = querySnapshot.data() as UserRecord;
@@ -80,7 +80,7 @@ export const useData = ({ user }: Props) => {
 //   const result: UserLog[] = [];
 
 //   await firestore
-//     .collection(mainKey)
+//     .collection(USER_COLLECTION)
 //     .where("active", "==", true)
 //     .get()
 //     .then((querySnapshot) => {
@@ -110,11 +110,24 @@ export const useData = ({ user }: Props) => {
 export const deleteLogData = (user: string) => {
   const mutation = useMutation((logId: string) => {
     return firestore
-      .collection("users")
+      .collection(USER_COLLECTION)
       .doc(user)
-      .collection("logs")
+      .collection(LOG_COLLECTION)
       .doc(logId)
       .delete();
+  });
+
+  return mutation;
+};
+
+export const markAsProcessedLogData = (user: string) => {
+  const mutation = useMutation((logId: string) => {
+    return firestore
+      .collection(USER_COLLECTION)
+      .doc(user)
+      .collection(LOG_COLLECTION)
+      .doc(logId)
+      .set({ processed: true }, { merge: true });
   });
 
   return mutation;

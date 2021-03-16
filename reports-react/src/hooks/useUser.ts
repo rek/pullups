@@ -20,8 +20,8 @@ export const normalizeUser = (id: string, result: User) => {
     active: result.active,
     weight: result.weight,
     weightLastUpdated: result.weightLastUpdated,
-  } as User
-}
+  } as User;
+};
 
 // get one user
 export const useUser = (id: string) => {
@@ -34,9 +34,9 @@ export const useUser = (id: string) => {
         .get()
         .then(function (querySnapshot) {
           const result = querySnapshot.data();
-          // console.log('Found user data:', result)
+          console.log("Found user data:", result);
           if (result) {
-            return normalizeUser(id, result as User)
+            return normalizeUser(id, result as User);
           }
 
           return {
@@ -67,19 +67,19 @@ export const useUser = (id: string) => {
 export const mutateUserWeight = (user: string) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(({weight, weightLastUpdated}: {weight: number, weightLastUpdated: number}) => {
-    console.log('weight, weightLastUpdated', weight, weightLastUpdated)
-    return firestore
-      .collection(FIREBASE_COLLECTION_USERS)
-      .doc(user)
-      .update({weight, weightLastUpdated});
-  }, {
-    onSuccess: (data, next) => {
-      queryClient.setQueryData([QUERY_KEY, user],
-        next
-      )
+  const mutation = useMutation(
+    ({ weight, weightLastUpdated, ...otherUserFields }: Partial<User>) => {
+      return firestore
+        .collection(FIREBASE_COLLECTION_USERS)
+        .doc(user)
+        .update({ weight, weightLastUpdated });
+    },
+    {
+      onSuccess: (data, next) => {
+        queryClient.setQueryData([QUERY_KEY, user], next);
+      },
     }
-  });
+  );
 
   return mutation;
 };
