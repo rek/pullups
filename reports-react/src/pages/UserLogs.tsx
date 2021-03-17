@@ -86,15 +86,23 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       action: async (id) => {
         const row = allDataForUser[id as number];
         // console.log("Row:", row);
+
+        if (row.isProcessed) {
+          console.warn("Cannot double process!");
+          return;
+        }
+
         const result = await processLog(row.data, user.weight);
         console.log("Processing result:", result);
 
         addProcessedLog.mutate({
+          format: 1,
           logId: row._id,
-          // count: result.results.pullups.algo1.count,
-          weight: result.weight,
           created: row.created.seconds,
           processed: +new Date(),
+          weight: result.weight,
+
+          report: result.report,
         });
 
         // if we have a newer weight than that previous one, let's update it
@@ -108,7 +116,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
           }
         }
 
-        setExtra(result.markers);
+        setExtra(result.report.items[0].markers);
       },
     },
   ];
@@ -120,12 +128,14 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       data={rows}
       options={{
         expandable: true,
-        expandableContent: (row, rowIndex) => {
+        expandableContent: (tableRow, rowIndex) => {
+          const rawRow = allDataForUser[rowIndex];
+
           return (
             <UserLogChart
-              user={allDataForUser[rowIndex].user}
-              logId={allDataForUser[rowIndex]._id}
-              data={allDataForUser[rowIndex]}
+              user={rawRow.user}
+              logId={rawRow._id}
+              data={rawRow}
               extras={markers}
             />
           );

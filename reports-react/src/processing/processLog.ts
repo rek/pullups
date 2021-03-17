@@ -2,20 +2,14 @@ import type { Line } from "./types";
 import { detectPullup } from "./detectPullup";
 import { detectWeight } from "./detectWeight";
 import { colours } from "../styles/colours";
-
-interface PullupReport {
-  // quailty: number;
-  force: number;
-  pressureChange: number;
-}
-interface Report {
-  pullupCount: number;
-  items: PullupReport[];
-}
+import { LogReport, MarkerType } from "../types";
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
-export const processLog = async (log: Line, fallbackWeight?: number) => {
+export const processLog = async (
+  log: Line,
+  fallbackWeight?: number
+): Promise<{ report: LogReport; weight: number }> => {
   // console.log("fallbackWeight", fallbackWeight);
   const weight = detectWeight([...log]);
   // console.log("Starting to process log:", { weight }, log);
@@ -23,7 +17,16 @@ export const processLog = async (log: Line, fallbackWeight?: number) => {
   const pullups = await detectPullup(log, weight || fallbackWeight);
   console.log("Detected pullups:", pullups);
 
-  const results = pullups.algo1.data.map((pullup) => {
+  const dipMarkers = pullups.algo2.data.dips.map((data) => {
+    return { ...data, stroke: colours.green, type: MarkerType.dip };
+  });
+  const peakMarkers = pullups.algo2.data.peaks.map((data) => {
+    return { ...data, stroke: colours.red, type: MarkerType.peak };
+  });
+
+  const markers = [...peakMarkers, ...dipMarkers];
+
+  const items = pullups.algo1.data.map((pullup) => {
     console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
@@ -35,23 +38,21 @@ export const processLog = async (log: Line, fallbackWeight?: number) => {
     return {
       confidence: 0.5, // is pullup
       force: -1,
-      pressureChange: pressureChange.toFixed(2),
+      pressureChange: Number(pressureChange.toFixed(2)),
+
+      markers: markers,
     };
   });
-  console.log("results algo1:", results);
+  console.log("results algo1:", items);
 
-  const dipMarkers = pullups.algo2.data.dips.map((data) => {
-    return { ...data, stroke: colours.green };
-  });
-  const peakMarkers = pullups.algo2.data.peaks.map((data) => {
-    return { ...data, stroke: colours.red };
-  });
-
-  const markers = [...peakMarkers, ...dipMarkers];
+  // map markers into places to start and end pullup
 
   return {
-    results,
-    markers,
+    // pullupCount is a bit useless, but making an object here to extend later on
+    report: {
+      items,
+      pullupCount: items.length,
+    },
     weight,
   };
 };

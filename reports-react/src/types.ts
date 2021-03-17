@@ -1,6 +1,6 @@
 // =====================
 //
-//   Logs
+//   Logs - raw
 //
 // =====================
 
@@ -27,12 +27,35 @@ export interface Log {
 //   created: string;
 //   weight: number;
 // }
-export interface ProcessedLog {
+export enum MarkerType {
+  "start" = "start",
+  "peak" = "peak",
+  "dip" = "dip",
+}
+export interface PullupReport {
+  quailty?: number;
+  confidence: number;
+  force?: number;
+  pressureChange?: number;
+  markers?: {
+    type: MarkerType;
+    x: number;
+  }[];
+}
+export interface LogReport {
+  pullupCount: number;
+  items: PullupReport[];
+}
+
+export interface ProcessedLogV1 {
+  format: 1;
   logId: string;
   created: number;
   processed: number; // processed date
   weight: number;
+  report: LogReport;
 }
+export type ProcessedLog = ProcessedLogV1;
 
 // export interface ProcessedPulluptLog extends BaseProcessedObject {
 //   count: number;
@@ -61,8 +84,8 @@ export interface User {
   active: boolean;
   id: number;
   name: string;
-  weight?: number
-  weightLastUpdated?: number
+  weight?: number;
+  weightLastUpdated?: number;
 }
 
 // =====================

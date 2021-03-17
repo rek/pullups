@@ -121,13 +121,13 @@ export const deleteLogData = (user: string) => {
 };
 
 export const markAsProcessedLogData = (user: string) => {
-  const mutation = useMutation((logId: string) => {
+  const mutation = useMutation((logId: string, processed = true) => {
     return firestore
       .collection(USER_COLLECTION)
       .doc(user)
       .collection(LOG_COLLECTION)
       .doc(logId)
-      .set({ processed: true }, { merge: true });
+      .set({ processed }, { merge: true });
   });
 
   return mutation;
