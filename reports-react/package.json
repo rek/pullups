@@ -40,6 +40,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@rebass/preset": "^4.0.5",
+    "@testing-library/react": "^11.2.5",
     "dayjs": "^1.10.4",
     "emotion-theming": "^11.0.0",
     "firebase": "^8.2.3",

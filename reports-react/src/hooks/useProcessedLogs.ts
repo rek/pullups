@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from "react-query";
 
 import { firestore } from "../db";
-import type { ProcessedLog } from "../types";
+import type { LogReport, Marker, ProcessedLog } from "../types";
 import { FIREBASE_COLLECTION_USERS } from "./useUsers";
 
 const QUERY_KEY = "processedLogs";
@@ -113,4 +113,20 @@ export const useProcessedLog = (user: string, logId: string) => {
   // console.log('Starting to logs for user', {id})
 
   return { isLoading, error, data };
+};
+
+export const getMarkersFromProcessedData = (processedLogData: LogReport) => {
+  let processedMarkers: Marker[] = [];
+
+  if (processedLogData && processedLogData.items.length > 0) {
+    processedMarkers =
+      processedLogData.items.flatMap((pullup) => {
+        console.log("pullup", pullup);
+        return pullup.markers || [];
+        // pullup.report.items.flatMap((reportItem) => reportItem.markers) || []
+      }) || [];
+    // console.log("processedMarkers", processedMarkers);
+  }
+
+  return processedMarkers;
 };

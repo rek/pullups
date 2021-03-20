@@ -32,15 +32,16 @@ export enum MarkerType {
   "peak" = "peak",
   "dip" = "dip",
 }
+export interface Marker {
+  type: MarkerType;
+  x: number;
+}
 export interface PullupReport {
   quailty?: number;
   confidence: number;
   force?: number;
   pressureChange?: number;
-  markers?: {
-    type: MarkerType;
-    x: number;
-  }[];
+  markers?: Marker[];
 }
 export interface LogReport {
   pullupCount: number;

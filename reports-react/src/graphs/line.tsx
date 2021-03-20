@@ -55,15 +55,18 @@ export const Line: React.FC<Props> = ({
     // }
   };
 
-  // console.log('data', data)
-  // console.log('medianLine', medianLine)
+  // console.log("data", data);
+  // console.log("markers", markers);
 
   const start = 1;
   const end = data.length;
+  const showMedian = !!(medianLine && end > 0);
+  console.log("medianLine", medianLine, { showMedian, start, end });
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#777" }}>
       <VictoryChart
+        name="chart-line"
         theme={theme}
         height={200}
         width={1000}
@@ -73,6 +76,7 @@ export const Line: React.FC<Props> = ({
         {markers &&
           markers.map((marker, index) => (
             <VictoryLine
+              name="line-marker"
               key={`group-line-${index}`}
               style={{
                 data: { stroke: marker.stroke || colours.grey },
@@ -85,14 +89,16 @@ export const Line: React.FC<Props> = ({
             />
           ))}
         <VictoryLine
+          name="line"
           data={data}
           interpolation="natural"
           domain={{ y: [0, maxDomain || 1] }}
           labels={({ datum }) => `${datum.y} (${datum.x})`}
           labelComponent={<VictoryTooltip />}
         />
-        {medianLine && (
+        {showMedian && (
           <VictoryLine
+            name="median-line"
             style={{
               data: { stroke: "#c43a31" },
               parent: { border: "1px dotted #ccc" },

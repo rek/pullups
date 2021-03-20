@@ -10,12 +10,16 @@ import {
   TableRow,
   TableRows,
   DeleteIcon,
+  ViewIcon,
   AddCircleOutlineIcon,
-  Title,
 } from "../common";
 import { mutateUserWeight, useUser } from "../hooks/useUser";
 import type { User } from "../types";
-import { mutateProcessedLogs, deleteLogData } from "../hooks";
+import {
+  mutateProcessedLogs,
+  deleteLogData,
+  getMarkersFromProcessedData,
+} from "../hooks";
 import { processLog } from "../processing/processLog";
 import { UserLogChart } from "./UserLogChart";
 import { UserName } from "../common/components/UserName";
@@ -79,6 +83,22 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         deleteLog.mutate(allDataForUser[rowId]._id);
       },
       renderIcon: () => <DeleteIcon />,
+    },
+    {
+      name: "Test",
+      action: async (rowId) => {
+        const row = allDataForUser[rowId as number];
+        console.log("========== Result: =============");
+        const result = await processLog(row.data, user.weight);
+        console.log("Processing result:", result);
+        if (result.report.items.length > 0) {
+          const allFoundMarkers = getMarkersFromProcessedData(result.report);
+          console.log("allFoundMarkers", allFoundMarkers);
+          setExtra(allFoundMarkers);
+        }
+        console.log("================================");
+      },
+      renderIcon: () => <ViewIcon />,
     },
     {
       name: "Process",

@@ -2,14 +2,16 @@ import type { Line } from "./types";
 import { detectPullup } from "./detectPullup";
 import { detectWeight } from "./detectWeight";
 import { colours } from "../styles/colours";
-import { LogReport, MarkerType } from "../types";
+import { LogReport, Marker, MarkerType, PullupReport } from "../types";
+import { getMarkersForIndex } from "./utils/getMarkersForIndex";
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
+type ProcessedLog = { report: LogReport; weight: number };
 export const processLog = async (
   log: Line,
   fallbackWeight?: number
-): Promise<{ report: LogReport; weight: number }> => {
+): Promise<ProcessedLog> => {
   // console.log("fallbackWeight", fallbackWeight);
   const weight = detectWeight([...log]);
   // console.log("Starting to process log:", { weight }, log);
@@ -24,9 +26,10 @@ export const processLog = async (
     return { ...data, stroke: colours.red, type: MarkerType.peak };
   });
 
-  const markers = [...peakMarkers, ...dipMarkers];
+  // const markers = [...peakMarkers, ...dipMarkers];
 
-  const items = pullups.algo1.data.map((pullup) => {
+  // ONLY WORKS IF THERE IS A FLAT:
+  const items: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
     console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
@@ -40,10 +43,13 @@ export const processLog = async (
       force: -1,
       pressureChange: Number(pressureChange.toFixed(2)),
 
-      markers: markers,
+      markers: getMarkersForIndex(peakMarkers, dipMarkers, index),
     };
   });
-  console.log("results algo1:", items);
+
+  // if no flat found, then work off the marks alone.
+
+  console.log("[Process Log] results:", items);
 
   // map markers into places to start and end pullup
 

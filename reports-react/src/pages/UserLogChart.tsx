@@ -5,7 +5,7 @@ import max from "lodash/max";
 import type { Log, ProcessedLog, UserLog } from "../types";
 import { Line, Marker } from "../graphs/line";
 import { Loading, Text, Title } from "../common";
-import { useProcessedLog } from "../hooks";
+import { getMarkersFromProcessedData, useProcessedLog } from "../hooks";
 import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
 
 // export const UserChartForActiveUser = () => {
@@ -36,7 +36,9 @@ export const UserLogChart: React.FC<Props> = ({
   const { data: processedLogData } = useProcessedLog(user, logId || "");
 
   // console.log("UserChart data from db:", data);
+  // const hasProcessedLogData = processedLogData && processedLogData.length > 0;
   console.log("Processed data from db:", processedLogData);
+  console.log("Extra makers to show:", extras);
 
   const convertDataIntoLine = (log: Log) => {
     const result = log.data.map((value, index) => {
@@ -72,22 +74,21 @@ export const UserLogChart: React.FC<Props> = ({
     medianLine = useClosestKnownWeight({ user, logId });
   }
 
-  let markersToShow = extras; // default to the global markers
+  let markersToShow = extras || []; // default to the global markers
   let processedMarkers: any[] = [];
 
-  if (processedLogData) {
-    processedMarkers =
-      processedLogData.flatMap((pullup) => {
-        return (
-          pullup.report.items.flatMap((reportItem) => reportItem.markers) || []
-        );
-      }) || [];
+  if (processedLogData && processedLogData.length > 0) {
+    processedMarkers = processedLogData.flatMap((pullup) =>
+      getMarkersFromProcessedData(pullup.report)
+    );
     console.log("processedMarkers", processedMarkers);
   }
 
-  if (processedMarkers) {
+  if (processedMarkers && processedMarkers.length > 0) {
     markersToShow = processedMarkers;
   }
+
+  console.log("Data for line:", formattedData);
 
   return (
     <>
