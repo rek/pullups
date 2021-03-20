@@ -61,7 +61,7 @@ export const Line: React.FC<Props> = ({
   const start = 1;
   const end = data.length;
   const showMedian = !!(medianLine && end > 0);
-  console.log("medianLine", medianLine, { showMedian, start, end });
+  // console.log("medianLine", medianLine, { showMedian, start, end });
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#777" }}>
