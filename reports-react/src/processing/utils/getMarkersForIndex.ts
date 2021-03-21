@@ -1,6 +1,8 @@
 import compact from "lodash/compact";
 import type { Marker } from "../../types";
 
+// first round takes 3 points
+// second and all next rounds use the previous peak marker as the first one
 export const getMarkersForIndex = (
   peakMarkers: Marker[],
   dipMarkers: Marker[],
@@ -9,7 +11,7 @@ export const getMarkersForIndex = (
   const indexMarkers = [
     peakMarkers[index],
     dipMarkers[index],
-    peakMarkers[index * 2 + 1],
+    peakMarkers[index + 1],
   ];
 
   const checkForMissingEntries = compact(indexMarkers);

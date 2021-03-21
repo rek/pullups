@@ -121,9 +121,8 @@ export const getMarkersFromProcessedData = (processedLogData: LogReport) => {
   if (processedLogData && processedLogData.items.length > 0) {
     processedMarkers =
       processedLogData.items.flatMap((pullup) => {
-        console.log("pullup", pullup);
+        // console.log("pullup", pullup);
         return pullup.markers || [];
-        // pullup.report.items.flatMap((reportItem) => reportItem.markers) || []
       }) || [];
     // console.log("processedMarkers", processedMarkers);
   }

@@ -2,6 +2,7 @@ import type { Line } from "./types";
 
 import { detectWeight } from "./detectWeight";
 import { flatThenSpike, peakDipGroups } from "./algorithms";
+import {logDebug} from "../utils";
 
 /*
  * Algorithm
@@ -16,14 +17,14 @@ export const detectPullup = async (line: Line, weight?: number) => {
 
   const flatThenSpikeData = flatThenSpike(line, { bodyWeight, minLength: 4 });
   const algo1 = { count: flatThenSpikeData.length, data: flatThenSpikeData };
-  console.log("algo1", algo1);
+  logDebug("algo1", algo1);
 
   const peakDipGroupsData = await peakDipGroups(line, { bodyWeight, devation: 0.8 });
   const algo2 = {
     count: peakDipGroupsData.dips.length,
     data: peakDipGroupsData,
   };
-  console.log("algo2", algo2);
+  logDebug("algo2", algo2);
 
   return { algo1, algo2 };
 };

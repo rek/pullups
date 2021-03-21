@@ -1,3 +1,4 @@
+import {logDebug} from "../../utils";
 import type { Line } from "../types";
 
 import { detectFirstAscendingFromPoint, detectFlatSections } from "../utils";
@@ -13,7 +14,7 @@ export const flatThenSpike = (
 ) => {
   const segments: Line[] = [];
   const flats = detectFlatSections(line, 5);
-  console.log("Detected flats:", flats, { minLength });
+  logDebug("Detected flats:", flats, { minLength });
 
   flats
     .filter((flat) => flat.data.length > minLength)

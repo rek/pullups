@@ -24,6 +24,7 @@ import { processLog } from "../processing/processLog";
 import { UserLogChart } from "./UserLogChart";
 import { UserName } from "../common/components/UserName";
 import type { Marker } from "../graphs";
+import {logDebug} from "../utils";
 
 const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   const allDataForUser = useData({ user: user.name });
@@ -41,8 +42,8 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
     return <Loading />;
   }
 
-  console.log("All session data: ", allDataForUser);
-  console.log("User:", user);
+  console.log("[User Logs] All session data: ", allDataForUser);
+  console.log("[User Logs] User:", user);
 
   let rows: TableRows = [];
 
@@ -94,7 +95,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         console.log("Processing result:", result);
         if (result.report.items.length > 0) {
           const allFoundMarkers = getMarkersFromProcessedData(result.report);
-          console.log("allFoundMarkers", allFoundMarkers);
+          logDebug("allFoundMarkers", allFoundMarkers);
           setExtra(allFoundMarkers);
         }
         console.log("================================");
@@ -114,7 +115,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         }
 
         const result = await processLog(row.data, user.weight);
-        console.log("Processing result:", result);
+        console.log("[User Logs] Processing result:", result);
 
         addProcessedLog.mutate({
           format: 1,
