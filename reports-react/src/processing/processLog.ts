@@ -28,8 +28,28 @@ export const processLog = async (
 
   // const markers = [...peakMarkers, ...dipMarkers];
 
+
+  // detect flat, if found add next pullup?
+
+  // detect marker groups, get pullup postion from that.
+  let moreMarkers = true
+  let markerGroup = 0
+  const groups: Marker[][] = []
+  do {
+    const group = getMarkersForIndex(peakMarkers, dipMarkers, markerGroup)
+    if (group.length > 0) {
+      groups.push(group)
+      markerGroup += 1;
+    } else {
+      moreMarkers = false
+    }
+
+  } while (moreMarkers)
+
+  console.log('All marker groups:', groups)
+
   // ONLY WORKS IF THERE IS A FLAT:
-  const items: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
+  let items: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
     console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
@@ -43,9 +63,16 @@ export const processLog = async (
       force: -1,
       pressureChange: Number(pressureChange.toFixed(2)),
 
-      markers: getMarkersForIndex(peakMarkers, dipMarkers, index),
+      markers: groups[index],
     };
   });
+
+  if (items.length === 0) {
+    items = groups.map((group) => ({
+      confidence: 0,
+      markers: group,
+    }))
+  }
 
   // if no flat found, then work off the marks alone.
 

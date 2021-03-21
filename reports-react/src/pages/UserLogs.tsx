@@ -88,6 +88,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
       name: "Test",
       action: async (rowId) => {
         const row = allDataForUser[rowId as number];
+        // console.log('RAW', row.data)
         console.log("========== Result: =============");
         const result = await processLog(row.data, user.weight);
         console.log("Processing result:", result);

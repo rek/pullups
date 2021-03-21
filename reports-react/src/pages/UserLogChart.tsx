@@ -37,8 +37,8 @@ export const UserLogChart: React.FC<Props> = ({
 
   // console.log("UserChart data from db:", data);
   // const hasProcessedLogData = processedLogData && processedLogData.length > 0;
-  console.log("Processed data from db:", processedLogData);
-  console.log("Extra makers to show:", extras);
+  // console.log("Processed data from db:", processedLogData);
+  // console.log("Extra makers to show:", extras);
 
   const convertDataIntoLine = (log: Log) => {
     const result = log.data.map((value, index) => {
@@ -81,14 +81,14 @@ export const UserLogChart: React.FC<Props> = ({
     processedMarkers = processedLogData.flatMap((pullup) =>
       getMarkersFromProcessedData(pullup.report)
     );
-    console.log("processedMarkers", processedMarkers);
+    // console.log("processedMarkers", processedMarkers);
   }
 
   if (processedMarkers && processedMarkers.length > 0) {
     markersToShow = processedMarkers;
   }
 
-  console.log("Data for line:", formattedData);
+  // console.log("Data for line:", formattedData);
 
   return (
     <>
