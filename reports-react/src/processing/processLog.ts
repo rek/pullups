@@ -17,7 +17,7 @@ export const processLog = async (
   // console.log("Starting to process log:", { weight }, log);
 
   const pullups = await detectPullup(log, weight || fallbackWeight);
-  console.log("Detected pullups:", pullups);
+  // console.log("Detected pullups:", pullups);
 
   const dipMarkers = pullups.algo2.data.dips.map((data) => {
     return { ...data, stroke: colours.green, type: MarkerType.dip };
@@ -28,35 +28,33 @@ export const processLog = async (
 
   // const markers = [...peakMarkers, ...dipMarkers];
 
-
   // detect flat, if found add next pullup?
 
   // detect marker groups, get pullup postion from that.
-  let moreMarkers = true
-  let markerGroup = 0
-  const groups: Marker[][] = []
+  let moreMarkers = true;
+  let markerGroup = 0;
+  const groups: Marker[][] = [];
   do {
-    const group = getMarkersForIndex(peakMarkers, dipMarkers, markerGroup)
+    const group = getMarkersForIndex(peakMarkers, dipMarkers, markerGroup);
     if (group.length > 0) {
-      groups.push(group)
+      groups.push(group);
       markerGroup += 1;
     } else {
-      moreMarkers = false
+      moreMarkers = false;
     }
+  } while (moreMarkers);
 
-  } while (moreMarkers)
-
-  console.log('All marker groups:', groups)
+  // console.log('All marker groups:', groups)
 
   // ONLY WORKS IF THERE IS A FLAT:
   let items: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
-    console.log("Starting to process:", pullup);
+    // console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
 
     const pressureChange = pullup[pullup.length - 1] - pullup[0];
 
-    console.log("pressureChange", pressureChange);
+    // console.log("pressureChange", pressureChange);
 
     return {
       confidence: 0.5, // is pullup
@@ -71,7 +69,7 @@ export const processLog = async (
     items = groups.map((group) => ({
       confidence: 0,
       markers: group,
-    }))
+    }));
   }
 
   // if no flat found, then work off the marks alone.

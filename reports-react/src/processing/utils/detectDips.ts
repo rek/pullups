@@ -3,12 +3,10 @@ import slayer from "slayer";
 
 import type { Line } from "../types";
 import type { XY } from "../../types";
+import { invertLine } from "./invertLine";
 
 export const detectDips = async (line: Line): Promise<XY[]> => {
-  const lineMax = max(line) || 0;
-
-  // invert the graph and then transpose it back upto positive values
-  const invertedLine = line.map((point) => point * -1 + lineMax);
+  const invertedLine = invertLine(line);
   // console.log("invertedLine", invertedLine);
 
   const invertedPeaks: XY[] = await slayer({
