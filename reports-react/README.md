@@ -9,9 +9,11 @@
 - [x] set active user
 - [x] show active user
 - [ ] react grid layout to show multi something?
-- [ ] make expo app
+- [x] make expo app
 - [ ] firebase hosting of a stats page?
-- [ ] mobile view designs
+- [x] mobile view designs
+- [ ] process up part of pullup for stats
+- [ ] make reports management page
 
 ## Analysis:
 

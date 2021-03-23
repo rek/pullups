@@ -5,16 +5,16 @@ export const useClosestKnownWeight = ({
   user: string;
   logId: string;
 }) => {
-  // @TODO:
+  // @TODO: use hook to get last from weight report
 
   if (user === "adam") {
-    return 97; // make dynamic
+    return 95; // make dynamic
   }
   if (user === "anette") {
     return 67; // make dynamic
   }
   if (user === "j") {
-    return 61; // make dynamic
+    return 72; // make dynamic
   }
 
   return -1;

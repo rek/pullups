@@ -4,6 +4,7 @@ import { detectWeight } from "./detectWeight";
 import { colours } from "../styles/colours";
 import { LogReport, Marker, MarkerType, PullupReport } from "../types";
 import { getMarkersForIndex } from "./utils/getMarkersForIndex";
+import { isAmountWithinDeviation } from "./utils/isAmountWithinDeviation";
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
@@ -22,9 +23,29 @@ export const processLog = async (
   const dipMarkers = pullups.algo2.data.dips.map((data) => {
     return { ...data, stroke: colours.green, type: MarkerType.dip };
   });
-  const peakMarkers = pullups.algo2.data.peaks.map((data) => {
-    return { ...data, stroke: colours.red, type: MarkerType.peak };
-  });
+  const peakMarkers = pullups.algo2.data.peaks
+    .map((data) => {
+      return { ...data, stroke: colours.red, type: MarkerType.peak };
+    })
+    .filter((peak) => {
+      // clean off any bad peak markers
+      // get, small things we found on a flat line,
+      // or before full weight was on the bar
+      // console.log("Checking peak is ok", { weight, y: peak.y });
+      if (weight > 0) {
+        const isBelow = (peak.y || 0) < weight;
+        const peakIsCloseToBodyWeight = isAmountWithinDeviation(
+          peak.y || 0,
+          weight
+        );
+        const peakIsTooCloseToBodyWeightToBeLegit =
+          !peakIsCloseToBodyWeight && !isBelow;
+
+        return peakIsTooCloseToBodyWeightToBeLegit;
+      } else {
+        return true;
+      }
+    });
 
   // const markers = [...peakMarkers, ...dipMarkers];
 
@@ -44,10 +65,10 @@ export const processLog = async (
     }
   } while (moreMarkers);
 
-  // console.log('All marker groups:', groups)
+  console.log("All marker groups:", groups);
 
   // ONLY WORKS IF THERE IS A FLAT:
-  let items: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
+  let algo1: PullupReport[] = pullups.algo1.data.map((pullup, index) => {
     // console.log("Starting to process:", pullup);
     const polltime = 100; // ms
     const dataPoints = pullup.length;
@@ -65,14 +86,17 @@ export const processLog = async (
     };
   });
 
-  if (items.length === 0) {
-    items = groups.map((group) => ({
+  let items = groups.map((markerGroup) => {
+    return {
       confidence: 0,
-      markers: group,
-    }));
-  }
+      markers: markerGroup,
+    };
+  });
 
   // if no flat found, then work off the marks alone.
+
+  // remove any groups that do not have markers
+  items = items.filter((item) => item.markers && item.markers.length > 0);
 
   console.log("[Process Log] results:", items);
 

@@ -13,6 +13,8 @@ import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
 // 	return <UserChart sessionId={activeSession} user='adam' />
 // }
 
+const namespace = "[UserLogChart]";
+
 interface Props {
   // sessionId: number,
   domainTop?: number;
@@ -69,9 +71,11 @@ export const UserLogChart: React.FC<Props> = ({
     processedLogData && processedLogData.length > 0
       ? processedLogData[0].weight
       : -1;
+  // console.log(`${namespace} checking median:`, medianLine);
 
   if (medianLine === -1 && logId) {
     medianLine = useClosestKnownWeight({ user, logId });
+    // console.log(`${namespace} no median, using last known:`, medianLine);
   }
 
   let markersToShow = extras || []; // default to the global markers
