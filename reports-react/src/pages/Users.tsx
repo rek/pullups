@@ -1,14 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-
 import { useSettings, useUsers, mutateSettings } from "../hooks";
-import { Text, Table, LeftRightContainer, Title, Loading } from "../common";
+import {
+  Text,
+  Table,
+  LeftRightContainer,
+  Title,
+  Loading,
+  ReportIcon,
+  LogsIcon,
+  AddIcon,
+} from "../common";
 import { getShortDate } from "../utils";
 
-export const Users = () => {
+export const Users: React.FC = () => {
   const { data: users } = useUsers();
   const { data: settings } = useSettings();
   const updateSettings = mutateSettings();
@@ -31,7 +37,7 @@ export const Users = () => {
     { name: "Weight updated", align: "right" },
   ];
   const data = users.map((user) => [
-    { data: user.name },
+    { data: user.displayName ? user.displayName : user.name },
     { data: user.weight ? user.weight.toFixed(2) : "" },
     { data: getShortDate(user.weightLastUpdated) },
   ]);
@@ -46,7 +52,14 @@ export const Users = () => {
       action: (row: number) => {
         history.push(`user/${users[row].name}/logs`);
       },
-      renderIcon: () => <LibraryBooksIcon />,
+      renderIcon: () => <LogsIcon />,
+    },
+    {
+      name: "Manage reports",
+      action: (row: number) => {
+        history.push(`user/${users[row].name}/reports`);
+      },
+      renderIcon: () => <ReportIcon />,
     },
     {
       name: "Set active",
@@ -54,7 +67,7 @@ export const Users = () => {
         console.log(users[row].name);
         updateSettings.mutate({ active: users[row].name });
       },
-      renderIcon: () => <AddCircleOutlineIcon />,
+      renderIcon: () => <AddIcon />,
     },
   ];
 

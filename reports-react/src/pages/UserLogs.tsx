@@ -11,7 +11,7 @@ import {
   TableRows,
   DeleteIcon,
   ViewIcon,
-  AddCircleOutlineIcon,
+  AddIcon,
 } from "../common";
 import { mutateUserWeight, useUser } from "../hooks/useUser";
 import type { User } from "../types";
@@ -104,7 +104,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
     },
     {
       name: "Process",
-      renderIcon: () => <AddCircleOutlineIcon />,
+      renderIcon: () => <AddIcon />,
       action: async (id) => {
         const row = allDataForUser[id as number];
         // console.log("Row:", row);

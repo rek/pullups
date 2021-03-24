@@ -8,7 +8,7 @@
     "target": "ES2019",
     "moduleResolution": "node",
     "jsx": "react",
-    // "lib": ["ES2019"],
+    "lib": ["ES2019"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "importsNotUsedAsValues": "error",

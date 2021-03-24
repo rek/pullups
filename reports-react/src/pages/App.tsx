@@ -23,6 +23,7 @@ import {
   // Sessions,
   UserTotals,
   UserLogs,
+  UserReportsManage,
 } from "../pages";
 
 import { firebaseDoingAuth } from "../db";
@@ -78,6 +79,9 @@ export const App = () => {
                 </Route>
                 <Route path="/user/:id/logs">
                   <UserLogs />
+                </Route>
+                <Route path="/user/:id/reports">
+                  <UserReportsManage />
                 </Route>
                 {/* <Route path="/sessions">
                   <Sessions />

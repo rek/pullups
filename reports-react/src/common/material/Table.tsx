@@ -110,12 +110,8 @@ export const Table: React.FC<Props> = ({
         </TableHead>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <>
-              <TableRow
-                key={`row-${rowIndex}`}
-                className={rowRoot}
-                onClick={_handleRowClick(rowIndex)}
-              >
+            <React.Fragment key={`row-${rowIndex}`}>
+              <TableRow className={rowRoot} onClick={_handleRowClick(rowIndex)}>
                 <>
                   {options.expandable && (
                     <TableCell>
@@ -176,7 +172,7 @@ export const Table: React.FC<Props> = ({
                   </TableCell>
                 </TableRow>
               )}
-            </>
+            </React.Fragment>
           ))}
         </TableBody>
       </MaterialTable>

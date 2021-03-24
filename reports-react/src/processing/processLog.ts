@@ -5,6 +5,7 @@ import { colours } from "../styles/colours";
 import { LogReport, Marker, MarkerType, PullupReport } from "../types";
 import { getMarkersForIndex } from "./utils/getMarkersForIndex";
 import { isAmountWithinDeviation } from "./utils/isAmountWithinDeviation";
+import { detectDescendingBeforePoint } from "./utils/detectDescendingBeforePoint";
 
 export const processLogFromFirebase = (user: string, id: string) => {};
 
@@ -31,6 +32,7 @@ export const processLog = async (
       // clean off any bad peak markers
       // get, small things we found on a flat line,
       // or before full weight was on the bar
+
       // console.log("Checking peak is ok", { weight, y: peak.y });
       if (weight > 0) {
         const isBelow = (peak.y || 0) < weight;
@@ -86,17 +88,42 @@ export const processLog = async (
     };
   });
 
-  let items = groups.map((markerGroup) => {
-    return {
-      confidence: 0,
-      markers: markerGroup,
-    };
-  });
+  const items = groups
+    .map((markerGroup) => {
+      return {
+        confidence: 0,
+        markers: markerGroup,
+      };
+    })
+    // remove any groups that do not have markers
+    .filter((item) => item.markers && item.markers.length > 0)
+    // process marker stats
+    .map((item, index) => {
+      // we can only really analize the first peak, the others are harder to find
+      if (index > 1) {
+        return item;
+      }
+
+      let pressureChange = -1;
+      const firstPeak = item.markers.find((marker) => marker.type === "peak");
+
+      if (firstPeak) {
+        const startOfPulup = detectDescendingBeforePoint(log, firstPeak.x);
+
+        if (startOfPulup) {
+          const pullSegment = log.slice(startOfPulup + 1, firstPeak.x + 1);
+          // console.log("pullSegment", pullSegment);
+          pressureChange = pullSegment[pullSegment.length - 1] - pullSegment[0];
+        }
+      }
+
+      return {
+        ...item,
+        pressureChange,
+      };
+    });
 
   // if no flat found, then work off the marks alone.
-
-  // remove any groups that do not have markers
-  items = items.filter((item) => item.markers && item.markers.length > 0);
 
   console.log("[Process Log] results:", items);
 

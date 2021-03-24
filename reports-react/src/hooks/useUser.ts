@@ -17,6 +17,7 @@ export const normalizeUser = (id: string, result: User) => {
   return {
     id: result.id,
     name: id,
+    displayName: result.displayName,
     active: result.active,
     weight: result.weight,
     weightLastUpdated: result.weightLastUpdated,

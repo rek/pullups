@@ -7,6 +7,7 @@ import { Line, Marker } from "../graphs/line";
 import { Loading, Text, Title } from "../common";
 import { getMarkersFromProcessedData, useProcessedLog } from "../hooks";
 import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
+import { RawStats } from "./common/RawStats";
 
 // export const UserChartForActiveUser = () => {
 // 	const activeSession = useRecoilValue(sessionState);
@@ -104,41 +105,6 @@ export const UserLogChart: React.FC<Props> = ({
       />
       {processedLogData && <LogStats logs={processedLogData} />}
       {<RawStats log={data} />}
-    </>
-  );
-};
-
-const RawStats: React.FC<{ log: UserLog }> = ({ log }) => {
-  // console.log('log', log)
-
-  const Duration: React.FC<{ value?: number; total: number }> = ({
-    value,
-    total,
-  }) => {
-    if (!value) {
-      return null;
-    }
-
-    const calculatedDuration = value / total;
-
-    return (
-      <>
-        <div>Duration: {value / 1000} s</div>
-        <div>Calculated interval: {calculatedDuration.toFixed(2)}</div>
-      </>
-    );
-  };
-
-  const hasStats = log.duration !== undefined;
-
-  if (!hasStats) {
-    return null;
-  }
-
-  return (
-    <>
-      <Title>Raw stats:</Title>
-      <Duration value={log.duration} total={log.data.length} />
     </>
   );
 };
