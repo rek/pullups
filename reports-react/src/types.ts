@@ -1,3 +1,5 @@
+import type { LogReport } from "detect-pullups";
+
 // =====================
 //
 //   Logs - raw
@@ -27,26 +29,6 @@ export interface Log {
 //   created: string;
 //   weight: number;
 // }
-export enum MarkerType {
-  "start" = "start",
-  "peak" = "peak",
-  "dip" = "dip",
-}
-export interface Marker {
-  type: MarkerType;
-  x: number;
-}
-export interface PullupReport {
-  quailty?: number;
-  confidence: number;
-  force?: number;
-  pressureChange?: number;
-  markers?: Marker[];
-}
-export interface LogReport {
-  pullupCount: number;
-  items: PullupReport[];
-}
 
 export interface ProcessedLogV1 {
   format: 1;

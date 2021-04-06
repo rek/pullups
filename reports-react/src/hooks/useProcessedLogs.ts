@@ -1,7 +1,8 @@
 import { useQuery, useMutation } from "react-query";
+import type { LogReport, Marker } from "detect-pullups";
 
 import { firestore } from "../db";
-import type { LogReport, Marker, ProcessedLog } from "../types";
+import type { ProcessedLog } from "../types";
 import { FIREBASE_COLLECTION_USERS } from "./useUsers";
 
 const QUERY_KEY = "processedLogs";

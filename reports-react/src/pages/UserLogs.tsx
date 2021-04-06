@@ -20,7 +20,7 @@ import {
   deleteLogData,
   getMarkersFromProcessedData,
 } from "../hooks";
-import { processLog } from "../processing/processLog";
+import { processLog } from "detect-pullups";
 import { UserLogChart } from "./UserLogChart";
 import { UserName } from "../common/components/UserName";
 import type { Marker } from "../graphs";
@@ -84,6 +84,13 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
         deleteLog.mutate(allDataForUser[rowId]._id);
       },
       renderIcon: () => <DeleteIcon />,
+    },
+    {
+      name: "Transfer",
+      action: async (rowId) => {
+        console.log("Transfer log:", rows[rowId]);
+      },
+      renderIcon: () => <div>T</div>,
     },
     {
       name: "Test",
