@@ -3,9 +3,8 @@ import { IDToken } from "../types";
 
 import { FirebaseClient } from "./useFirebase";
 
-const QUERY_SETTINGS_KEY = "settings";
+export const QUERY_SETTINGS_KEY = "settings";
 const settingsCollection = "settings";
-
 export interface SettingsRaw {
   name: string;
   fields: {
@@ -19,9 +18,6 @@ export interface Settings {
 }
 export const mutateSettings = ({ idToken }: IDToken) => {
   const queryClient = useQueryClient();
-  if (!idToken) {
-    return { mutate: () => {} };
-  }
 
   const mutation = useMutation(
     async (data: string) => {
@@ -47,6 +43,14 @@ export const mutateSettings = ({ idToken }: IDToken) => {
     }
   );
   return mutation;
+};
+
+export const useResetSettings = (): (() => void) => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    queryClient.invalidateQueries(QUERY_SETTINGS_KEY);
+  };
 };
 
 export const useSettings = ({ idToken }: IDToken) => {

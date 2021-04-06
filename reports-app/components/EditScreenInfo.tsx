@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 
 import Colors from "../constants/Colors";
+import { User } from "../hooks/useUsers";
 import { Text, View } from "./Themed";
 
 const styles = StyleSheet.create({
@@ -65,7 +66,7 @@ export default function EditScreenInfo({
   active,
   handleChange,
 }: {
-  users: string[];
+  users: User[];
   active: string;
   handleChange: (user: string) => () => void;
 }) {
@@ -73,16 +74,17 @@ export default function EditScreenInfo({
     <View>
       <View style={styles.wrapper}>
         {users.map((user) => {
+          const displayName = `${user.displayName} (${user.weight}kg)`;
           return (
-            <TouchableOpacity key={user} onPress={handleChange(user)}>
+            <TouchableOpacity key={user.name} onPress={handleChange(user.name)}>
               <View style={styles.userContainer}>
                 <Text
                   style={styles.userText}
                   lightColor={
-                    active === user ? Colors.light.tint : Colors.dark.tint
+                    active === user.name ? Colors.light.tint : Colors.dark.tint
                   }
                 >
-                  {user}
+                  {displayName}
                 </Text>
               </View>
             </TouchableOpacity>

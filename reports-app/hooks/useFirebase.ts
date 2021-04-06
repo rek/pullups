@@ -199,6 +199,5 @@ export const useFirebase = () => {
       return idToken;
     }
   );
-
   return { isLoading, error, data };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 import { FirebaseClient } from "./useFirebase";
 
@@ -57,4 +57,12 @@ export const useProcessedLogsForUser = ({
   );
 
   return { isLoading, error, data };
+};
+
+export const useResetProcessedLogs = (user: string): (() => void) => {
+  const queryClient = useQueryClient();
+
+  return () => {
+    queryClient.invalidateQueries([QUERY_PROCESSED_LOGS_KEY, user]);
+  };
 };

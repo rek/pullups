@@ -24,25 +24,26 @@ const Labels = ({ x, y, bandwidth, data }: LabelsProps) => (
       >
         {value}
       </Text>
-    ))}{" "}
+    ))}
   </>
 );
 
 export const BarChart: React.FC<{ data: number[] }> = ({ data }) => {
+  // console.log("data", data);
   return (
     <View
       style={{
         flexDirection: "row",
         height: 200,
         paddingVertical: 16,
-        width: 500,
+        width: 400,
       }}
     >
       <BarChartComponent
         style={{ flex: 1 }}
         data={data}
         svg={{ fill: "rgba(134, 65, 244, 0.8)" }}
-        contentInset={{ top: 10, bottom: 10 }}
+        contentInset={{ top: 10, bottom: 10, left: 5, right: 5 }}
         gridMin={0}
       >
         <Grid direction={Grid.Direction.HORIZONTAL} />

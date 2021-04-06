@@ -16,4 +16,4 @@ export type UsersParamList = {
   UsersScreen: undefined;
 };
 
-export type IDToken = { idToken?: string };
+export type IDToken = { idToken: string };
