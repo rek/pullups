@@ -12,12 +12,21 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.SNOWPACK_PUBLIC_messagingSenderId,
   appId: import.meta.env.SNOWPACK_PUBLIC_appId,
   measurementId: import.meta.env.SNOWPACK_PUBLIC_measurementId,
+  // apiKey: import.meta.env.VITE_apiKey,
+  // authDomain: import.meta.env.VITE_authDomain,
+  // projectId: import.meta.env.VITE_projectId,
+  // storageBucket: import.meta.env.VITE_storageBucket,
+  // messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  // appId: import.meta.env.VITE_appId,
+  // measurementId: import.meta.env.VITE_measurementId,
 };
 
 const app = firebase.initializeApp(firebaseConfig);
 
 const email = import.meta.env.SNOWPACK_PUBLIC_user || "";
 const password = import.meta.env.SNOWPACK_PUBLIC_pass || "";
+// const email = import.meta.env.VITE_user || "";
+// const password = import.meta.env.VITE_pass || "";
 
 const firestore = app.firestore();
 
