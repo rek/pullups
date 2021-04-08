@@ -1,9 +1,7 @@
-// import slayer from "slayer";
+import slayer from "slayer";
 
 import type { Line, XY } from "../types";
 import { invertLine } from "./invertLine";
-
-const slayer = (_props: any) => ({fromArray: (out:any) => out})
 
 export const detectDips = async (line: Line): Promise<XY[]> => {
   const invertedLine = invertLine(line);

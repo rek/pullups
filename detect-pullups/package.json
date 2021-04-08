@@ -1,5 +1,6 @@
 {
   "version": "0.1.0",
+  "name": "detect-pullups",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -11,8 +12,10 @@
     "node": ">=10"
   },
   "scripts": {
+    "clean": "rm -rf dist",
     "start": "tsdx watch",
     "build": "tsdx build",
+    "rollup": "yarn clean && rollup -c",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
@@ -30,7 +33,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "detect-pullups",
   "description": "Detect pullups from timeseries data",
   "author": "Adam Tombleson",
   "module": "dist/detect-pullups.esm.js",
@@ -47,7 +49,11 @@
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "@types/lodash": "^4.14.168",
+    "esbuild": "^0.11.6",
     "husky": "^6.0.0",
+    "rollup": "^2.44.0",
+    "rollup-plugin-dts": "^3.0.1",
+    "rollup-plugin-esbuild": "^3.0.2",
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",

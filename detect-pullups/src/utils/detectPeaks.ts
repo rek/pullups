@@ -1,7 +1,5 @@
-// import slayer from "slayer";
+import slayer from "slayer";
 import type { Line, XY } from "../types";
-
-const slayer = (_props: any) => ({fromArray: (out:any) => out})
 
 export const detectPeaks = async (line: Line): Promise<XY[]> => {
   const peaks = await slayer({

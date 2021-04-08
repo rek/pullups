@@ -1,6 +1,7 @@
 import React from "react";
 import get from "lodash/get";
 import { useParams } from "react-router-dom";
+import { processLog } from "detect-pullups";
 
 import { markAsProcessedLogData, useData } from "../hooks/useData";
 import {
@@ -20,7 +21,6 @@ import {
   deleteLogData,
   getMarkersFromProcessedData,
 } from "../hooks";
-import { processLog } from "detect-pullups";
 import { UserLogChart } from "./UserLogChart";
 import { UserName } from "../common/components/UserName";
 import type { Marker } from "../graphs";
