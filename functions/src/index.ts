@@ -1,7 +1,10 @@
 import * as functions from "firebase-functions";
 
-const admin = require("firebase-admin");
+import admin from "firebase-admin";
+import { processLog } from "detect-pullups";
+
 admin.initializeApp();
+const db = admin.firestore();
 
 exports.addCreatedDateToLogs = functions.firestore
   .document("/users/{user}/logs/{logId}")
@@ -15,4 +18,45 @@ exports.addCreatedDateToLogs = functions.firestore
       { created: context.timestamp, processed: false },
       { merge: true }
     );
+  });
+
+exports.processLogs = functions.firestore
+  .document("/users/{user}/logs/{logId}")
+  .onCreate(async (snap, context) => {
+    console.log(`Checking: ${context.params.user}`);
+
+    // get user weight
+    let userWeight = 0;
+    await db
+      .collection(`/users`)
+      .doc(context.params.user)
+      .get()
+      .then(function (querySnapshot) {
+        // console.log("Found user snap:", querySnapshot._fieldsProto);
+        const result = querySnapshot.data();
+        // console.log("Found user data:", result);
+        if (result) {
+          userWeight = result.weight;
+        }
+      });
+
+    console.log("Weight found...", userWeight);
+
+    const logData = snap.data();
+    const result = await processLog(logData.logs, userWeight);
+    // console.log("[User Logs] Processing result:", result);
+
+    await snap.ref.set({ processed: true }, { merge: true });
+
+    return await db
+      .collection(`/users`)
+      .doc(context.params.user)
+      .collection(`/processedLogs`)
+      .add({
+        format: 1,
+        logId: context.params.logId,
+        processed: +new Date(),
+        weight: result.weight,
+        report: result.report,
+      });
   });
