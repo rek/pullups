@@ -17,20 +17,20 @@ import Box from "@material-ui/core/Box";
 import SettingsIcon from "@material-ui/icons/Settings";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import PeopleIcon from "@material-ui/icons/People";
 import MenuIcon from "@material-ui/icons/Menu";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import GraphIcon from "@material-ui/icons/ShowChart";
 
 import { useHistory } from "react-router-dom";
 
 import { useStyles } from "./theme";
-import { Profile } from "./profile";
 
+type renderTopBarRight = (props: {
+  handleClick: () => void;
+}) => React.ReactElement;
 export const NavBar: React.FC<{
   title: string;
-  leftPagesPrimary: string[];
-}> = ({ title, leftPagesPrimary, children }) => {
+  leftPages: { name: string; icon: React.ReactNode }[];
+  renderTopBarRight?: renderTopBarRight;
+}> = ({ title, leftPages, renderTopBarRight, children }) => {
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
@@ -73,16 +73,15 @@ export const NavBar: React.FC<{
           >
             <MenuIcon />
           </IconButton>
-
           {/* whatever is on the left side */}
           <Box display="flex" flexGrow={1}>
             <Typography variant="h6" noWrap>
               {title}
             </Typography>
           </Box>
-
           {/* whatever is on the right side */}
-          <Profile handleClick={handleSettingsOpen} />
+          {renderTopBarRight &&
+            renderTopBarRight({ handleClick: handleSettingsOpen })}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -105,27 +104,19 @@ export const NavBar: React.FC<{
         </div>
         <Divider />
         <List>
-          {leftPagesPrimary.map((text) => (
-            <ListItem button key={text} onClick={handleClick(text)}>
-              {text === "Users" && (
+          {leftPages.map(({ name, icon }) => {
+            const DefaultIcon = () => <div>?</div>;
+            const Icon = icon || DefaultIcon;
+            return (
+              <ListItem button key={name} onClick={handleClick(name)}>
                 <ListItemIcon>
-                  <PeopleIcon />
+                  {/* @ts-expect-error bad icon type */}
+                  <Icon />
                 </ListItemIcon>
-              )}
-              {text === "Sessions" && (
-                <ListItemIcon>
-                  <MenuBookIcon />
-                </ListItemIcon>
-              )}
-              {text === "Home" && (
-                <ListItemIcon>
-                  <GraphIcon />
-                </ListItemIcon>
-              )}
-
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+                <ListItemText primary={name} />
+              </ListItem>
+            );
+          })}
         </List>
         <Divider />
         <List>
