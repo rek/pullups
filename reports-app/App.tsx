@@ -12,7 +12,9 @@ import { useFirebase } from "./hooks/useFirebase";
 
 const queryClient = new QueryClient();
 
-LogBox.ignoreLogs(["Setting a timer"]);
+if (LogBox) {
+  LogBox.ignoreLogs(["Setting a timer"]);
+}
 
 export default function App() {
   const isCacheLoaded = useCachedResources();

@@ -48,6 +48,21 @@ exports.processLogs = functions.firestore
 
     await snap.ref.set({ processed: true }, { merge: true });
 
+    // update users weight if weight found
+    if (result.weight) {
+      await db
+        .collection(`/users`)
+        .doc(context.params.user)
+        .set(
+          {
+            weight: result.weight,
+            weightLastUpdated: +new Date(),
+          },
+          { merge: true }
+        );
+    }
+
+    // add processed log
     return await db
       .collection(`/users`)
       .doc(context.params.user)

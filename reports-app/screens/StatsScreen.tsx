@@ -2,9 +2,12 @@ import * as React from "react";
 import capitalize from "lodash/capitalize";
 import compact from "lodash/compact";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
+import sortBy from "lodash/sortBy";
 
-import { BarChart } from "../components/BarChart";
-import { LineChart } from "../components/LineChart";
+// import { BarChart } from "../components/BarChart";
+// import { LineChart } from "../components/LineChart";
+// import { LineChartResponsive } from "../components/LineChartResponsive";
+import { LineChart } from "../components/LineChartChartKit";
 import { Text, View } from "../components/Themed";
 import { useFirebase } from "../hooks/useFirebase";
 import {
@@ -35,10 +38,25 @@ const UserGraph = ({
   }, []);
 
   // console.log("logs", logs);
-  const chartData = compact(logs?.map((log) => log.weight));
-  // console.log("chartData", chartData);
+  const chartData = compact(
+    logs?.map((log) => {
+      if (!log.created && !log.processed) {
+        return false;
+      }
 
-  const Chart = mode === "bar" ? BarChart : LineChart;
+      if (!log.weight) {
+        return false;
+      }
+
+      return { y: log.weight, x: log.created || log.processed };
+    })
+  );
+
+  const sortedData = sortBy(chartData, ["x"]);
+  // console.log("chartData", sortedData);
+
+  const Chart = LineChart;
+  // const Chart = mode === "bar" ? BarChart : LineChart;
 
   return (
     <ScrollView
@@ -54,22 +72,22 @@ const UserGraph = ({
         darkColor="rgba(255,255,255,0.1)"
       />
 
-      {chartData ? <Chart data={chartData} /> : <Loading />}
+      {chartData ? <Chart data={sortedData} /> : <Loading />}
     </ScrollView>
   );
 };
 
 export default function StatsScreen() {
-  const { data } = useFirebase();
+  const { data: idToken } = useFirebase();
 
-  if (!data) {
+  if (!idToken) {
     return null;
   }
 
   return (
     <View style={styles.container}>
-      <UserGraph idToken={data} user="adam" mode="line" />
-      <UserGraph idToken={data} user="anette" mode="line" />
+      <UserGraph idToken={idToken} user="adam" mode="line" />
+      <UserGraph idToken={idToken} user="anette" mode="line" />
     </View>
   );
 }
@@ -85,7 +103,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   separator: {
-    marginVertical: 30,
+    marginVertical: 20,
     height: 1,
     width: "80%",
   },

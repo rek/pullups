@@ -7,7 +7,7 @@ const QUERY_PROCESSED_LOGS_KEY = "processed_logs";
 
 export interface ProcessedLogs {
   processed: number;
-  ceated: number;
+  created: number;
   weight: number;
 }
 
@@ -52,6 +52,7 @@ export const useProcessedLogsForUser = ({
         }
       );
 
+      // console.log("Returning logs:", { user, logs: processedLogs });
       return processedLogs;
     }
   );

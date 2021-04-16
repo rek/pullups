@@ -94,6 +94,7 @@ export const UserLogChart: React.FC<Props> = ({
   }
 
   // console.log("Data for line:", formattedData);
+  console.log("Processed log for line:", processedLogData);
 
   return (
     <>
