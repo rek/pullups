@@ -17,7 +17,27 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Users"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].tabIconSelected,
+        inactiveTintColor: Colors[colorScheme].tabIconDefault,
+        // inactiveBackgroundColor: "#444",
+
+        // both light:
+        // activeBackgroundColor: "#fff",
+        // inactiveBackgroundColor: "#fff",
+
+        // both dark:
+        // activeBackgroundColor: Colors[colorScheme].background,
+        // inactiveBackgroundColor: Colors[colorScheme].background,
+
+        style: {
+          borderTopWidth: 0,
+          height: 56,
+          paddingBottom: 5,
+        },
+        // active:
+        // border: 1px solid rgb(119, 119, 119);
+      }}
     >
       <BottomTab.Screen
         name="Stats"
@@ -45,7 +65,7 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof Ionicons>["name"];
   color: string;
 }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={30} style={{ marginBottom: -4 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:

@@ -1,9 +1,11 @@
 import * as React from "react";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 
+import Colors from "../constants/Colors";
+import useColorScheme from "../hooks/useColorScheme";
 import { IDToken } from "../types";
 import { Loading } from "../components/Loading";
-import EditScreenInfo from "../components/EditScreenInfo";
+import UsersScreenInfo from "../components/UsersScreenInfo";
 import { Text, View } from "../components/Themed";
 import { useResetUsers, useUsers } from "../hooks/useUsers";
 import {
@@ -30,6 +32,7 @@ function UsersScreen({ idToken }: IDToken) {
   const updateSettings = mutateSettings({ idToken });
   const resetSettings = useResetSettings();
   const resetUsers = useResetUsers();
+  const colorScheme = useColorScheme();
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -42,20 +45,19 @@ function UsersScreen({ idToken }: IDToken) {
     updateSettings.mutate(user);
   };
 
+  const scrollStyles = {
+    ...styles.container,
+    backgroundColor: Colors[colorScheme].background,
+  };
+
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
+      style={scrollStyles}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Text style={styles.title}>Users</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-      <EditScreenInfo
+      <UsersScreenInfo
         users={users || []}
         active={
           users?.find((user) => user.name === settingsData?.active)?.name || ""
@@ -68,18 +70,7 @@ function UsersScreen({ idToken }: IDToken) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
 });

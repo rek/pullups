@@ -97,13 +97,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingTop: 7,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 14,
+    // fontWeight: "bold",
   },
   separator: {
-    marginVertical: 20,
+    marginBottom: 20,
+    marginTop: 10,
     height: 1,
     width: "80%",
   },
