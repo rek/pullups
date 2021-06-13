@@ -8,6 +8,7 @@
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
     "test": "mocha --reporter spec ./src/__tests__/index.test.js",
+    "predeploy": "yarn build",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },

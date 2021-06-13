@@ -6,6 +6,17 @@ import { processLog } from "detect-pullups";
 admin.initializeApp();
 const db = admin.firestore();
 
+exports.setCurrent = functions.https.onRequest(async (request, response) => {
+  // functions.logger.info("Set current body:", request.body);
+
+  if (request.body && request.body.user) {
+    const user = request.body.user;
+    await db.collection(`/settings`).doc("state").set({ active: user });
+  }
+
+  return response.status(200).end();
+});
+
 exports.addCreatedDateToLogs = functions.firestore
   .document("/users/{user}/logs/{logId}")
   .onCreate((snap, context) => {
