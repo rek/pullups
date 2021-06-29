@@ -7,6 +7,7 @@
     "lint": "eslint && prettier src/**/*.{tsx,ts}",
     "test": "jest"
   },
+    "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.13.8",

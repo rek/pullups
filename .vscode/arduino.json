@@ -1,5 +1,5 @@
 {
-    "sketch": "controller/controller.ino",
+    "sketch": "../loftzzZClimateControl/controller/controller.ino",
     "debugger": "jlink",
     "output": "/tmp/arduino/pullups",
     "board": "esp8266:esp8266:arduino-esp8266",

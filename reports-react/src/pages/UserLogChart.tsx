@@ -104,24 +104,38 @@ export const UserLogChart: React.FC<Props> = ({
         maxDomain={maxDomain}
         markers={markersToShow}
       />
-      {processedLogData && <LogStats logs={processedLogData} />}
+      {processedLogData && (
+        <LogStats logs={processedLogData} first={markersToShow[0]} />
+      )}
       {<RawStats log={data} />}
     </>
   );
 };
 
 // console.log("logs", RawStats);
-const LogStats: React.FC<{ logs: ProcessedLog[] }> = ({ logs }) => {
-  // console.log("logs", logs);
+const LogStats: React.FC<{ logs: ProcessedLog[]; first: Marker }> = ({
+  logs,
+  first,
+}) => {
+  console.log("first", first);
+  console.log("logs", logs);
   return (
     <div>
       <Title>Stats:</Title>
       <div>{logs.length === 0 && "This log has not been processed."}</div>
       {logs.map((log) => {
+        const weight = log.weight || 0;
+        const peak = first ? first.y || 0 : 0;
+        const power = peak / weight;
         return (
-          <Text key={log.logId}>
-            Processed average weight found: {log.weight.toFixed(2)}{" "}
-          </Text>
+          <>
+            <Text key={log.logId}>
+              Processed average weight found: {log.weight.toFixed(2)}
+            </Text>
+            <Text key={`${log.logId}_power`}>
+              Power: {Number(power).toFixed(2)}{" "}
+            </Text>
+          </>
         );
       })}
     </div>

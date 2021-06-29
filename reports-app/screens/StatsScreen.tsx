@@ -25,17 +25,10 @@ const UserGraph = ({
   user: string;
   mode: "line" | "bar";
 }) => {
-  const [refreshing, setRefreshing] = React.useState(false);
   const { data: logs } = useProcessedLogsForUser({
     idToken,
     user,
   });
-  const resetProcessedLogs = useResetProcessedLogs(user);
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    resetProcessedLogs();
-    setRefreshing(false);
-  }, []);
 
   // console.log("logs", logs);
   const chartData = compact(
@@ -59,12 +52,7 @@ const UserGraph = ({
   // const Chart = mode === "bar" ? BarChart : LineChart;
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
+    <>
       <Text style={styles.title}>{capitalize(user)}</Text>
       <View
         style={styles.separator}
@@ -73,22 +61,40 @@ const UserGraph = ({
       />
 
       {chartData ? <Chart data={sortedData} /> : <Loading />}
-    </ScrollView>
+    </>
   );
 };
 
 export default function StatsScreen() {
   const { data: idToken } = useFirebase();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const resetProcessedLogs1 = useResetProcessedLogs("adam");
+  const resetProcessedLogs2 = useResetProcessedLogs("anette");
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    resetProcessedLogs1();
+    resetProcessedLogs2();
+    setRefreshing(false);
+  }, []);
 
   if (!idToken) {
     return null;
   }
 
   return (
-    <View style={styles.container}>
-      <UserGraph idToken={idToken} user="adam" mode="line" />
-      <UserGraph idToken={idToken} user="anette" mode="line" />
-    </View>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+      <View style={styles.container}>
+        <UserGraph idToken={idToken} user="adam" mode="line" />
+        <UserGraph idToken={idToken} user="anette" mode="line" />
+      </View>
+    </ScrollView>
   );
 }
 

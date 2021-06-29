@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "name": "detect-pullups",
   "license": "MIT",
   "main": "dist/index.js",
@@ -33,7 +33,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "description": "Detect pullups from timeseries data",
+  "description": "Detect peak and dips etc from timeseries data",
   "author": "Adam Tombleson",
   "module": "dist/detect-pullups.esm.js",
   "size-limit": [
