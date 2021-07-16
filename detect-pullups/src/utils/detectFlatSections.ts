@@ -12,7 +12,8 @@ type FlatSectionResults = FlatSectionResult[];
 
 export const detectFlatSections = (
   data: Line,
-  windowSize = 3
+  windowSize = 3,
+  allowedDeviation?: number
 ): FlatSectionResults => {
   const result: FlatSectionResults = [];
   let currentSection: Line = [];
@@ -38,7 +39,7 @@ export const detectFlatSections = (
     // and if all is still good,
     // do a check of the line range,
     // to make sure they are not drifting too far apart
-    if (isLineLevel(slidingWindow) && isLineInRange(slidingWindow)) {
+    if (isLineLevel(slidingWindow, allowedDeviation) && isLineInRange(slidingWindow)) {
       // console.log('ok, adding item:', item)
 
       if (recordingRange) {

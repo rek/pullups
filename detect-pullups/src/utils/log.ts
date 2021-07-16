@@ -1,4 +1,4 @@
-const logLevel = 2;
+const logLevel = process.env.LOG || 2;
 
 export const logInfo = (...rest: any) => {
   console.log(...rest);

@@ -7,13 +7,17 @@ interface Options {
   bodyWeight: number;
   deviation?: number;
   minLength?: number;
+  flatLineAllowedDeviation?: number;
 }
+/*
+*
+*/
 export const flatThenSpike = (
   line: Line,
-  { bodyWeight, deviation = 0.9, minLength = 3 }: Options
+  { bodyWeight, deviation = 0.9, minLength = 3, flatLineAllowedDeviation }: Options
 ) => {
   const segments: Line[] = [];
-  const flats = detectFlatSections(line, 5);
+  const flats = detectFlatSections(line, 5, flatLineAllowedDeviation);
   logDebug("Detected flats:", flats, { minLength });
 
   flats

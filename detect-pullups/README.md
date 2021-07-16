@@ -15,6 +15,12 @@ This lib is for you!
 yarn add detect-pullups
 ```
 
+## Usage
+
+```
+import { processLog } from "detect-pullups";
+```
+
 ## Commands
 
 ```

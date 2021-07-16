@@ -5,10 +5,29 @@ import last from "lodash/last";
 import type { Line } from "../types";
 import { getAverageOfLast } from "./getAverageOfLast";
 
+/*
+* This function detects the left side of a peak
+*
+* The end point (start of per) of it is fancy though:
+*
+* It detects down to a flat line
+*
+* Eg:
+*           -2-
+*          /  \
+*    /\--1/    \
+* ---           -----
+*
+* It will dectect the line (1-2)
+*
+*/
 export const detectDescendingBeforePoint = (
   data: Line,
-  position: number,
-  { deviation = 0, returnValue = false } = {}
+  position: number, // the middle of the peak (eg: point 2 from above picture)
+  {
+    deviation = 0, // fluctuation before 1 is detected
+    returnValue = false
+  } = {}
 ) => {
   const fromPoint = take(data, position);
 
