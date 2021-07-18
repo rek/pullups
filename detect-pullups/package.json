@@ -1,12 +1,11 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.5",
   "name": "detect-pullups",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "engines": {
     "node": ">=10"
@@ -59,9 +58,11 @@
     "tslib": "^2.2.0",
     "typescript": "^4.2.3"
   },
+  "dependencies": {
+    "slayer": "https://github.com/rek/slayer.git#master"
+  },
   "peerDependencies": {
     "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
-    "slayer": "https://github.com/rek/slayer.git"
+    "lodash-es": "^4.17.21"
   }
 }
