@@ -22,7 +22,7 @@ import {
   Users,
   // Sessions,
   UserTotals,
-  UserLogs,
+  ListLogs,
   UserReportsManage,
 } from "../pages";
 
@@ -47,9 +47,13 @@ export const App = () => {
   // ];
 
   React.useEffect(() => {
-    firebaseDoingAuth.then(() => {
-      setLoading(false);
-    });
+    firebaseDoingAuth
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log("Firebase error:", error);
+      });
   }, []);
 
   if (loading) {
@@ -78,7 +82,7 @@ export const App = () => {
                   <UserTotals />
                 </Route>
                 <Route path="/user/:id/logs">
-                  <UserLogs />
+                  <ListLogs />
                 </Route>
                 <Route path="/user/:id/reports">
                   <UserReportsManage />

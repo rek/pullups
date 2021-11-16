@@ -27,7 +27,7 @@ module.exports = {
     "rules": {
         "indent": [
             "error",
-            4
+            2
         ],
         "linebreak-style": [
             "error",
@@ -40,6 +40,13 @@ module.exports = {
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "sort-imports": ["error", {
+            "ignoreCase": false,
+            "ignoreDeclarationSort": false,
+            "ignoreMemberSort": false,
+            "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+            "allowSeparatedGroups": false
+        }]
     }
 };

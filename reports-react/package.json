@@ -1,13 +1,13 @@
 {
   "scripts": {
     "start": "vite",
-    "starts": "snowpack dev --polyfill-node",
+    "start:old": "snowpack dev --polyfill-node",
     "generate": "tsc -b scripts && node scripts/fake_data.js",
     "build": "snowpack build",
     "lint": "eslint && prettier src/**/*.{tsx,ts}",
     "test": "jest"
   },
-    "license": "MIT",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@babel/preset-env": "^7.13.8",
@@ -47,6 +47,7 @@
     "@rebass/preset": "^4.0.5",
     "buffer": "^6.0.3",
     "dayjs": "^1.10.4",
+    "detect-pullups": "^0.1.5",
     "emotion-theming": "^11.0.0",
     "firebase": "^8.2.3",
     "lodash": "^4.17.21",

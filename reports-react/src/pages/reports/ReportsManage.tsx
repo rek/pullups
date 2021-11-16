@@ -1,5 +1,5 @@
 import React from "react";
-import { Table, Title } from "../../common";
+import { Table, Title, TableActions, DeleteIcon, EditIcon } from "../../common";
 import { useReports } from "../../hooks";
 import { ProvideUser } from "../common/ProvideUser";
 
@@ -22,10 +22,27 @@ export const ReportsManage: React.FC<any> = ({ user }) => {
     { data: report.fields.join(",") },
   ]);
 
+  const actions: TableActions = [
+    {
+      name: "Delete",
+      action: async (rowId) => {
+        console.log("NOT IMPLEMENTED", rowId);
+      },
+      renderIcon: () => <DeleteIcon />,
+    },
+    {
+      name: "Edit",
+      action: async (rowId) => {
+        console.log("NOT IMPLEMENTED", rowId);
+      },
+      renderIcon: () => <EditIcon />,
+    },
+  ];
+
   return (
     <>
       <Title>Reports for: {user}</Title>
-      <Table columns={columns} data={data} />
+      <Table columns={columns} data={data} actions={actions} />
     </>
   );
 };

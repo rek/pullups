@@ -12,8 +12,8 @@ export const Duration: React.FC<{ value?: number; total: number }> = ({
 
   return (
     <>
-      <div>Duration: {value / 1000} s</div>
-      <div>Calculated interval: {calculatedDuration.toFixed(2)}</div>
+      <div>Duration: {value / 1000}s</div>
+      <div>Calculated interval: {calculatedDuration.toFixed(2)}ms</div>
     </>
   );
 };

@@ -3,5 +3,5 @@ export * from "./Settings";
 export * from "./UserLogChart";
 export * from "./Users";
 export * from "./UserTotals";
-export * from "./UserLogs";
+export * from "./logs";
 export * from "./reports";

@@ -1,9 +1,8 @@
 import React from "react";
 import get from "lodash/get";
-import { useParams } from "react-router-dom";
 import { processLog } from "detect-pullups";
 
-import { markAsProcessedLogData, useData } from "../hooks/useData";
+import { markAsProcessedLogData, useData } from "../../hooks/useData";
 import {
   Loading,
   Table,
@@ -13,20 +12,19 @@ import {
   DeleteIcon,
   ViewIcon,
   AddIcon,
-} from "../common";
-import { mutateUserWeight, useUser } from "../hooks/useUser";
-import type { User } from "../types";
+} from "../../common";
+import { mutateUserWeight } from "../../hooks/useUser";
+import type { User } from "../../types";
 import {
   mutateProcessedLogs,
   deleteLogData,
   getMarkersFromProcessedData,
-} from "../hooks";
-import { UserLogChart } from "./UserLogChart";
-import { UserName } from "../common/components/UserName";
-import type { Marker } from "../graphs";
-import { logDebug } from "../utils";
+} from "../../hooks";
+import { UserLogChart } from "../UserLogChart";
+import type { Marker } from "../../graphs";
+import { logDebug } from "../../utils";
 
-const UserLogList: React.FC<{ user: User }> = ({ user }) => {
+export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
   const allDataForUser = useData({ user: user.name });
   const updateUserWeight = mutateUserWeight(user.name);
   const markAsProcessed = markAsProcessedLogData(user.name);
@@ -49,7 +47,7 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
 
   const columns = [
     // { name: "Id", align: "left" },
-    { name: "Date", align: "center" },
+    { name: "Date", align: "left" },
     // { name: "Type", align: "right" },
     { name: "Processed", align: "right" },
   ];
@@ -175,24 +173,3 @@ const UserLogList: React.FC<{ user: User }> = ({ user }) => {
   );
   // return <List rows={rows} actions={actions} extra={extra} />;
 };
-
-export function UserLogs() {
-  const { id } = useParams<{ id: string }>();
-
-  const { data: userData, isLoading } = useUser(id);
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (!userData) {
-    return <div>This users data is missing: {id}</div>;
-  }
-
-  return (
-    <>
-      <UserName name={userData.name} />
-      <UserLogList user={userData} />
-    </>
-  );
-}

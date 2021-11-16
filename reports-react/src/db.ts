@@ -38,6 +38,7 @@ const firebaseDoingAuth = firebase
     var errorMessage = error.message;
     console.log("errorCode", errorCode);
     console.log("errorMessage", errorMessage);
+    throw error;
   });
 
 firebase.analytics();

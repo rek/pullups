@@ -4281,6 +4281,13 @@ detect-newline@^3.0.0:
   resolved "https://registry.yarnpkg.com/detect-newline/-/detect-newline-3.1.0.tgz#576f5dfc63ae1a192ff192d8ad3af6308991b651"
   integrity sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA==
 
+detect-pullups@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/detect-pullups/-/detect-pullups-0.1.5.tgz#bb4e4b372b911eaeef248fe758c4488730dfc196"
+  integrity sha512-Tn2grb/jZgzG9YJKIl8clvWKgQpdXC7A0kPLyArzVL3N63pLdEuCPJ5zonopYOndlqgomFtNle7H4jCiY0UR8Q==
+  dependencies:
+    slayer "https://github.com/rek/slayer.git#master"
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
@@ -8208,6 +8215,10 @@ slayer@^1.0.1:
     es6-promise "^4.0.3"
     through2 "^2.0.1"
     xtend "^4.0.1"
+
+"slayer@https://github.com/rek/slayer.git#master":
+  version "1.1.1"
+  resolved "https://github.com/rek/slayer.git#04c6387577f7790f9b1e8066c6dd92056e078e1a"
 
 slice-ansi@^4.0.0:
   version "4.0.0"

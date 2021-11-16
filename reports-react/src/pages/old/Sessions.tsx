@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 
 import { useData } from "../../hooks/useData";
 import { Loading } from "../../common";
-import { List } from "../logs";
+import { ListLogs } from "../logs";
 
 // DEPRECATED, changed to user/logs now
 export function Sessions() {
@@ -41,6 +41,6 @@ export function Sessions() {
 
   console.log("rows", rows);
 
-  return <List />;
+  return <ListLogs />;
   // return <List rows={rows} />;
 }

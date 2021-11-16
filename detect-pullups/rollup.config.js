@@ -13,7 +13,7 @@ export default [{
     file: 'dist/index.js',
     format: 'cjs'
   },
-  external: ['lodash/mean', 'slayer'],
+  external: ['lodash/mean'],
   plugins: [
     esbuild({
       // All options are optional
