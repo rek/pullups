@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { IDToken } from "../types";
+import { IDToken } from "../navigation/types";
 
 import { FirebaseClient } from "./useFirebase";
 

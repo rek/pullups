@@ -4,17 +4,13 @@ import compact from "lodash/compact";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import sortBy from "lodash/sortBy";
 
-// import { BarChart } from "../components/BarChart";
-// import { LineChart } from "../components/LineChart";
-// import { LineChartResponsive } from "../components/LineChartResponsive";
-import { LineChart } from "../components/LineChartChartKit";
-import { Text, View } from "../components/Themed";
-import { useFirebase } from "../hooks/useFirebase";
+import { View } from "../../components/Themed";
+import { PreparedChart } from "../../components/PreparedChart";
+import { useFirebase } from "../../hooks/useFirebase";
 import {
   useProcessedLogsForUser,
   useResetProcessedLogs,
-} from "../hooks/useProcessedLogsForUser";
-import { Loading } from "../components/Loading";
+} from "../../hooks/useProcessedLogsForUser";
 
 const UserGraph = ({
   idToken,
@@ -30,6 +26,9 @@ const UserGraph = ({
     user,
   });
 
+  // this represents bad data
+  const WEIGHT_LIMIT = 40;
+
   // console.log("logs", logs);
   const chartData = compact(
     logs?.map((log) => {
@@ -41,6 +40,10 @@ const UserGraph = ({
         return false;
       }
 
+      if (log.weight < WEIGHT_LIMIT) {
+        return false;
+      }
+
       return { y: log.weight, x: log.created || log.processed };
     })
   );
@@ -48,21 +51,7 @@ const UserGraph = ({
   const sortedData = sortBy(chartData, ["x"]);
   // console.log("chartData", sortedData);
 
-  const Chart = LineChart;
-  // const Chart = mode === "bar" ? BarChart : LineChart;
-
-  return (
-    <>
-      <Text style={styles.title}>{capitalize(user)}</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
-
-      {chartData ? <Chart data={sortedData} /> : <Loading />}
-    </>
-  );
+  return <PreparedChart data={sortedData} title={capitalize(user)} />;
 };
 
 export default function StatsScreen() {

@@ -5,9 +5,10 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import StatsScreen from "../screens/StatsScreen";
-import UsersScreen from "../screens/UsersScreen";
-import { BottomTabParamList, StatsParamList, UsersParamList } from "../types";
+import StatsScreen from "../screens/stats/StatsScreen";
+import { BottomTabParamList, StatsParamList } from "./types";
+import { StatsIcon } from "./stats";
+import { UsersIcon, UsersNavigator } from "./users";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,29 +44,18 @@ export default function BottomTabNavigator() {
         name="Stats"
         component={TabOneNavigator}
         options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="bar-chart" color={color} />
-          ),
+          tabBarIcon: UsersIcon,
         }}
       />
       <BottomTab.Screen
         name="Users"
-        component={TabTwoNavigator}
+        component={UsersNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="people" color={color} />,
+          tabBarIcon: StatsIcon,
         }}
       />
     </BottomTab.Navigator>
   );
-}
-
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>["name"];
-  color: string;
-}) {
-  return <Ionicons size={30} style={{ marginBottom: -4 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
@@ -81,19 +71,5 @@ function TabOneNavigator() {
         options={{ headerTitle: "Stats" }}
       />
     </TabOneStack.Navigator>
-  );
-}
-
-const TabTwoStack = createStackNavigator<UsersParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="UsersScreen"
-        component={UsersScreen}
-        options={{ headerTitle: "Users" }}
-      />
-    </TabTwoStack.Navigator>
   );
 }

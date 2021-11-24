@@ -1,12 +1,14 @@
-import * as WebBrowser from "expo-web-browser";
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 
-import Colors from "../constants/Colors";
 import { User } from "../hooks/useUsers";
-import { Text, View } from "./Themed";
+import { Button } from "./Button";
+import { View } from "./Themed";
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+  },
   wrapper: {
     alignItems: "center",
     marginHorizontal: 50,
@@ -15,45 +17,54 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     height: "100%",
   },
-  userContainer: {
+  statsButtonContainer: {
     marginTop: 15,
-    marginHorizontal: 20,
-    alignItems: "center",
+    marginLeft: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
     paddingVertical: 15,
-    backgroundColor: "#ccc",
-    width: 300,
   },
-  userText: {
-    textAlign: "left",
+  userButtonContainer: {
+    width: 200,
+    marginTop: 15,
+    // marginHorizontal: 20,
+    paddingVertical: 15,
   },
 });
 
+interface Props {
+  users: User[];
+  active: string;
+  handleSelect: (user: string) => void;
+  handleShowStats: (user: string) => void;
+}
 export default function UsersScreenInfo({
   users,
   active,
-  handleChange,
-}: {
-  users: User[];
-  active: string;
-  handleChange: (user: string) => () => void;
-}) {
+  handleSelect,
+  handleShowStats,
+}: Props) {
   return (
     <View style={styles.wrapper}>
       {users.map((user) => {
         const displayName = `${user.displayName} (${user.weight}kg)`;
+
         return (
-          <TouchableOpacity key={user.name} onPress={handleChange(user.name)}>
-            <View style={styles.userContainer}>
-              <Text
-                style={styles.userText}
-                lightColor={
-                  active === user.name ? Colors.light.tint : Colors.dark.tint
-                }
-              >
-                {displayName}
-              </Text>
-            </View>
-          </TouchableOpacity>
+          <View key={user.name} style={styles.row}>
+            <Button
+              active={active === user.name}
+              handlePress={() => handleSelect(user.name)}
+              containerStyles={styles.userButtonContainer}
+            >
+              {displayName}
+            </Button>
+            <Button
+              containerStyles={styles.statsButtonContainer}
+              handlePress={() => handleShowStats(user.name)}
+            >
+              Stats
+            </Button>
+          </View>
         );
       })}
     </View>

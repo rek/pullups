@@ -1,8 +1,9 @@
 import React from "react";
-import daysjs from "dayjs";
-import { View, Dimensions } from "react-native";
+import { Dimensions } from "react-native";
 import { LineChart as LineChartRaw } from "react-native-chart-kit";
 import { ChartData } from "../hooks/types";
+import { getShortDate } from "../utils/date";
+import { View } from "./Themed";
 
 export const LineChart: React.FC<{ data: ChartData }> = ({ data }) => {
   // console.log("data", data);
@@ -27,10 +28,11 @@ export const LineChart: React.FC<{ data: ChartData }> = ({ data }) => {
 
       return [...result, item];
     }, initialData)
-    .map((item) => daysjs(item.x).format("DD/MM"));
+    .map((item) => getShortDate(item.x));
 
   return (
     <View
+      // make a dynamic sized view:
       style={{
         flexDirection: "row",
         height: height,

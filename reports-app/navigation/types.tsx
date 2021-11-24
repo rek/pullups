@@ -14,6 +14,7 @@ export type StatsParamList = {
 
 export type UsersParamList = {
   UsersScreen: undefined;
+  ShowStatsScreen: undefined;
 };
 
 export type IDToken = { idToken: string };
