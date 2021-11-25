@@ -9,11 +9,13 @@ export default {
           Stats: {
             screens: {
               StatsScreen: "Stats",
+              ShowStatsScreen: "ShowStatsScreen",
             },
           },
           Users: {
             screens: {
               UsersScreen: "Users",
+              ShowUserStatsScreen: "ShowUserStatsScreen",
             },
           },
         },

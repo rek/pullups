@@ -1,10 +1,12 @@
 import * as React from "react";
+import { StackScreenProps } from "@react-navigation/stack";
 
 // import Colors from "../constants/Colors";
 // import useColorScheme from "../hooks/useColorScheme";
-import { IDToken } from "../../navigation/types";
+import { UsersParamList } from "../../navigation/types";
+import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
-import UsersScreenInfo from "../../components/UsersScreenInfo";
+import UsersScreenInfo from "./UsersScreenInfo";
 import { useResetUsers, useUsers } from "../../hooks/useUsers";
 import {
   useSettings,
@@ -12,9 +14,11 @@ import {
   useResetSettings,
 } from "../../hooks/useSettings";
 import { ProvideIDToken } from "../../components/ProvideIDToken";
+import { Loading } from "../../components";
 
-function UsersScreen({ idToken }: IDToken) {
-  const { data: users } = useUsers({ idToken });
+type Props = StackScreenProps<UsersParamList, "UsersScreen">;
+const UsersScreen: React.FC<Props & IDToken> = ({ idToken, navigation }) => {
+  const { data: users, isLoading } = useUsers({ idToken });
   const { data: settingsData } = useSettings({ idToken });
   const updateSettings = mutateSettings({ idToken });
   const resetSettings = useResetSettings();
@@ -30,13 +34,17 @@ function UsersScreen({ idToken }: IDToken) {
     updateSettings.mutate(user);
   };
   const handleShowStats = (user: string) => {
-    console.log("handleShowStats user", user);
+    navigation.navigate("ShowUserStatsScreen", { user });
   };
 
   // const scrollStyles = {
   //   ...styles.container,
   //   backgroundColor: Colors[colorScheme].background,
   // };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const activeUser =
     users?.find((user) => user.name === settingsData?.active)?.name || "";
@@ -51,15 +59,12 @@ function UsersScreen({ idToken }: IDToken) {
       />
     </RefreshView>
   );
-}
-
-const WithProvicer: React.FC = () => {
-  return (
-    <ProvideIDToken>
-      <UsersScreen />
-      {/* {() => UsersScreen} */}
-    </ProvideIDToken>
-  );
 };
+
+const WithProvicer: React.FC<Props> = (props) => (
+  <ProvideIDToken>
+    <UsersScreen {...props} />
+  </ProvideIDToken>
+);
 
 export default WithProvicer;

@@ -1,36 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 
-import { User } from "../hooks/useUsers";
-import { Button } from "./Button";
-import { View } from "./Themed";
-
-const styles = StyleSheet.create({
-  row: {
-    flexDirection: "row",
-  },
-  wrapper: {
-    alignItems: "center",
-    marginHorizontal: 50,
-    display: "flex",
-    flexDirection: "column",
-    paddingVertical: 15,
-    height: "100%",
-  },
-  statsButtonContainer: {
-    marginTop: 15,
-    marginLeft: 5,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingVertical: 15,
-  },
-  userButtonContainer: {
-    width: 200,
-    marginTop: 15,
-    // marginHorizontal: 20,
-    paddingVertical: 15,
-  },
-});
+import { User } from "../../hooks/useUsers";
+import { View, Button } from "../../components";
 
 interface Props {
   users: User[];
@@ -70,3 +42,30 @@ export default function UsersScreenInfo({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+  },
+  wrapper: {
+    alignItems: "center",
+    marginHorizontal: 50,
+    display: "flex",
+    flexDirection: "column",
+    paddingVertical: 15,
+    height: "100%",
+  },
+  statsButtonContainer: {
+    marginTop: 15,
+    marginLeft: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingVertical: 15,
+  },
+  userButtonContainer: {
+    width: 200,
+    marginTop: 15,
+    // marginHorizontal: 20,
+    paddingVertical: 15,
+  },
+});

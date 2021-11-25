@@ -1,27 +1,35 @@
 import * as React from "react";
 import capitalize from "lodash/capitalize";
-import compact from "lodash/compact";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
-import sortBy from "lodash/sortBy";
 
-import { View } from "../../components/Themed";
-import { PreparedChart } from "../../components/PreparedChart";
-import { useFirebase } from "../../hooks/useFirebase";
+import {
+  ProvideIDToken,
+  IDToken,
+  PreparedChart,
+  Loading,
+  View,
+} from "../../components";
 import {
   useProcessedLogsForUser,
   useResetProcessedLogs,
-} from "../../hooks/useProcessedLogsForUser";
+} from "../../hooks/queries/useProcessedLogsForUser";
+import { StackScreenProps } from "@react-navigation/stack";
+import { StatsParamList } from "../../navigation/types";
+import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
 
-export default function SingleChartScreen() {
-  const { data: idToken } = useFirebase();
+type Props = StackScreenProps<StatsParamList, "ShowStatsScreen">;
+const SingleChartScreen: React.FC<Props & IDToken> = ({
+  idToken,
+  route,
+  navigation,
+}) => {
   const [refreshing, setRefreshing] = React.useState(false);
-
-  const user = "adam";
+  const { user: currentUser } = route.params;
 
   const resetProcessedLogs = useResetProcessedLogs("adam");
-  const { data: logs } = useProcessedLogsForUser({
+  const { data: logs, isLoading } = useProcessedLogsForUser({
     idToken,
-    user,
+    user: currentUser,
   });
 
   const onRefresh = React.useCallback(() => {
@@ -30,33 +38,14 @@ export default function SingleChartScreen() {
     setRefreshing(false);
   }, []);
 
-  if (!idToken) {
-    return null;
+  // console.log("logs", logs);
+  const chartData = usePreparedLogsForCharts({ logs });
+
+  if (isLoading) {
+    return <Loading />;
   }
 
-  // this represents bad data
-  const WEIGHT_LIMIT = 40;
-
-  // console.log("logs", logs);
-  const chartData = compact(
-    logs?.map((log) => {
-      if (!log.created && !log.processed) {
-        return false;
-      }
-
-      if (!log.weight) {
-        return false;
-      }
-
-      if (log.weight < WEIGHT_LIMIT) {
-        return false;
-      }
-
-      return { y: log.weight, x: log.created || log.processed };
-    })
-  );
-
-  const sortedData = sortBy(chartData, ["x"]);
+  navigation.setOptions({ title: capitalize(currentUser) });
 
   return (
     <ScrollView
@@ -66,18 +55,17 @@ export default function SingleChartScreen() {
       }
     >
       <View style={styles.container}>
-        <PreparedChart data={sortedData} title={capitalize(user)} />
+        <PreparedChart data={chartData} title="" />
       </View>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 7,
   },
   title: {
     fontSize: 14,
@@ -90,3 +78,11 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 });
+
+const WithProvicer: React.FC<Props> = (props) => (
+  <ProvideIDToken>
+    <SingleChartScreen {...props} />
+  </ProvideIDToken>
+);
+
+export default WithProvicer;

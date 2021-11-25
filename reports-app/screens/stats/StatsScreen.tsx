@@ -10,7 +10,7 @@ import { useFirebase } from "../../hooks/useFirebase";
 import {
   useProcessedLogsForUser,
   useResetProcessedLogs,
-} from "../../hooks/useProcessedLogsForUser";
+} from "../../hooks/queries/useProcessedLogsForUser";
 
 const UserGraph = ({
   idToken,

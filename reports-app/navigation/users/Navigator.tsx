@@ -25,7 +25,7 @@ export const UsersNavigator: React.FC<Props> = ({ navigation }) => {
         options={{ headerTitle: "Users" }}
       />
       <UsersStack.Screen
-        name="ShowStatsScreen"
+        name="ShowUserStatsScreen"
         component={SingleChartScreen}
         options={{
           headerLeft: () => <HeaderBackButton onPress={handleBack} />,
