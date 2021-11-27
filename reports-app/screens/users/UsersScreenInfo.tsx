@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import { User } from "../../hooks/useUsers";
+import { User } from "../../hooks/queries/useUsers";
 import { View, Button } from "../../components";
 
 interface Props {
@@ -34,7 +35,12 @@ export default function UsersScreenInfo({
               containerStyles={styles.statsButtonContainer}
               handlePress={() => handleShowStats(user.name)}
             >
-              Stats
+              <Ionicons
+                size={20}
+                // style={{ marginBottom: -4 }}
+                // color="black"
+                name="bar-chart"
+              />
             </Button>
           </View>
         );
@@ -58,9 +64,7 @@ const styles = StyleSheet.create({
   statsButtonContainer: {
     marginTop: 15,
     marginLeft: 5,
-    paddingLeft: 8,
-    paddingRight: 8,
-    paddingVertical: 15,
+    padding: 11,
   },
   userButtonContainer: {
     width: 200,

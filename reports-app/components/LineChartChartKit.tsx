@@ -12,6 +12,8 @@ export const LineChart: React.FC<{ data: ChartData }> = ({ data }) => {
     return null;
   }
 
+  // console.log("Total data:", data.length);
+
   const height = 250;
   // const screenWidth = 1000;
   const screenWidth = Dimensions.get("window").width;

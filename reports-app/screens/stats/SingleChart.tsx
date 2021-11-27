@@ -26,7 +26,7 @@ const SingleChartScreen: React.FC<Props & IDToken> = ({
   const [refreshing, setRefreshing] = React.useState(false);
   const { user: currentUser } = route.params;
 
-  const resetProcessedLogs = useResetProcessedLogs("adam");
+  const resetProcessedLogs = useResetProcessedLogs(currentUser);
   const { data: logs, isLoading } = useProcessedLogsForUser({
     idToken,
     user: currentUser,
@@ -38,7 +38,7 @@ const SingleChartScreen: React.FC<Props & IDToken> = ({
     setRefreshing(false);
   }, []);
 
-  // console.log("logs", logs);
+  // console.log("logs", logs?.length);
   const chartData = usePreparedLogsForCharts({ logs });
 
   if (isLoading) {

@@ -7,7 +7,7 @@ import { UsersParamList } from "../../navigation/types";
 import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
 import UsersScreenInfo from "./UsersScreenInfo";
-import { useResetUsers, useUsers } from "../../hooks/useUsers";
+import { useResetUsers, useUsers } from "../../hooks/queries/useUsers";
 import {
   useSettings,
   mutateSettings,

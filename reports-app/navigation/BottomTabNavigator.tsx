@@ -41,14 +41,14 @@ export default function BottomTabNavigator() {
         name="Stats"
         component={StatsNavigator}
         options={{
-          tabBarIcon: UsersIcon,
+          tabBarIcon: StatsIcon,
         }}
       />
       <BottomTab.Screen
         name="Users"
         component={UsersNavigator}
         options={{
-          tabBarIcon: StatsIcon,
+          tabBarIcon: UsersIcon,
         }}
       />
     </BottomTab.Navigator>

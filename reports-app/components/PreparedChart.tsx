@@ -21,16 +21,19 @@ export const PreparedChart: React.FC<Props> = ({ title, data }) => {
   return (
     <>
       <Text style={styles.title}>{title}</Text>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
 
       {data ? <Chart data={data} /> : <Loading />}
     </>
   );
 };
+
+const SeparatorLine = () => (
+  <View
+    style={styles.separator}
+    lightColor="#eee"
+    darkColor="rgba(255,255,255,0.1)"
+  />
+);
 
 const styles = StyleSheet.create({
   container: {
