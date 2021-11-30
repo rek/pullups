@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { IDToken } from "../components/types";
 
-import { FirebaseClient } from "./useFirebase";
+import { FirebaseClient } from "../database/useFirebase";
 
 export const QUERY_SETTINGS_KEY = "settings";
 const settingsCollection = "settings";

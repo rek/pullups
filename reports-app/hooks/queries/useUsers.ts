@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
 
-import { FirebaseClient } from "../useFirebase";
+import { FirebaseClient } from "../../database/useFirebase";
 
 export const QUERY_USERS_KEY = "users";
 

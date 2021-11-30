@@ -5,20 +5,9 @@ import {
   TouchableOpacity,
   ViewStyle,
 } from "react-native";
+import { useCurrentTheme } from ".";
 
-import Colors from "../constants/Colors";
 import { Text, View } from "./Themed";
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    backgroundColor: "#ccc",
-    borderRadius: 4,
-  },
-  text: {
-    textAlign: "left",
-  },
-});
 
 interface Props {
   handlePress: () => void;
@@ -31,12 +20,25 @@ export const Button: React.FC<Props> = ({
   children,
   containerStyles,
 }) => {
+  const theme = useCurrentTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: "center",
+      backgroundColor: active ? "red" : theme.inverseBackground,
+      borderRadius: 4,
+    },
+    text: {
+      textAlign: "left",
+    },
+  });
+
   return (
     <TouchableOpacity onPress={handlePress}>
       <View style={[styles.container, containerStyles]}>
         <Text
           style={styles.text}
-          lightColor={active ? Colors.light.tint : Colors.dark.tint}
+          color={active === true ? theme.tint : theme.inverseText}
         >
           {children}
         </Text>

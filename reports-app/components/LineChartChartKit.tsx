@@ -3,11 +3,12 @@ import { Dimensions } from "react-native";
 import { LineChart as LineChartRaw } from "react-native-chart-kit";
 import { ChartData } from "../hooks/types";
 import { getShortDate } from "../utils/date";
-import { View } from "./Themed";
+import { View, useCurrentTheme } from "./Themed";
 
 export const LineChart: React.FC<{ data: ChartData }> = ({ data }) => {
   // console.log("data", data);
-
+  const theme = useCurrentTheme();
+  console.log("theme", theme);
   if (!data || data.length === 0) {
     return null;
   }
@@ -62,19 +63,22 @@ export const LineChart: React.FC<{ data: ChartData }> = ({ data }) => {
         yAxisSuffix="kg"
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
-          backgroundColor: "#333",
-          backgroundGradientFrom: "#333",
-          backgroundGradientTo: "#333",
+          // backgroundColor: theme.cardBackground,
+          backgroundGradientFrom: theme.colors.background,
+          backgroundGradientTo: theme.colors.background,
           decimalPlaces: 2, // optional, defaults to 2dp
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          color: (opacity = 1) => theme.colors.text,
+          // color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          labelColor: (opacity = 1) => theme.colors.text,
+          // labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           style: {
             borderRadius: 16,
           },
           propsForDots: {
             r: "6",
             strokeWidth: "2",
-            stroke: "#ffa726",
+            stroke: theme.colors.text,
+            // stroke: "#ffa726",
           },
         }}
         bezier

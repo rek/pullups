@@ -6,7 +6,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { UsersParamList } from "../../navigation/types";
 import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
-import UsersScreenInfo from "./UsersScreenInfo";
+import UsersScreenInfo from "./UsersList";
 import { useResetUsers, useUsers } from "../../hooks/queries/useUsers";
 import {
   useSettings,

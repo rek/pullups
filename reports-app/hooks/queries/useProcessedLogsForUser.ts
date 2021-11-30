@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
 
-import { FirebaseClient } from "../useFirebase";
+import { FirebaseClient } from "../../database/useFirebase";
 
 const QUERY_PROCESSED_LOGS_KEY = "processed_logs";
 

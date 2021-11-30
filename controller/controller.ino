@@ -20,7 +20,7 @@
 #include "HX711.h"
 HX711 scale;
 
-float calibration_factor = -11840; // esp32
+float calibration_factor = -11640; // esp32
 //float calibration_factor = -23690; // arduino
 #define LOADCELL_DOUT_PIN 25 // esp32
 #define LOADCELL_SCK_PIN 33  // esp32

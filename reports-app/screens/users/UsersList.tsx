@@ -17,6 +17,7 @@ export default function UsersScreenInfo({
   handleSelect,
   handleShowStats,
 }: Props) {
+  console.log("Current active user:", active);
   return (
     <View style={styles.wrapper}>
       {users.map((user) => {
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 5,
     padding: 11,
+    paddingVertical: 13,
   },
   userButtonContainer: {
     width: 200,

@@ -6,7 +6,7 @@ import sortBy from "lodash/sortBy";
 
 import { View } from "../../components/Themed";
 import { PreparedChart } from "../../components/PreparedChart";
-import { useFirebase } from "../../hooks/useFirebase";
+import { useFirebase } from "../../database/useFirebase";
 import {
   useProcessedLogsForUser,
   useResetProcessedLogs,

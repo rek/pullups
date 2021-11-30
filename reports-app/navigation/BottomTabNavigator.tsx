@@ -1,23 +1,22 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import { BottomTabParamList } from "./types";
 import { StatsIcon, StatsNavigator } from "./stats";
 import { UsersIcon, UsersNavigator } from "./users";
+import { useCurrentTheme } from "../components";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const theme = useCurrentTheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Users"
       tabBarOptions={{
-        activeTintColor: Colors[colorScheme].tabIconSelected,
-        inactiveTintColor: Colors[colorScheme].tabIconDefault,
+        activeTintColor: theme.tabIconSelected,
+        inactiveTintColor: theme.tabIconDefault,
         // inactiveBackgroundColor: "#444",
 
         // both light:
@@ -25,8 +24,8 @@ export default function BottomTabNavigator() {
         // inactiveBackgroundColor: "#fff",
 
         // both dark:
-        // activeBackgroundColor: Colors[colorScheme].background,
-        // inactiveBackgroundColor: Colors[colorScheme].background,
+        // activeBackgroundColor: theme.background,
+        // inactiveBackgroundColor: theme.background,
 
         style: {
           borderTopWidth: 0,
