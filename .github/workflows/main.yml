@@ -36,8 +36,8 @@ jobs:
 
       # Runs tests
       - name: Run tests
-        run: cd apps/reports-react && yarn test
+        run: cd apps/reports-react && pnpm test
 
       # Make and deploy app to pages
       - name: Run tests
-        run: cd apps/reports-react && yarn deploy
+        run: cd apps/reports-react && pnpm deploy
