@@ -1,0 +1,1 @@
+{"version":3,"file":"flatThenSpike.d.ts","sourceRoot":"","sources":["../../../detect-pullups/src/algorithms/flatThenSpike.ts"],"names":[],"mappings":"AACA,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,UAAU,CAAC;AAIrC,UAAU,OAAO;IACf,UAAU,EAAE,MAAM,CAAC;IACnB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,SAAS,CAAC,EAAE,MAAM,CAAC;IACnB,wBAAwB,CAAC,EAAE,MAAM,CAAC;CACnC;AAID,eAAO,MAAM,aAAa,+EAEkD,OAAO,WAqBlF,CAAC"}
