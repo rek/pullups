@@ -27,12 +27,12 @@ jobs:
 
       # Setup
       - name: Install deps
-        run: cd reports-react && yarn
+        run: pnpm install
 
       # Runs tests
       - name: Run tests
-        run: cd reports-react && yarn test
+        run: cd apps/reports-react && yarn test
 
       # Make and deploy app to pages
       - name: Run tests
-        run: cd reports-react && yarn deploy
+        run: cd apps/reports-react && yarn deploy
