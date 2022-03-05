@@ -1,6 +1,18 @@
+pullups.code-workspace
+
+# generated files
 reports-data-generator/*.json
 reports-data-generator/*.js
-node_modules
 reports-react/yarn-error.log
-pullups.code-workspace
+
+# secrets!
 controller/Secrets.h
+
+# run time libs
+node_modules
+
+# turbo repo stuff
+.turbo
+build/**
+dist/**
+.next/**
