@@ -22,9 +22,8 @@ float PullupSystem::addTime(float weight)
     if (inactive == false) {
       Serial.println("[" + name + "] Started inactivity at: " + millis());
       inactiveStartTime = millis();
-    }
-    
-    inactive = true;
+      inactive = true;
+    } 
 
     if ((millis() - inactiveStartTime) > 2000) {
       Serial.println("[" + name + "] Timeout due to inactivity");

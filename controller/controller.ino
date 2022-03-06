@@ -144,8 +144,6 @@ void MainSystem::runCurrentMode()
         storage.addItem(pullupSystem.hangDuration, pollingInterval);  
         _data.clear();
       }
-
-      pullupSystem.start("test");
     }
   }
 

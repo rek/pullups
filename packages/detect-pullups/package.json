@@ -18,7 +18,7 @@
     "start": "tsdx watch",
     "build:old": "tsdx build",
     "rollup": "yarn clean && rollup -c",
-    "test": "jest",
+    "test": "tsdx test",
     "lint": "tsdx lint",
     "-prepare": "tsdx build",
     "size": "size-limit",
@@ -51,6 +51,7 @@
     "@size-limit/preset-small-lib": "^4.10.2",
     "@types/lodash-es": "^4.14.168",
     "husky": "^6.0.0",
+    "jest": "^26.6.3",
     "size-limit": "^4.10.2",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
