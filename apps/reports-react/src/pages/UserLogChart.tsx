@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import max from "lodash/max";
 // import { useRecoilValue } from "recoil";
 
@@ -8,6 +8,7 @@ import { Loading, Text, Title } from "../common";
 import { getMarkersFromProcessedData, useProcessedLog } from "../hooks";
 import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
 import { RawStats } from "./common/RawStats";
+import { LogStats } from "./logs/LogStats";
 
 // export const UserChartForActiveUser = () => {
 // 	const activeSession = useRecoilValue(sessionState);
@@ -24,12 +25,7 @@ interface Props {
   data: UserLog;
   extras?: Marker[];
 }
-export const UserLogChart: React.FC<Props> = ({
-  data,
-  user,
-  logId,
-  extras,
-}) => {
+export const UserLogChart = ({ data, user, logId, extras }: Props) => {
   // const data = useData({user})
   const [formattedData, setFormattedData] = React.useState<
     { x: number; y: number }[]
@@ -109,35 +105,5 @@ export const UserLogChart: React.FC<Props> = ({
       )}
       {<RawStats log={data} />}
     </>
-  );
-};
-
-// console.log("logs", RawStats);
-const LogStats: React.FC<{ logs: ProcessedLog[]; first: Marker }> = ({
-  logs,
-  first,
-}) => {
-  console.log("first", first);
-  console.log("logs", logs);
-  return (
-    <div>
-      <Title>Stats:</Title>
-      <div>{logs.length === 0 && "This log has not been processed."}</div>
-      {logs.map((log) => {
-        const weight = log.weight || 0;
-        const peak = first ? first.y || 0 : 0;
-        const power = peak / weight;
-        return (
-          <>
-            <Text key={log.logId}>
-              Processed average weight found: {log.weight.toFixed(2)}
-            </Text>
-            <Text key={`${log.logId}_power`}>
-              Power: {Number(power).toFixed(2)}{" "}
-            </Text>
-          </>
-        );
-      })}
-    </div>
   );
 };

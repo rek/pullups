@@ -1,4 +1,5 @@
 import type { LogReport } from "detect-pullups";
+import { Log } from "./service/logs/types";
 
 // =====================
 //
@@ -7,17 +8,6 @@ import type { LogReport } from "detect-pullups";
 // =====================
 
 export type UserLog = Log & UserInfo;
-export interface Log {
-  data: number[]; // this is the raw log data
-  start: string; // start time??
-  type: string; // pullup, weight, scale
-  weight: number; // the weight when you did this
-  duration: number; // duration of the hang
-  created: DateObject; // date this data was created
-  isProcessed: boolean; // is processed flag
-
-  groups?: XY[]; // ?
-}
 
 // =====================
 //
@@ -99,7 +89,7 @@ export type XY = {
 //   Misc
 //
 // =====================
-interface DateObject {
+export interface DateObject {
   seconds: number;
   date: string;
 }

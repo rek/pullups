@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 import { Table, Title, TableActions, DeleteIcon, EditIcon } from "../../common";
-import { useReports } from "../../hooks";
+import { useReports } from "../../service/reports/useReportQuery";
 import { ProvideUser } from "../common/ProvideUser";
 
 export const ReportsManage: React.FC<any> = ({ user }) => {

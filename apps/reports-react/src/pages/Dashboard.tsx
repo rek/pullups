@@ -1,8 +1,8 @@
-import React from "react";
+import * as React from "react";
 
 import { Text } from "../common";
 import { GroupGraphUser } from "../graphs/groups";
-import { useReport } from "../hooks/useReports";
+import { useReport } from "../service/reports/useReportQuery";
 
 const UserGraph = () => {
   const [data] = React.useState([]);

@@ -1,10 +1,9 @@
-import React from "react";
-
-import { useReports } from "../hooks";
+import * as React from "react";
 
 import { Loading, Title } from "../common";
 import { SingleReport } from "./reports/SingleReport";
 import { ProvideUser } from "./common/ProvideUser";
+import { useReports } from "../service/reports/useReportQuery";
 
 export const UserReports: React.FC<{ user: string }> = ({ user }) => {
   const { data: reports, isLoading } = useReports(user);

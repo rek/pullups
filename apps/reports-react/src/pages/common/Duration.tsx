@@ -1,9 +1,10 @@
-import React from "react";
+import * as React from "react";
 
-export const Duration: React.FC<{ value?: number; total: number }> = ({
-  value,
-  total,
-}) => {
+interface Props {
+  value?: number;
+  total: number;
+}
+export const Duration = ({ value, total }: Props) => {
   if (!value) {
     return null;
   }
