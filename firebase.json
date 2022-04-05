@@ -12,6 +12,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "predeploy": []
+    "predeploy": [],
+    "source": "packages/functions"
   }
 }

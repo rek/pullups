@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import maxBy from "lodash/maxBy";
 import assign from "lodash/assign";
 import dayjs from "dayjs";
@@ -77,14 +77,14 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
     // },
   };
 
-  const barWidth = 16;
+  const barWidth = 3;
   const style = {
     data: {
       // make the bars differnt for morning and evening.
-      fill: ({ datum }: { datum: XY }) => {
-        const afterLunch = Number(dayjs(datum.x).format("H")) > 12;
-        return afterLunch ? colours.redDark : colours.red;
-      },
+      // fill: ({ datum }: { datum: XY }) => {
+      //   const afterLunch = Number(dayjs(datum.x).format("H")) > 12;
+      //   return afterLunch ? colours.redDark : colours.red;
+      // },
     },
     labels: {
       fontSize: 10,
@@ -113,7 +113,6 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
       >
         <VictoryBar
           data={data}
-          // @ts-expect-error usng some advanced style stuff that is not in types
           style={style}
           // barRatio={0.8}
           // padding={{ left: 20, right: 60 }}

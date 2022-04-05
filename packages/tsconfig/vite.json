@@ -12,6 +12,7 @@
     "module": "ESNext",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "jsx": "react"
   }

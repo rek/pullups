@@ -1,4 +1,4 @@
-import max from 'lodash-es/max';
+import max from 'lodash/max';
 
 import type { Line } from '../types';
 

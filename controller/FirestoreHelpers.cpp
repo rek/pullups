@@ -45,7 +45,7 @@ FirestoreHelpers::FirestoreHelpers()
   }
   else
   {
-    // Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
+    Serial.printf("Token info: type = %s, status = %s\n\n", getTokenType(info).c_str(), getTokenStatus(info).c_str());
   }
 
 }
@@ -197,8 +197,7 @@ void FirestoreHelpers::addJson(const char *documentPath, String payload)
   }
   else
   {
-    Serial.println("FAILED");
-    Serial.println("REASON: " + fbdo.errorReason());
+    Serial.println("FAILED: " + fbdo.errorReason());
     Serial.println("------------------------------------");
     Serial.println();
   }
@@ -218,8 +217,7 @@ void FirestoreHelpers::addJson(const char *documentPath, FirebaseJson payload)
   }
   else
   {
-    Serial.println("FAILED");
-    Serial.println("REASON: " + fbdo.errorReason());
+    Serial.println("FAILED: " + fbdo.errorReason());
     Serial.println("------------------------------------");
     Serial.println();
   }
@@ -274,8 +272,7 @@ void FirestoreHelpers::getDocument(FirebaseJson *jsonResult)
     }
     else
     {
-        Serial.println("FAILED");
-        Serial.println("REASON: " + fbdo.errorReason());
+        Serial.println("FAILED: " + fbdo.errorReason());
         Serial.println("------------------------------------");
         Serial.println();
     }

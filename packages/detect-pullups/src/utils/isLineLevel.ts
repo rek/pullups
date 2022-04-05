@@ -1,4 +1,4 @@
-import mean from 'lodash-es/mean';
+import mean from 'lodash/mean';
 
 import type { Line } from '../types';
 

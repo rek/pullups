@@ -1,4 +1,4 @@
-import compact from 'lodash-es/compact';
+import compact from 'lodash/compact';
 import type { Marker } from '../types';
 
 // first round takes 3 points

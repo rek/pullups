@@ -1,7 +1,8 @@
 import * as functions from "firebase-functions";
-
 import admin from "firebase-admin";
 import { processLog } from "detect-pullups";
+
+import { updateReports } from "./updateReports";
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -14,27 +15,34 @@ exports.setCurrent = functions.https.onRequest(async (request, response) => {
     await db.collection(`/settings`).doc("state").set({ active: user });
   }
 
-  return response.status(200).end();
+  response.status(200).end();
+
+  return Promise.resolve();
 });
 
-exports.addCreatedDateToLogs = functions.firestore
-  .document("/users/{user}/logs/{logId}")
-  .onCreate((snap, context) => {
-    // Access the parameter `{user}` with `context.params`
-    // functions.logger.log("Detected addition of log:", context.params.logId);
+// exports.addCreatedDateToLogs = functions.firestore
+//   .document("/users/{user}/logs/{logId}")
+//   .onCreate((snap, context) => {
+//     // Access the parameter `{user}` with `context.params`
+//     // functions.logger.log("Detected addition of log:", context.params.logId);
 
-    // You must return a Promise when performing asynchronous tasks inside a Functions such as
-    // writing to Cloud Firestore.
-    return snap.ref.set(
-      { created: context.timestamp, processed: false },
-      { merge: true }
-    );
-  });
+//     // You must return a Promise when performing asynchronous tasks inside a Functions such as
+//     // writing to Cloud Firestore.
+//     return snap.ref.set(
+//       { created: context.timestamp, processed: false },
+//       { merge: true }
+//     );
+//   });
 
 exports.processLogs = functions.firestore
   .document("/users/{user}/logs/{logId}")
   .onCreate(async (snap, context) => {
     console.log(`Checking: ${context.params.user}`);
+
+    await snap.ref.set(
+      { created: context.timestamp, processed: false },
+      { merge: true }
+    );
 
     // get user weight
     let userWeight = 0;
@@ -42,7 +50,7 @@ exports.processLogs = functions.firestore
       .collection(`/users`)
       .doc(context.params.user)
       .get()
-      .then(function (querySnapshot) {
+      .then(function (querySnapshot: any) {
         // console.log("Found user snap:", querySnapshot._fieldsProto);
         const result = querySnapshot.data();
         // console.log("Found user data:", result);
@@ -74,7 +82,7 @@ exports.processLogs = functions.firestore
     }
 
     // add processed log
-    return await db
+    await await db
       .collection(`/users`)
       .doc(context.params.user)
       .collection(`/processedLogs`)
@@ -85,4 +93,8 @@ exports.processLogs = functions.firestore
         weight: result.weight,
         report: result.report,
       });
+
+    await updateReports(db);
+
+    return Promise.resolve();
   });

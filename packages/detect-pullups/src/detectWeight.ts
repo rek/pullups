@@ -1,5 +1,5 @@
-import mean from 'lodash-es/mean';
-import sortBy from 'lodash-es/sortBy';
+import mean from 'lodash/mean';
+import sortBy from 'lodash/sortBy';
 
 import type { Line } from './types';
 import {

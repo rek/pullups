@@ -1,5 +1,5 @@
-import takeRight from 'lodash-es/takeRight';
-import sum from 'lodash-es/sum';
+import takeRight from 'lodash/takeRight';
+import sum from 'lodash/sum';
 
 import type { Line } from '../types';
 

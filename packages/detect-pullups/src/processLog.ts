@@ -4,7 +4,7 @@ import { Line, Marker, MarkerType, ProcessedLog } from './types';
 import { getMarkersForIndex } from './utils/getMarkersForIndex';
 import { isAmountWithinDeviation } from './utils/isAmountWithinDeviation';
 import { detectDescendingBeforePoint } from './utils/detectDescendingBeforePoint';
-import { takeRightWhile } from 'lodash-es';
+import { takeRightWhile } from 'lodash';
 
 // need to remove this colour stuff
 const colours = {

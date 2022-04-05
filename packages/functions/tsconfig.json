@@ -2,11 +2,11 @@
   "extends": "tsconfig/lib.json",
   "include": [
     "src",
-    "types"
   ],
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./lib",
     "rootDir": "./src",
+    "esModuleInterop": true,
     "target": "es5",
     "module": "commonjs",
   }

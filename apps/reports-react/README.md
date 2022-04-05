@@ -34,3 +34,12 @@ vf is the final velocity of the propulsive phase (in m/s)
 v0 is the initial propulsive velocity of the concentric phase (in m/s)
 t is the duration of the propulsive phase (in s)
 MPP was computed as the product of MPF and MPV: MPP = MPF \* MPV
+
+## Process
+
+- Action is taken in the real world
+- A log is recorded on the hardware and sent to firestore `logs`
+- Firebase functions adds a `created` date to the `logs` record
+- Firebase functions updated `weight` of `user` in `users`
+- Firebase functions adds `processedLogs` report
+-

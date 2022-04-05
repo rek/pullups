@@ -1,6 +1,6 @@
-import forEachRight from 'lodash-es/forEachRight';
-import take from 'lodash-es/take';
-import last from 'lodash-es/last';
+import forEachRight from 'lodash/forEachRight';
+import take from 'lodash/take';
+import last from 'lodash/last';
 
 import type { Line } from '../types';
 import { getAverageOfLast } from './getAverageOfLast';

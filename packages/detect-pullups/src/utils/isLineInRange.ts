@@ -1,5 +1,5 @@
-import max from 'lodash-es/max';
-import min from 'lodash-es/min';
+import max from 'lodash/max';
+import min from 'lodash/min';
 
 import type { Line } from '../types';
 
