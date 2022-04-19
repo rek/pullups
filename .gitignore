@@ -3,7 +3,6 @@ pullups.code-workspace
 # generated files
 reports-data-generator/*.json
 reports-data-generator/*.js
-reports-react/yarn-error.log
 
 # secrets!
 controller/Secrets.h
@@ -15,4 +14,14 @@ node_modules
 .turbo
 build/**
 dist/**
+**/dist/**
 .next/**
+
+# vite stuff
+ui-debug.log
+
+# yarn stuff
+yarn-error.log
+yarn.lock
+**/yarn-error.log
+**/yarn.lock

@@ -1,7 +1,9 @@
 {
-  "name": "log-data-auto-functions",
+  "name": "functions",
+  "version": "0.1.0",
   "description": "Track created date of log data in Firebase Functions",
   "scripts": {
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
     "serve": "yarn build && firebase emulators:start --only functions",
@@ -17,11 +19,11 @@
   },
   "main": "lib/index.js",
   "dependencies": {
+    "@firebase/app-compat": "*",
+    "@firebase/app-types": "*",
     "detect-pullups": "workspace:*",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.20.0",
-    "@firebase/app-compat":  "*",
-    "@firebase/app-types": "*",
     "slayer": "^1.0.1"
   },
   "devDependencies": {

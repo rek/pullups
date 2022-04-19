@@ -53,11 +53,12 @@
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "size-limit": "^4.10.2",
-    "tsconfig": "workspace:*",
+    "tsconfig": "*",
     "typescript": "^4.5.3"
   },
   "dependencies": {
     "react-is": "^17.0.2",
-    "slayer": "https://github.com/rek/slayer.git#master"
-  }
+    "slayer": "*"
+  },
+  "private": true
 }
