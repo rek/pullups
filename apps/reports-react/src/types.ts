@@ -20,6 +20,7 @@ export type UserLog = Log & UserInfo;
 //   weight: number;
 // }
 
+// deprecated
 export interface ProcessedLogV1 {
   format: 1;
   logId: string;
@@ -28,7 +29,7 @@ export interface ProcessedLogV1 {
   weight: number;
   report: LogReport;
 }
-export type ProcessedLog = ProcessedLogV1;
+export type ProcessedLog = ProcessedLogV1; // deprecated
 
 // export interface ProcessedPulluptLog extends BaseProcessedObject {
 //   count: number;

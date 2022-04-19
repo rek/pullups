@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Loading, UserName } from "../../common";
 import { TitleHeader } from "../../common/components/TitleHeader";
-import { useUser } from "../../hooks";
+import { useUser } from "../../service/users/useUsersQuery";
 
 import { ListLogItems } from "./ListLogItems";
 

@@ -2,7 +2,7 @@ import React from "react";
 import get from "lodash/get";
 import { processLog } from "detect-pullups";
 
-import { markAsProcessedLogData, useData } from "../../hooks/useData";
+import { markAsProcessedLogData } from "../../hooks/useData";
 import {
   Loading,
   Table,
@@ -15,17 +15,16 @@ import {
 } from "../../common";
 import { mutateUserWeight } from "../../hooks/useUser";
 import type { User } from "../../types";
-import {
-  mutateProcessedLogs,
-  deleteLogData,
-  getMarkersFromProcessedData,
-} from "../../hooks";
+import { mutateProcessedLogs } from "../../hooks";
 import { UserLogChart } from "../UserLogChart";
 import type { Marker } from "../../graphs";
 import { logDebug } from "../../utils";
+import { useLogQuery } from "../../service/logs/queries/useLogQuery";
+import { deleteLogData } from "../../service/logs/queries/useLogMutate";
+import { getMarkersFromProcessedData } from "../../service/logsProcessed/selectors/getMarkersFromProcessedData";
 
 export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
-  const allDataForUser = useData({ user: user.name });
+  const { data: allDataForUser } = useLogQuery({ user: user.name });
   const updateUserWeight = mutateUserWeight(user.name);
   const markAsProcessed = markAsProcessedLogData(user.name);
   const addProcessedLog = mutateProcessedLogs(user.name, (log) => {

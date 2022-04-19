@@ -1,4 +1,7 @@
-import firebase from "firebase/app";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
 import "firebase/firestore";
 import "firebase/analytics";
 import "firebase/auth";
@@ -12,35 +15,37 @@ const firebaseConfig = {
   // messagingSenderId: import.meta.env.SNOWPACK_PUBLIC_MESSAGINGSENDERID,
   // projectId: import.meta.env.SNOWPACK_PUBLIC_PROJECTID,
   // storageBucket: import.meta.env.SNOWPACK_PUBLIC_STORAGEBUCKET,
-  apiKey: import.meta.env.VITE_apiKey,
-  authDomain: import.meta.env.VITE_authDomain,
-  projectId: import.meta.env.VITE_projectId,
-  storageBucket: import.meta.env.VITE_storageBucket,
-  messagingSenderId: import.meta.env.VITE_messagingSenderId,
-  appId: import.meta.env.VITE_appId,
-  measurementId: import.meta.env.VITE_measurementId,
+  apiKey: String(import.meta.env.VITE_apiKey),
+  authDomain: String(import.meta.env.VITE_authDomain),
+  projectId: String(import.meta.env.VITE_projectId),
+  storageBucket: String(import.meta.env.VITE_storageBucket),
+  messagingSenderId: String(import.meta.env.VITE_messagingSenderId),
+  appId: String(import.meta.env.VITE_appId),
+  measurementId: String(import.meta.env.VITE_measurementId),
 };
 
-const app = firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // const email = import.meta.env.SNOWPACK_PUBLIC_USER || "";
 // const password = import.meta.env.SNOWPACK_PUBLIC_PASS || "";
-const email = import.meta.env.VITE_user || "";
-const password = import.meta.env.VITE_pass || "";
+const email = String(import.meta.env.VITE_user) || "";
+const password = String(import.meta.env.VITE_pass) || "";
 
-const firestore = app.firestore();
+const firestore = getFirestore(app);
+const auth = getAuth(app);
 
-const firebaseDoingAuth = firebase
-  .auth()
-  .signInWithEmailAndPassword(email, password)
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    console.log("errorCode", errorCode);
-    console.log("errorMessage", errorMessage);
-    throw error;
-  });
+const firebaseDoingAuth = signInWithEmailAndPassword(
+  auth,
+  email,
+  password
+).catch((error) => {
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  console.log("errorCode", errorCode);
+  console.log("errorMessage", errorMessage);
+  throw error;
+});
 
-firebase.analytics();
+// firebase.analytics();
 
 export { app, firestore, firebaseDoingAuth };

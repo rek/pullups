@@ -2,13 +2,15 @@ import * as React from "react";
 import max from "lodash/max";
 // import { useRecoilValue } from "recoil";
 
-import type { Log, ProcessedLog, UserLog } from "../types";
+import type { UserLog } from "../types";
 import { Line, Marker } from "../graphs/line";
 import { Loading, Text, Title } from "../common";
-import { getMarkersFromProcessedData, useProcessedLog } from "../hooks";
+import { getMarkersFromProcessedData } from "../service/logsProcessed/selectors";
 import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
 import { RawStats } from "./common/RawStats";
 import { LogStats } from "./logs/LogStats";
+import { useProcessedLogForUser } from "../service/logsProcessed/queries";
+import { Log } from "../service/logs/types";
 
 // export const UserChartForActiveUser = () => {
 // 	const activeSession = useRecoilValue(sessionState);
@@ -32,7 +34,7 @@ export const UserLogChart = ({ data, user, logId, extras }: Props) => {
   >([]);
   const [maxDomain, setMaxDomain] = React.useState<number>(1);
 
-  const { data: processedLogData } = useProcessedLog(user, logId || "");
+  const { data: processedLogData } = useProcessedLogForUser(user, logId || "");
 
   // console.log("UserChart data from db:", data);
   // const hasProcessedLogData = processedLogData && processedLogData.length > 0;

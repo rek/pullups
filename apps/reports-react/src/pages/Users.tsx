@@ -1,7 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useSettings, useUsers, mutateSettings } from "../hooks";
+import { useUsers } from "../service/users";
+import { useSettings, mutateSettings } from "../service/settings";
 import {
   Text,
   Table,

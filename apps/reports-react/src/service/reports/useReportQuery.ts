@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 
 import { firestore } from "../../db";
 import type { ProcessedLog, UserReport } from "../../types";
-import { FIREBASE_COLLECTION_USERS } from "../../hooks/useUsers";
+import { FIREBASE_COLLECTION_USERS } from "../../service/users";
 
 export const FIREBASE_COLLECTION_REPORTS = "reports";
 

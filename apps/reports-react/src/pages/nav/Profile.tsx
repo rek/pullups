@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { PersonIcon, Tooltip } from "../../common";
 import IconButton from "@material-ui/core/IconButton";
-import { useSettings } from "../../hooks";
+import { useSettings } from "../../service/settings";
 
 interface Props {
   handleClick: () => void;

@@ -1,10 +1,10 @@
 import React from "react";
 import get from "lodash/get";
 
-import { useProcessedLogsForUser } from "../../hooks";
 import { BarWeight, LineOnGraph, Pullups } from "../../graphs";
 import { Loading, SubTitle } from "../../common";
 import type { UserReport } from "../../types";
+import { useProcessedLogsForUser } from "../../service/logsProcessed/queries";
 
 interface SingleReportProps {
   user: string;
