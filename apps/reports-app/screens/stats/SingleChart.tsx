@@ -15,7 +15,7 @@ import {
 } from "../../hooks/queries/useProcessedLogsForUser";
 import { StackScreenProps } from "@react-navigation/stack";
 import { StatsParamList } from "../../navigation/types";
-import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
+// import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
 
 type Props = StackScreenProps<StatsParamList, "ShowStatsScreen">;
 const SingleChartScreen: React.FC<Props & IDToken> = ({
@@ -39,7 +39,8 @@ const SingleChartScreen: React.FC<Props & IDToken> = ({
   }, []);
 
   // console.log("logs", logs?.length);
-  const chartData = usePreparedLogsForCharts({ logs });
+  // const chartData = usePreparedLogsForCharts({ logs });
+  const chartData: any = [];
 
   if (isLoading) {
     return <Loading />;

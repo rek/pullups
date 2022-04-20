@@ -7,10 +7,10 @@ import sortBy from "lodash/sortBy";
 import { View } from "../../components/Themed";
 import { PreparedChart } from "../../components/PreparedChart";
 import { useFirebase } from "../../database/useFirebase";
-import {
-  useProcessedLogsForUser,
-  useResetProcessedLogs,
-} from "../../hooks/queries/useProcessedLogsForUser";
+// import {
+//   useProcessedLogsForUser,
+//   useResetProcessedLogs,
+// } from "../../hooks/queries/useProcessedLogsForUser";
 
 const UserGraph = ({
   idToken,
@@ -21,10 +21,12 @@ const UserGraph = ({
   user: string;
   mode: "line" | "bar";
 }) => {
-  const { data: logs } = useProcessedLogsForUser({
-    idToken,
-    user,
-  });
+  // const { data: logs } = useProcessedLogsForUser({
+  //   idToken,
+  //   user,
+  // });
+
+  const logs: any = [];
 
   // this represents bad data
   const WEIGHT_LIMIT = 40;
@@ -58,13 +60,13 @@ export default function StatsScreen() {
   const { data: idToken } = useFirebase();
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const resetProcessedLogs1 = useResetProcessedLogs("adam");
-  const resetProcessedLogs2 = useResetProcessedLogs("anette");
+  // const resetProcessedLogs1 = useResetProcessedLogs("adam");
+  // const resetProcessedLogs2 = useResetProcessedLogs("anette");
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    resetProcessedLogs1();
-    resetProcessedLogs2();
+    // resetProcessedLogs1();
+    // resetProcessedLogs2();
     setRefreshing(false);
   }, []);
 

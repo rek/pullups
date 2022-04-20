@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { LogBox } from "react-native";
+// import { LogBox } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AppearanceProvider } from "react-native-appearance";
@@ -11,9 +11,9 @@ import { AuthProvider } from "./database/AuthProvider";
 
 const queryClient = new QueryClient();
 
-if (LogBox) {
-  LogBox.ignoreLogs(["Setting a timer"]);
-}
+// if (LogBox) {
+//   LogBox.ignoreLogs(["Setting a timer"]);
+// }
 
 export default function App() {
   const isCacheLoaded = useCachedResources();

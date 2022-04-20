@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
 
-import { FirebaseClient } from "../../database/useFirebase";
+// import { FirebaseClient } from "../../database/useFirebase";
 
 const QUERY_PROCESSED_LOGS_KEY = "processed_logs";
 
@@ -37,7 +37,9 @@ export const useProcessedLogsForUser = ({
       if (!idToken) {
         return [];
       }
-      const logs = await FirebaseClient.getProcessedLogs({ idToken, user });
+      // const logs = await FirebaseClient.getProcessedLogs({ idToken, user });
+
+      const logs: any = [];
 
       const processedLogs: ProcessedLogs[] = logs.map(
         (logs: ProcessedLogsRaw) => {

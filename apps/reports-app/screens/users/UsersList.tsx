@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { User } from "../../hooks/queries/useUsers";
+// import { User } from "../../hooks/queries/useUsers";
 import { View, Button } from "../../components";
-
+type User = any;
 interface Props {
   users: User[];
   active: string;

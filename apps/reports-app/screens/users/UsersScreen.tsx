@@ -7,31 +7,34 @@ import { UsersParamList } from "../../navigation/types";
 import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
 import UsersScreenInfo from "./UsersList";
-import { useResetUsers, useUsers } from "../../hooks/queries/useUsers";
-import {
-  useSettings,
-  mutateSettings,
-  useResetSettings,
-} from "../../hooks/useSettings";
+// import { useResetUsers } from "../../hooks/queries/useUsers";
+import { useUsers } from "../../hooks/useUser";
+// import {
+//   useSettings,
+//   mutateSettings,
+//   useResetSettings,
+// } from "../../hooks/useSettings";
 import { ProvideIDToken } from "../../components/ProvideIDToken";
 import { Loading } from "../../components";
 
 type Props = StackScreenProps<UsersParamList, "UsersScreen">;
 const UsersScreen: React.FC<Props & IDToken> = ({ idToken, navigation }) => {
-  const { data: users, isLoading } = useUsers({ idToken });
-  const { data: settingsData } = useSettings({ idToken });
-  const updateSettings = mutateSettings({ idToken });
-  const resetSettings = useResetSettings();
-  const resetUsers = useResetUsers();
+  const { data: users, isLoading } = useUsers();
+  // const { data: users, isLoading } = useUsers({ idToken });
+  // const { data: settingsData } = useSettings({ idToken });
+  const settingsData = { active: false };
+  // const updateSettings = mutateSettings({ idToken });
+  // const resetSettings = useResetSettings();
+  // const resetUsers = useResetUsers();
   // const colorScheme = useColorScheme();
 
   const onRefresh = React.useCallback(async () => {
-    await resetSettings();
-    await resetUsers();
+    // await resetSettings();
+    // await resetUsers();
   }, []);
 
   const handleSelect = (user: string) => {
-    updateSettings.mutate(user);
+    // updateSettings.mutate(user);
   };
   const handleShowStats = (user: string) => {
     navigation.navigate("ShowUserStatsScreen", { user });
