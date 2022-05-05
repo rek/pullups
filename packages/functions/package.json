@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "description": "Track created date of log data in Firebase Functions",
   "scripts": {
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "lint": "eslint --ext .js,.ts .",
     "build": "tsc",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "deploy": "firebase deploy --only functions",
+    "dev": "tsc -w",
+    "lint": "eslint --ext .js,.ts .",
+    "logs": "firebase functions:log",
+    "predeploy": "yarn build",
     "serve": "yarn build && firebase emulators:start --only functions",
     "shell": "yarn build && firebase functions:shell",
     "start": "yarn shell",
-    "test": "mocha --reporter spec ./src/__tests__/index.test.js",
-    "predeploy": "yarn build",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "test": "mocha --reporter spec ./src/__tests__/index.test.js"
   },
   "engines": {
     "node": ">12"
@@ -21,10 +22,10 @@
   "dependencies": {
     "@firebase/app-compat": "*",
     "@firebase/app-types": "*",
-    "detect-pullups": "workspace:*",
+    "detect-pullups": "*",
     "firebase-admin": "^10.0.2",
     "firebase-functions": "^3.20.0",
-    "slayer": "^1.0.1"
+    "slayer": "*"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.1",
@@ -37,7 +38,6 @@
     "firebase-functions-test": "^0.2.3",
     "mocha": "^8.3.0",
     "sinon": "^9.2.4",
-    "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
   },
   "private": true

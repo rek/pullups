@@ -1,15 +1,23 @@
 # Pullup tracking
 
-## Project:
+It's hard to remember to do your exercises. Sometimes it's hard find the motivation too!
 
-Create a system to track the amount of pullups done over time.
+The goal of this system is to provide notifications and tracking for both.
 
-## Overview:
+## Outline
 
-Arduino R3 UNO with a load cell measures the work.
+- Mobile app to see stats and get notifications
+- Hardware controller to detect pullups
+- Firebase functions to process the data
+- Admin web app to manage data and settings
 
-Sends the results to firebase.
+## Usage
 
-Current counts are displayed on a small LCD.
+### Clean
 
-Full stats are hosted online via the admin app.
+`yarn clean` will reset most things
+`yarn clean:all` for those cases when you really want to start from scratch
+
+### Start mobile app
+
+- `yarn mobile`

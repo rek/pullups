@@ -1,8 +1,7 @@
-import React from "react";
+import * as React from "react";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-// import { User } from "../../hooks/queries/useUsers";
 import { View, Button } from "../../components";
 type User = any;
 interface Props {
@@ -11,30 +10,40 @@ interface Props {
   handleSelect: (user: string) => void;
   handleShowStats: (user: string) => void;
 }
-export default function UsersScreenInfo({
-  users,
-  active,
-  handleSelect,
-  handleShowStats,
-}: Props) {
-  console.log("Current active user:", active);
+
+const prepareUsersListData = (props: Props) => {
+  console.log("Initial props:", props);
+  return {
+    ...props,
+    users: props.users.map((user) => {
+      console.log("user", user);
+      return {
+        ...user,
+        displayName: `${user.displayName} (${user.displayWeight}kg)`,
+        isActive: props.active === user.name,
+      };
+    }),
+  };
+};
+
+export function UsersList(props: Props) {
+  const { users } = prepareUsersListData(props);
+
   return (
     <View style={styles.wrapper}>
       {users.map((user) => {
-        const displayName = `${user.displayName} (${user.weight}kg)`;
-
         return (
           <View key={user.name} style={styles.row}>
             <Button
-              active={active === user.name}
-              handlePress={() => handleSelect(user.name)}
+              active={user.isActive}
+              handlePress={() => props.handleSelect(user.name)}
               containerStyles={styles.userButtonContainer}
             >
-              {displayName}
+              {user.displayName}
             </Button>
             <Button
               containerStyles={styles.statsButtonContainer}
-              handlePress={() => handleShowStats(user.name)}
+              handlePress={() => props.handleShowStats(user.name)}
             >
               <Ionicons
                 size={20}

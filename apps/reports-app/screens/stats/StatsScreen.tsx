@@ -3,21 +3,18 @@ import capitalize from "lodash/capitalize";
 import compact from "lodash/compact";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import sortBy from "lodash/sortBy";
-
 import { View } from "../../components/Themed";
 import { PreparedChart } from "../../components/PreparedChart";
-import { useFirebase } from "../../database/useFirebase";
+
 // import {
 //   useProcessedLogsForUser,
 //   useResetProcessedLogs,
 // } from "../../hooks/queries/useProcessedLogsForUser";
 
 const UserGraph = ({
-  idToken,
   user,
   mode = "bar",
 }: {
-  idToken: string;
   user: string;
   mode: "line" | "bar";
 }) => {
@@ -57,7 +54,6 @@ const UserGraph = ({
 };
 
 export default function StatsScreen() {
-  const { data: idToken } = useFirebase();
   const [refreshing, setRefreshing] = React.useState(false);
 
   // const resetProcessedLogs1 = useResetProcessedLogs("adam");
@@ -70,10 +66,6 @@ export default function StatsScreen() {
     setRefreshing(false);
   }, []);
 
-  if (!idToken) {
-    return null;
-  }
-
   return (
     <ScrollView
       contentContainerStyle={styles.container}
@@ -82,8 +74,8 @@ export default function StatsScreen() {
       }
     >
       <View style={styles.container}>
-        <UserGraph idToken={idToken} user="adam" mode="line" />
-        <UserGraph idToken={idToken} user="anette" mode="line" />
+        <UserGraph user="adam" mode="line" />
+        <UserGraph user="anette" mode="line" />
       </View>
     </ScrollView>
   );

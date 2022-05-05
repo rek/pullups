@@ -7,4 +7,4 @@ export * from './detectType';
 export * from './processLog';
 export * from './utils';
 
-export type {LogReport, Marker} from './types'
+export type { LogReport, Marker } from './types';

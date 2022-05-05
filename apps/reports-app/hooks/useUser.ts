@@ -7,8 +7,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-
-import { firestore } from "../database/db";
+import { getDatabase } from "database";
 // import type { User } from "../../types";
 // import { normalizeUser } from "./adapters/normalize";
 type User = any;
@@ -23,16 +22,19 @@ const QUERY_KEY_USER = "user";
 export const FIREBASE_COLLECTION_USERS = "users";
 
 export const getUsersCollection = (pathSegments: string[] = []) => {
+  const { firestore } = getDatabase();
   return collection(firestore, FIREBASE_COLLECTION_USERS, ...pathSegments);
 };
 
 export const getUsersCollectionDocument = async (name: string, doc: string) => {
+  const { firestore } = getDatabase();
   const query = collection(firestore, FIREBASE_COLLECTION_USERS, name, doc);
   const snapshot = await getDocs(query);
   return snapshot;
 };
 
 export const getUsersDocRef = (keys: string[]) => {
+  const { firestore } = getDatabase();
   return doc(firestore, FIREBASE_COLLECTION_USERS, ...keys);
 };
 export const getUsersDoc = async (name: string) => {

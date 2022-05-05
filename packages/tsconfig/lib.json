@@ -4,6 +4,7 @@
   "Display": "Lib",
   "compilerOptions": {
     "lib": ["ES2019"],
-    "module": "ESNext"
+    "module": "ESNext",
+    "moduleResolution": "node"
   }
 }

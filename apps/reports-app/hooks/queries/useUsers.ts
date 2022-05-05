@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from "react-query";
-
-import { FirebaseClient } from "../../database/useFirebase";
+import { getDatabase } from "database";
 
 export const QUERY_USERS_KEY = "users";
 
@@ -37,7 +36,7 @@ export const useUsers = ({ idToken }: { idToken?: string }) => {
       if (!idToken) {
         return [];
       }
-      const users = await FirebaseClient.getUsers({ idToken });
+      const users = await Promise.resolve([] as RawUser[]);
 
       const processedUsers: User[] = users.map((user: RawUser) => {
         // console.log("user", user);

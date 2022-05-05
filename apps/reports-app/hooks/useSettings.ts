@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { IDToken } from "../components/types";
 
-import { FirebaseClient } from "../database/useFirebase";
+import { getDatabase } from "database";
 
 export const QUERY_SETTINGS_KEY = "settings";
 const settingsCollection = "settings";
@@ -19,30 +19,30 @@ export interface Settings {
 export const mutateSettings = ({ idToken }: IDToken) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(
-    async (data: string) => {
-      const value = {
-        fields: {
-          active: {
-            stringValue: data,
-          },
-        },
-      };
-      const settings = await FirebaseClient.writeData({
-        idToken,
-        key: `${settingsCollection}/state`,
-        value,
-      });
+  // const mutation = useMutation(
+  //   async (data: string) => {
+  //     const value = {
+  //       fields: {
+  //         active: {
+  //           stringValue: data,
+  //         },
+  //       },
+  //     };
+  //     const settings = await FirebaseClient.writeData({
+  //       idToken,
+  //       key: `${settingsCollection}/state`,
+  //       value,
+  //     });
 
-      return settings;
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(QUERY_SETTINGS_KEY);
-      },
-    }
-  );
-  return mutation;
+  //     return settings;
+  //   },
+  //   {
+  //     onSuccess: () => {
+  //       queryClient.invalidateQueries(QUERY_SETTINGS_KEY);
+  //     },
+  //   }
+  // );
+  // return mutation;
 };
 
 export const useResetSettings = (): (() => void) => {
@@ -60,19 +60,19 @@ export const useSettings = ({ idToken }: IDToken) => {
       if (!idToken) {
         return { active: "" };
       }
-      const settings: SettingsRaw[] = await FirebaseClient.getSettings({
-        idToken,
-      });
+      // const settings: SettingsRaw[] = await FirebaseClient.getSettings({
+      //   idToken,
+      // });
 
-      // console.log("All settings:", settings);
+      // // console.log("All settings:", settings);
 
-      const stats = settings.find((setting) =>
-        setting.name.includes("settings/state")
-      );
+      // const stats = settings.find((setting) =>
+      //   setting.name.includes("settings/state")
+      // );
 
-      return {
-        active: stats?.fields.active?.stringValue || "",
-      };
+      // return {
+      //   active: stats?.fields.active?.stringValue || "",
+      // };
     }
   );
 

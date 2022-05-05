@@ -6,9 +6,11 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { UsersParamList } from "../../navigation/types";
 import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
-import UsersScreenInfo from "./UsersList";
+import { UsersList } from "./UsersList";
 // import { useResetUsers } from "../../hooks/queries/useUsers";
-import { useUsers } from "../../hooks/useUser";
+// import { useUsers } from "../../hooks/useUser";
+import { useUsers } from "database";
+// import { useUsers } from "../../hooks/useUser";
 // import {
 //   useSettings,
 //   mutateSettings,
@@ -54,7 +56,7 @@ const UsersScreen: React.FC<Props & IDToken> = ({ idToken, navigation }) => {
 
   return (
     <RefreshView refreshAction={onRefresh}>
-      <UsersScreenInfo
+      <UsersList
         users={users || []}
         active={activeUser}
         handleSelect={handleSelect}

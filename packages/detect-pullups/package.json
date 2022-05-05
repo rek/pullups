@@ -12,17 +12,17 @@
     "node": ">=10"
   },
   "scripts": {
+    "-prepare": "tsdx build",
+    "analyze": "size-limit --why",
+    "build:old": "tsdx build",
+    "build": "tsc",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w",
-    "build": "tsc",
-    "start": "tsdx watch",
-    "build:old": "tsdx build",
-    "rollup": "yarn clean && rollup -c",
-    "test": "tsdx test",
     "lint": "tsdx lint",
-    "-prepare": "tsdx build",
+    "rollup": "yarn clean && rollup -c",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "start": "tsdx watch",
+    "test": "tsdx test"
   },
   "husky": {
     "hooks": {
@@ -53,7 +53,6 @@
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "size-limit": "^4.10.2",
-    "tsconfig": "*",
     "typescript": "^4.5.3"
   },
   "dependencies": {

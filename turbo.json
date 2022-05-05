@@ -7,9 +7,14 @@
     },
     "test": {
       "dependsOn": ["^build"],
-      "outputs": []
+      "outputs": [
+        "coverage/**"
+      ]
     },
     "lint": {
+      "outputs": []
+    },
+    "clean": {
       "outputs": []
     },
     "dev": {

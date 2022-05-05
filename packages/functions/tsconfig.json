@@ -9,5 +9,10 @@
     "esModuleInterop": true,
     "target": "ESNext",
     "module": "ESNext",
+    "paths": {
+      "detect-pullups": [
+        "../detect-pullups/dist"
+      ] // This mapping is relative to "baseUrl"
+    }
   }
 }
