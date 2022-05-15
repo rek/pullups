@@ -7,36 +7,33 @@ import { UsersParamList } from "../../navigation/types";
 import { IDToken } from "../../components/types";
 import { RefreshView } from "../../components/RefreshView";
 import { UsersList } from "./UsersList";
-// import { useResetUsers } from "../../hooks/queries/useUsers";
-// import { useUsers } from "../../hooks/useUser";
-import { useUsers } from "database";
-// import { useUsers } from "../../hooks/useUser";
-// import {
-//   useSettings,
-//   mutateSettings,
-//   useResetSettings,
-// } from "../../hooks/useSettings";
-import { ProvideIDToken } from "../../components/ProvideIDToken";
+import {
+  useUsers,
+  useUsersInvalidate,
+  useSettingsInvalidate,
+  useSettingsMutate,
+  useSettingsQuery,
+  useSettingsInvalidateCallback,
+} from "database";
 import { Loading } from "../../components";
 
 type Props = StackScreenProps<UsersParamList, "UsersScreen">;
 const UsersScreen: React.FC<Props & IDToken> = ({ idToken, navigation }) => {
   const { data: users, isLoading } = useUsers();
-  // const { data: users, isLoading } = useUsers({ idToken });
-  // const { data: settingsData } = useSettings({ idToken });
-  const settingsData = { active: false };
-  // const updateSettings = mutateSettings({ idToken });
-  // const resetSettings = useResetSettings();
-  // const resetUsers = useResetUsers();
+  const { data: settingsData } = useSettingsQuery();
+  const { mutate: updateSettings } = useSettingsMutate();
+  const resetSettings = useSettingsInvalidateCallback();
+  const resetUsers = () => useUsersInvalidate();
   // const colorScheme = useColorScheme();
 
   const onRefresh = React.useCallback(async () => {
-    // await resetSettings();
-    // await resetUsers();
+    resetSettings();
+    resetUsers();
   }, []);
 
-  const handleSelect = (user: string) => {
-    // updateSettings.mutate(user);
+  const handleSelect = async (user: string) => {
+    await updateSettings({ active: user });
+    resetSettings();
   };
   const handleShowStats = (user: string) => {
     navigation.navigate("ShowUserStatsScreen", { user });
@@ -66,10 +63,4 @@ const UsersScreen: React.FC<Props & IDToken> = ({ idToken, navigation }) => {
   );
 };
 
-const WithProvicer: React.FC<Props> = (props) => (
-  <ProvideIDToken>
-    <UsersScreen {...props} />
-  </ProvideIDToken>
-);
-
-export default WithProvicer;
+export default UsersScreen;

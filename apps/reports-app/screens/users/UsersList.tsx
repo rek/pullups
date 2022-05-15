@@ -12,11 +12,11 @@ interface Props {
 }
 
 const prepareUsersListData = (props: Props) => {
-  console.log("Initial props:", props);
+  // console.log("Initial props:", props);
   return {
     ...props,
     users: props.users.map((user) => {
-      console.log("user", user);
+      // console.log("user", user);
       return {
         ...user,
         displayName: `${user.displayName} (${user.displayWeight}kg)`,

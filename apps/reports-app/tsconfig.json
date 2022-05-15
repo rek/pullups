@@ -34,9 +34,9 @@
     "jest.config.js"
   ],
   "extends": "expo/tsconfig.base",
-    "paths": {
-      "database": [
-        "packages/database/dist"
-      ] // This mapping is relative to "baseUrl"
-    }
+  "paths": {
+    "database": [
+      "packages/database/dist"
+    ]
+  }
 }

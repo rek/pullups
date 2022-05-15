@@ -45,14 +45,6 @@ export const mutateSettings = ({ idToken }: IDToken) => {
   // return mutation;
 };
 
-export const useResetSettings = (): (() => void) => {
-  const queryClient = useQueryClient();
-
-  return () => {
-    queryClient.invalidateQueries(QUERY_SETTINGS_KEY);
-  };
-};
-
 export const useSettings = ({ idToken }: IDToken) => {
   const { isLoading, error, data } = useQuery<Settings>(
     QUERY_SETTINGS_KEY,

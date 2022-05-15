@@ -9,14 +9,14 @@ import { useCurrentTheme } from "../components";
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
-  const theme = useCurrentTheme();
+  // const theme = useCurrentTheme();
 
   return (
     <BottomTab.Navigator
       initialRouteName="Users"
       tabBarOptions={{
-        activeTintColor: theme.tabIconSelected,
-        inactiveTintColor: theme.tabIconDefault,
+        // activeTintColor: theme.tabIconSelected,
+        // inactiveTintColor: theme.tabIconDefault,
         // inactiveBackgroundColor: "#444",
 
         // both light:

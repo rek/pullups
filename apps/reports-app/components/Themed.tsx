@@ -6,7 +6,7 @@ import Colors from "../constants/Colors";
 export const useCurrentTheme = () => {
   // const theme = useColorScheme();
   const theme = "dark";
-  console.log("-- currentThemeMode --", theme, Colors[theme]);
+  // console.log("-- currentThemeMode --", theme, Colors[theme]);
 
   return Colors[theme];
 };

@@ -1,19 +1,13 @@
 import * as React from "react";
 import capitalize from "lodash/capitalize";
 import { StyleSheet, ScrollView, RefreshControl } from "react-native";
+import { StackScreenProps } from "@react-navigation/stack";
 
-import {
-  ProvideIDToken,
-  IDToken,
-  PreparedChart,
-  Loading,
-  View,
-} from "../../components";
+import { IDToken, PreparedChart, Loading, View } from "../../components";
 import {
   useProcessedLogsForUser,
   useResetProcessedLogs,
 } from "../../hooks/queries/useProcessedLogsForUser";
-import { StackScreenProps } from "@react-navigation/stack";
 import { StatsParamList } from "../../navigation/types";
 // import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
 
@@ -80,10 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const WithProvicer: React.FC<Props> = (props) => (
-  <ProvideIDToken>
-    <SingleChartScreen {...props} />
-  </ProvideIDToken>
-);
-
-export default WithProvicer;
+export default SingleChartScreen;
