@@ -1,7 +1,7 @@
 import { useMutation } from "react-query";
 
 import { getDatabase } from "../../../getDatabase";
-import { LOG_COLLECTION } from "../../logs/keys";
+// import { QUERY_LOGS_KEY } from "../../logs/keys";
 
 export const markAsProcessedLogData = (user: string) => {
   const { firestore } = getDatabase();

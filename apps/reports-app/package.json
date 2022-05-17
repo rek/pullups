@@ -4,6 +4,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "prestart": "rm -rf node_modules/react node_modules/react-dom ",
     "build": "eas build -p android",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .expo",
     "test": "jest --watchAll"
@@ -30,8 +31,8 @@
     "expo-updates": "~0.11.7",
     "firebase": "^9.6.10",
     "lodash": "^4.17.21",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-native": "0.64.3",
     "react-native-appearance": "~0.3.3",
     "react-native-chart-kit": "^6.11.0",
@@ -71,9 +72,6 @@
         "allowSeparatedGroups": false
       }
     ]
-  },
-  "installConfig": {
-    "hoistingLimits": "workspaces"
   },
   "private": true
 }

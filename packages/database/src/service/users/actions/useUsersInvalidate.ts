@@ -3,5 +3,5 @@ import { QUERY_KEY_USERS } from "../keys";
 
 export const useUsersInvalidate = () => {
   const queryClient = useQueryClient();
-  queryClient.invalidateQueries(QUERY_KEY_USERS);
+  return () => queryClient.invalidateQueries(QUERY_KEY_USERS);
 };

@@ -1,4 +1,5 @@
-import { useQuery, useQueryClient } from "react-query";
+import { useQuery } from "react-query";
+
 import { doc, getDoc } from "firebase/firestore";
 import { getDatabase } from "../../../getDatabase";
 import {

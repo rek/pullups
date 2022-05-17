@@ -1,1 +1,1 @@
-export const LOG_COLLECTION = "logs";
+export const QUERY_LOGS_KEY = "logs";

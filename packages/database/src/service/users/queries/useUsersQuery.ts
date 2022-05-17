@@ -1,26 +1,10 @@
 import { useQuery } from "react-query";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 import { getDatabase } from "../../../getDatabase";
 import type { User } from "../types";
 import { normalizeUser } from "../adapters/normalize";
-import {
-  FIREBASE_COLLECTION_USERS,
-  QUERY_KEY_USER,
-  QUERY_KEY_USERS,
-} from "../keys";
-
-export const getUsersCollection = (pathSegments: string[] = []) => {
-  const { firestore } = getDatabase();
-  return collection(firestore, FIREBASE_COLLECTION_USERS, ...pathSegments);
-};
+import { FIREBASE_COLLECTION_USERS, QUERY_KEY_USERS } from "../keys";
 
 export const getUsersCollectionDocument = async (name: string, doc: string) => {
   const { firestore } = getDatabase();
@@ -29,16 +13,10 @@ export const getUsersCollectionDocument = async (name: string, doc: string) => {
   return snapshot;
 };
 
-export const getUsersDocRef = (keys: string[]) => {
+export const getUsersCollection = (pathSegments: string[] = []) => {
   const { firestore } = getDatabase();
-  return doc(firestore, FIREBASE_COLLECTION_USERS, ...keys);
+  return collection(firestore, FIREBASE_COLLECTION_USERS, ...pathSegments);
 };
-export const getUsersDoc = async (name: string) => {
-  const docRef = getUsersDocRef([name]);
-  const docSnap = await getDoc(docRef);
-  return docSnap;
-};
-
 const getUsers = async () => {
   const ref = getUsersCollection();
   const usersQuery = query(ref, where("active", "==", true));
@@ -55,31 +33,6 @@ const getUsers = async () => {
 
 export const useUsers = () => {
   return useQuery<User[]>(QUERY_KEY_USERS, getUsers, {
-    cacheTime: Infinity,
-    staleTime: Infinity,
-  });
-};
-
-const getUser = async (id: string) => {
-  const snap = await getUsersDoc(id);
-  if (snap.exists()) {
-    const result = snap.data();
-    // console.log("Found user data:", result);
-    if (result) {
-      return normalizeUser(id, result as User);
-    }
-  }
-
-  // console.log("Error getting documents: ", error);
-  return {
-    id: -1,
-    name: "",
-    active: false,
-  };
-};
-
-export const useUser = (id: string) => {
-  return useQuery<User>(QUERY_KEY_USER, () => getUser(id), {
     cacheTime: Infinity,
     staleTime: Infinity,
   });

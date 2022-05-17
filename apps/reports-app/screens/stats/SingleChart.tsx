@@ -4,43 +4,36 @@ import { StyleSheet, ScrollView, RefreshControl } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 
 import { IDToken, PreparedChart, Loading, View } from "../../components";
-import {
-  useProcessedLogsForUser,
-  useResetProcessedLogs,
-} from "../../hooks/queries/useProcessedLogsForUser";
+import { useProcessedLogsForUserQuery } from "database";
 import { StatsParamList } from "../../navigation/types";
-// import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
+import { usePreparedLogsForCharts } from "../../hooks/usePreparedLogsForCharts";
 
 type Props = StackScreenProps<StatsParamList, "ShowStatsScreen">;
-const SingleChartScreen: React.FC<Props & IDToken> = ({
-  idToken,
-  route,
-  navigation,
-}) => {
+const SingleChartScreen: React.FC<Props> = ({ route, navigation }) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const { user: currentUser } = route.params;
 
-  const resetProcessedLogs = useResetProcessedLogs(currentUser);
-  const { data: logs, isLoading } = useProcessedLogsForUser({
-    idToken,
+  // const resetProcessedLogs = useResetProcessedLogs(currentUser);
+  const { data: logs, isLoading } = useProcessedLogsForUserQuery({
     user: currentUser,
   });
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    resetProcessedLogs();
+    // resetProcessedLogs();
     setRefreshing(false);
   }, []);
 
-  // console.log("logs", logs?.length);
-  // const chartData = usePreparedLogsForCharts({ logs });
-  const chartData: any = [];
+  // console.log("logs", logs?.length, { isLoading }, logs);
+  const chartData = usePreparedLogsForCharts({ logs });
+
+  React.useEffect(() => {
+    navigation.setOptions({ title: capitalize(currentUser) });
+  }, [currentUser]);
 
   if (isLoading) {
     return <Loading />;
   }
-
-  navigation.setOptions({ title: capitalize(currentUser) });
 
   return (
     <ScrollView
