@@ -4,7 +4,7 @@ import { FIREBASE_COLLECTION_USERS, QUERY_KEY_USER } from "../keys";
 
 import type { User } from "../types";
 
-export const mutateUserWeight = (user: string) => {
+export const useUserWeightMutate = (user: string) => {
   const queryClient = useQueryClient();
   const { firestore } = getDatabase();
 

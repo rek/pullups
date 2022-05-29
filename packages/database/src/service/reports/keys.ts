@@ -1,0 +1,5 @@
+export const FIREBASE_COLLECTION_REPORTS = "reports";
+
+export const REPORT_QUERY_KEYS = {
+  BASE: FIREBASE_COLLECTION_REPORTS,
+};
