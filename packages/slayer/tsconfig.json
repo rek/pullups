@@ -1,0 +1,14 @@
+{
+  "extends": "tsconfig/lib.json",
+  "include": [
+    "src",
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "noImplicitAny": false,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "ESNext",
+    "module": "ESNext",
+  }
+}

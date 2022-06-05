@@ -1,0 +1,59 @@
+{
+  "name": "slayer",
+  "version": "2.0.0",
+  "description": "JavaScript time series spike detection for Node.js; like the Octave findpeaks function.",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "dev": "tsc -w",
+    "build": "tsc",
+    "test-old": "mocha --reporter dot 'test/**/*.js'",
+    "test": "echo true",
+    "posttest": "yarn lint --fix",
+    "lint": "eslint index.js ./dist",
+    "benchmarks": "./bin/run-benchmarks.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bbc/slayer.git"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "reporter": [
+      "text",
+      "html"
+    ]
+  },
+  "keywords": [
+    "maths",
+    "spike",
+    "peak",
+    "matrix",
+    "valleys",
+    "detection",
+    "time",
+    "series",
+    "algorithm"
+  ],
+  "private": true,
+  "author": "Thomas Parisot <thomas.parisot@bbc.co.uk> (https://oncletom.io)",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/jest": "^27.5.1",
+    "benchmark": "^1.0.0",
+    "chai": "^3.5.0",
+    "eslint": "^5.7.1",
+    "jest": "^28.1.0",
+    "tsup": "^5.10.1",
+    "ts-jest": "^28.0.2",
+    "nyc": "^8.3.0",
+    "sinon": "^1.9.1",
+    "sinon-chai": "^2.5.0",
+    "split": "^1.0.0",
+    "tsconfig": "*",
+    "typescript": "^4.5.3"
+  }
+}
