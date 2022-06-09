@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 import TableCell from "@material-ui/core/TableCell";
 import Button from "@material-ui/core/Button";

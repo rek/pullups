@@ -2,7 +2,6 @@ import React from "react";
 import { atom, useRecoilState } from "recoil";
 import styled from "styled-components";
 
-import type { Log } from "../../types";
 import { Line } from "../../graphs/line";
 import { useData } from "../../hooks/useData";
 import { Loading } from "../../common";

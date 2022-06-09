@@ -1,8 +1,14 @@
 import React from "react";
 import get from "lodash/get";
 import { processLog } from "detect-pullups";
+import {
+  useProcessedLogsAddMutate,
+  useUserWeightMutate,
+  useLogDeleteMutate,
+  useLogQuery,
+  useMarkAsProcessedLogData,
+} from "database";
 
-import { markAsProcessedLogData } from "../../hooks/useData";
 import {
   Loading,
   Table,
@@ -13,25 +19,21 @@ import {
   ViewIcon,
   AddIcon,
 } from "../../common";
-import { mutateUserWeight } from "../../hooks/useUser";
 import type { User } from "../../types";
-import { mutateProcessedLogs } from "../../hooks";
 import { UserLogChart } from "../UserLogChart";
 import type { Marker } from "../../graphs";
 import { logDebug } from "../../utils";
-import { useLogQuery } from "../../service/logs/queries/useLogQuery";
-import { deleteLogData } from "../../service/logs/queries/useLogMutate";
 import { getMarkersFromProcessedData } from "../../service/logsProcessed/selectors/getMarkersFromProcessedData";
 
 export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
   const { data: allDataForUser } = useLogQuery({ user: user.name });
-  const updateUserWeight = mutateUserWeight(user.name);
-  const markAsProcessed = markAsProcessedLogData(user.name);
-  const addProcessedLog = mutateProcessedLogs(user.name, (log) => {
+  const updateUserWeight = useUserWeightMutate(user.name);
+  const markAsProcessed = useMarkAsProcessedLogData(user.name);
+  const addProcessedLog = useProcessedLogsAddMutate(user.name, (log) => {
     markAsProcessed.mutate(log.logId);
   });
   // const addProcessedLog = mutateReport(user.name);
-  const deleteLog = deleteLogData(user.name);
+  const deleteLog = useLogDeleteMutate(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
   const [markers, setExtra] = React.useState<Marker[]>();
 

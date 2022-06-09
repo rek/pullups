@@ -10,7 +10,7 @@ import { useClosestKnownWeight } from "../hooks/useClosestKnownWeight";
 import { RawStats } from "./common/RawStats";
 import { LogStats } from "./logs/LogStats";
 import { useProcessedLogForUser } from "../service/logsProcessed/queries";
-import { Log } from "../service/logs/types";
+import { Log } from "database/src/service/logs/types";
 
 // export const UserChartForActiveUser = () => {
 // 	const activeSession = useRecoilValue(sessionState);

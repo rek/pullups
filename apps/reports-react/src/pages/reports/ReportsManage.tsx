@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Table, Title, TableActions, DeleteIcon, EditIcon } from "../../common";
-import { useReports } from "../../service/reports/useReportQuery";
+import { useReportsQuery } from "database";
 import { ProvideUser } from "../common/ProvideUser";
 
 export const ReportsManage: React.FC<any> = ({ user }) => {
-  const { data: reports } = useReports(user);
+  const { data: reports } = useReportsQuery(user);
 
   if (!reports || reports.length === 0) {
     return <div>This user has no reports configured: {user}</div>;

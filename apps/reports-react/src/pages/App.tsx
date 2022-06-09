@@ -1,108 +1,42 @@
 import * as React from "react";
-import { RecoilRoot } from "recoil";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-// import GridLayout from "react-grid-layout";
-// import styled from "styled-components";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { getDatabase, performLogin } from "database";
 
-// import "react-grid-layout/css/styles.css";
-// import "react-resizable/css/styles.css";
+import { Loading, Login } from "../common";
+import { config } from "../config";
+import { Authenticated } from "./Authenticated";
 
-import { Wrapper, Loading } from "../common";
-import { Sidebar } from "./nav";
-import {
-  Dashboard,
-  Settings,
-  Users,
-  // Sessions,
-  UserTotals,
-  ListLogs,
-  UserReportsManage,
-} from "../pages";
-
-import { firebaseDoingAuth } from "../db";
-
-/* background-color: grey; */
-// const Item = styled.div`
-// `
-// const Title = styled.div`
-// font-weight: 20px;
-// `
-const queryClient = new QueryClient();
-
+export type Credentials = {
+  email: string;
+  password: string;
+};
 export const App = () => {
-  const [loading, setLoading] = React.useState(true);
-
-  // const height = 150
-  // const layout = [
-  //   {i: 'a', x: 0, y: 0, w: 10, h: 5},
-  //   {i: 'b', x: 0, y: 0, w: 5, h: 5},
-  //   {i: 'c', x: 0, y: 0, w: 5, h: 5}
-  // ];
+  const [credentials, setCredentials] = React.useState<Credentials>();
+  const [state, setState] = React.useState<"Loading" | "Error" | "Success">(
+    "Loading"
+  );
 
   React.useEffect(() => {
-    firebaseDoingAuth
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log("Firebase error:", error);
-      });
+    getDatabase(config);
   }, []);
 
-  if (loading) {
+  React.useEffect(() => {
+    performLogin(credentials)
+      .then(() => {
+        setState("Success");
+      })
+      .catch((error: unknown) => {
+        console.log("Firebase error:", error);
+        setState("Error");
+      });
+  }, [credentials?.email, credentials?.password]);
+
+  if (state === "Loading") {
     return <Loading />;
   }
 
-  return (
-    <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <Wrapper>
-            <Sidebar>
-              {/**
-              <GridLayout className="layout" layout={layout} cols={12} rowHeight={height} width={1200}>
-              <Item key="a">
-              <UserCharts />
-                </Item>
-                </GridLayout>
-              */}
+  if (state === "Error") {
+    return <Login setCredentials={setCredentials} />;
+  }
 
-              <Switch>
-                <Route path="/users">
-                  <Users />
-                </Route>
-                <Route path="/user/:id/totals">
-                  <UserTotals />
-                </Route>
-                <Route path="/user/:id/logs">
-                  <ListLogs />
-                </Route>
-                <Route path="/user/:id/reports">
-                  <UserReportsManage />
-                </Route>
-                {/* <Route path="/sessions">
-                  <Sessions />
-                </Route> */}
-                <Route path="/settings">
-                  <Settings />
-                </Route>
-                <Route path="/home">
-                  <Dashboard />
-                </Route>
-                <Redirect path="/" to="/home" />
-              </Switch>
-            </Sidebar>
-          </Wrapper>
-        </Router>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </RecoilRoot>
-  );
+  return <Authenticated />;
 };

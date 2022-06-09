@@ -1,8 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useUsers } from "../service/users";
-import { useSettings, mutateSettings } from "../service/settings";
+import { useUsers, useSettingsQuery, useSettingsMutate } from "database";
 import {
   Text,
   Table,
@@ -17,8 +16,8 @@ import { getShortDate } from "../utils";
 
 export const Users: React.FC = () => {
   const { data: users } = useUsers();
-  const { data: settings } = useSettings();
-  const updateSettings = mutateSettings();
+  const { data: settings } = useSettingsQuery();
+  const { mutate: updateSettings } = useSettingsMutate();
   // console.log("Users:", users);
   // console.log("Settings:", settings);
 
@@ -66,7 +65,7 @@ export const Users: React.FC = () => {
       name: "Set active",
       action: (row: number) => {
         console.log(users[row].name);
-        updateSettings.mutate({ active: users[row].name });
+        updateSettings({ active: users[row].name });
       },
       renderIcon: () => <AddIcon />,
     },

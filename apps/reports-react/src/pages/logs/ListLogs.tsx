@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
+import { useUser } from "database";
 
 import { Loading, UserName } from "../../common";
 import { TitleHeader } from "../../common/components/TitleHeader";
-import { useUser } from "../../service/users/useUsersQuery";
 
 import { ListLogItems } from "./ListLogItems";
 

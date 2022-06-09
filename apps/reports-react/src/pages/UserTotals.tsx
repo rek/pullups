@@ -3,10 +3,10 @@ import * as React from "react";
 import { Loading, Title } from "../common";
 import { SingleReport } from "./reports/SingleReport";
 import { ProvideUser } from "./common/ProvideUser";
-import { useReports } from "../service/reports/useReportQuery";
+import { useReportQuery } from "database";
 
 export const UserReports: React.FC<{ user: string }> = ({ user }) => {
-  const { data: reports, isLoading } = useReports(user);
+  const { data: reports, isLoading } = useReportQuery(user);
 
   if (isLoading) {
     return <Loading />;

@@ -2,13 +2,14 @@ import * as React from "react";
 
 import { PersonIcon, Tooltip } from "../../common";
 import IconButton from "@material-ui/core/IconButton";
-import { useSettings } from "../../service/settings";
+
+import { useSettingsQuery } from "database";
 
 interface Props {
   handleClick: () => void;
 }
 export const Profile: React.FC<Props> = ({ handleClick }) => {
-  const { data: settings } = useSettings();
+  const { data: settings } = useSettingsQuery();
 
   if (!settings) {
     return null;

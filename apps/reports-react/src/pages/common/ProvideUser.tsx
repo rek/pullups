@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useUser } from "database";
 
-import { useUser } from "../../service/users/useUsersQuery";
 import { Loading } from "../../common";
 import type { User } from "../../types";
 

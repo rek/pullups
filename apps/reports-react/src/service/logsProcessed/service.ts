@@ -1,7 +1,7 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
+import { getUsersCollection } from "database";
 
 import { ProcessedLog } from "./types";
-import { getUsersCollection } from "../users";
 
 const FIREBASE_KEY_COLLECTION_PROCESSED_LOGS = "processedLogs";
 

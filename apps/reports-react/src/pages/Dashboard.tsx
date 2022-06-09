@@ -1,14 +1,14 @@
 import * as React from "react";
+import { useReportQuery } from "database";
 
 import { Text } from "../common";
 import { GroupGraphUser } from "../graphs/groups";
-import { useReport } from "../service/reports/useReportQuery";
 
 const UserGraph = () => {
   const [data] = React.useState([]);
   // const mutatePullups = mutateReportPullups("adam");
 
-  const { data: reportData } = useReport("adam", "weight");
+  const { data: reportData } = useReportQuery("adam", "weight");
   console.log("reportData", reportData);
 
   React.useEffect(() => {
