@@ -1,4 +1,4 @@
-import {refineSpikes} from './algorithms/default.js'
+import {refineSpikes} from './algorithms/default.js';
 
 const CONFIG_DEFAULTS = {
   minPeakDistance: 30,
@@ -192,5 +192,5 @@ class Slayer {
 
 
 export const SlayerFactory = (config) => {
-    return new Slayer(config);
+  return new Slayer(config);
 };

@@ -13,7 +13,7 @@
     "test-old": "mocha --reporter dot 'test/**/*.js'",
     "test": "echo true",
     "posttest": "yarn lint --fix",
-    "lint": "eslint index.js ./dist",
+    "lint": "eslint index.js ./src",
     "benchmarks": "./bin/run-benchmarks.js"
   },
   "repository": {

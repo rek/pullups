@@ -1,6 +1,6 @@
 'use strict';
 
-import {utils} from '../utils.js'
+import {utils} from '../utils.js';
 
 /**
  * Returns an item if it is the highest local one. Otherwise returns null.
@@ -19,4 +19,4 @@ export function refineSpikes(distance, item, i, array){
   );
 
   return item > max ? item : null;
-};
+}

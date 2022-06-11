@@ -1,2 +1,2 @@
-import {SlayerFactory} from "./core";
-export default SlayerFactory
+import {SlayerFactory} from './core';
+export default SlayerFactory;
