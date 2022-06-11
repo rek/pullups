@@ -5,3 +5,4 @@ export * from "./service/logs";
 export * from "./service/logsProcessed";
 
 export * from "./getDatabase";
+export * from "./performLogin";

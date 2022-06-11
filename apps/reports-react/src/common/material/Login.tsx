@@ -9,24 +9,32 @@ const Wrapper = styled.div`
   align-content: center;
   flex-direction: column;
 `;
+const ErrorWrapper = styled.div`
+  margin: 10px;
+  max-width: 50vh;
+  color: red;
+`;
 const InputWrapper = styled(Input)`
   margin: 10px;
   max-width: 50vh;
 `;
 const ButtonWrapper = styled(Button)`
   margin: 20px;
+  margin-top: 10px;
   margin-left: 10px;
   max-width: 50vh;
 `;
 
 export interface LoginProps {
+  error?: string;
   setCredentials: (props: { email: string; password: string }) => unknown;
 }
-export const Login: React.FC<LoginProps> = ({ setCredentials }) => {
+export const Login: React.FC<LoginProps> = ({ setCredentials, error }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
   const handleLogin = () => {
+    // console.log("Setting:", { email, password });
     setCredentials({ email, password });
   };
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +46,7 @@ export const Login: React.FC<LoginProps> = ({ setCredentials }) => {
 
   return (
     <form className="form">
+      <ErrorWrapper>{error}</ErrorWrapper>
       <Wrapper>
         <InputWrapper id="email" onChange={handleChangeEmail} />
         <InputWrapper

@@ -9,6 +9,5 @@
     "rootDir": "./src",
     "target": "ESNext",
     "module": "ESNext",
-
   }
 }

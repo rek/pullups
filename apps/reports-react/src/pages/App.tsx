@@ -11,18 +11,17 @@ export type Credentials = {
 };
 export const App = () => {
   const [credentials, setCredentials] = React.useState<Credentials>();
-  const [state, setState] = React.useState<"Loading" | "Error" | "Success">(
-    "Loading"
-  );
+  const [state, setState] = React.useState<
+    "Loading" | "Error" | "Success" | ""
+  >("");
 
   React.useEffect(() => {
-    getDatabase(config);
-  }, []);
-
-  React.useEffect(() => {
-    performLogin(credentials)
-      .then(() => {
-        setState("Success");
+    const { auth } = getDatabase(config);
+    performLogin({ ...config, ...credentials }, auth)
+      .then((success) => {
+        if (success) {
+          setState("Success");
+        }
       })
       .catch((error: unknown) => {
         console.log("Firebase error:", error);
@@ -34,8 +33,13 @@ export const App = () => {
     return <Loading />;
   }
 
-  if (state === "Error") {
-    return <Login setCredentials={setCredentials} />;
+  if (state === "Error" || state === "") {
+    return (
+      <Login
+        error={state === "Error" ? "Invalid" : ""}
+        setCredentials={setCredentials}
+      />
+    );
   }
 
   return <Authenticated />;

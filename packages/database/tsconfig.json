@@ -4,10 +4,10 @@
     "src",
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "ESNext",
     "outDir": "./dist",
     "rootDir": "./src",
-    "esModuleInterop": true,
     "target": "ESNext",
-    "module": "ESNext",
   }
 }
