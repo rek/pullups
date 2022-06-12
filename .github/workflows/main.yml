@@ -27,6 +27,8 @@ jobs:
 
       - name: GitHub Action for Firebase
         uses: w9jds/firebase-action@v2.2.2
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       # - uses: pnpm/action-setup@v2.1.0
       #   with:
