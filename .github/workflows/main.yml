@@ -44,8 +44,7 @@ jobs:
         uses: w9jds/firebase-action@v2.2.2
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        with:
-          args: yarn test
+        run: yarn test
         # run: pnpm turbo run test
 
       - name: Deploy and build the app
