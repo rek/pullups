@@ -11,6 +11,12 @@
         "coverage/**"
       ]
     },
+    "database#test": {
+      "dependsOn": ["detect-pullups#build"]
+    },
+    "database#build": {
+      "dependsOn": ["detect-pullups#build"]
+    },
     "lint": {
       "outputs": []
     },
