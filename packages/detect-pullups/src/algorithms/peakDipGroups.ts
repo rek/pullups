@@ -1,8 +1,8 @@
-import { detectDips, detectPeaks } from "../utils";
+import { detectDips, detectPeaks } from '../utils';
 
-import type { Line, XY} from "../types";
-import { isValidBodyWeight } from "../utils/isValidBodyWeight";
-import { isAmountWithinDeviation } from "../utils/isAmountWithinDeviation";
+import type { Line, XY } from '../types';
+import { isValidBodyWeight } from '../utils/isValidBodyWeight';
+import { isAmountWithinDeviation } from '../utils/isAmountWithinDeviation';
 
 export interface Result {
   dips: XY[];
@@ -64,8 +64,8 @@ export const peakDipGroups = async (
       );
 
       if (dipIsTooCloseToBodyWeight) {
+        // console.log("Removing bad dip:", dip);
         return false;
-        console.log("Removing bad dip:", dip);
       }
 
       return true;

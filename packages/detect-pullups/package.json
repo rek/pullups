@@ -18,7 +18,7 @@
     "build": "tsc",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w",
-    "lint": "tsdx lint",
+    "lint": "TIMING=1 eslint src --fix",
     "rollup": "yarn clean && rollup -c",
     "size": "size-limit",
     "start": "tsdx watch",
@@ -29,6 +29,7 @@
       "pre-commit": "tsdx lint"
     }
   },
+  "eslintIgnore": ["src/__fixtures/*"],
   "prettier": {
     "printWidth": 80,
     "semi": true,
