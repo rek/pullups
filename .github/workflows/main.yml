@@ -16,16 +16,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    env: FIREBASE_EMULATORS_PATH: ${{ github.workspace }}/emulator-cache
 
     steps:
       - name: Cache firebase emulators
         uses: actions/cache@v2
         with:
-          path: ${{ env.FIREBASE_EMULATORS_PATH }}
-          key:
-            ${{ runner.os }}-firebase-emulators-${{
-            hashFiles('emulator-cache/**') }}
+          path: ~/.cache/firebase/emulators
+          key: ${{ runner.os }}-firebase-emulators-${{ hashFiles('~/.cache/firebase/emulators/**') }}
         continue-on-error: true
 
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
