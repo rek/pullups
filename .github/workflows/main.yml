@@ -13,15 +13,21 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  test:
     runs-on: ubuntu-latest
+    env: FIREBASE_EMULATORS_PATH: ${{ github.workspace }}/emulator-cache
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Cache firebase emulators
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.FIREBASE_EMULATORS_PATH }}
+          key:
+            ${{ runner.os }}-firebase-emulators-${{
+            hashFiles('emulator-cache/**') }}
+        continue-on-error: true
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
@@ -40,12 +46,35 @@ jobs:
         run: yarn
         # run: pnpm install
 
+      - name: Install firebase
+        run: npm -g i firebase-tools
+
       - name: Run tests
-        uses: w9jds/firebase-action@v2.2.2
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: yarn test
         # run: pnpm turbo run test
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          cache: yarn
+          # cache: pnpm
+
+      - name: Install dependencies
+        run: yarn
+        # run: pnpm install
 
       - name: Deploy and build the app
         run: yarn turbo run deploy --scope=reports-react
