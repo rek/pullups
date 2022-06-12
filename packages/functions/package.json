@@ -19,12 +19,6 @@
     "node": ">12"
   },
   "main": "lib/index.js",
-  "eslintConfig": {
-    "rules": {
-      "@typescript-eslint/no-redeclare": "off",
-      "no-redeclare": "off"
-    }
-  },
   "dependencies": {
     "@firebase/app-compat": "*",
     "@firebase/app-types": "*",
