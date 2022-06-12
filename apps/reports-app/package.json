@@ -7,7 +7,8 @@
     "prestart": "rm -rf node_modules/react node_modules/react-dom ",
     "build": "eas build -p android",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf .expo",
-    "test": "jest --watchAll"
+    "test": "echo true",
+    "test2": "jest --watchAll"
   },
   "jest": {
     "preset": "jest-expo"

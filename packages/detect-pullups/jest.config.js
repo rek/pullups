@@ -6,7 +6,7 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "js"],
   modulePathIgnorePatterns: [
-    "<rootDir>/test/__fixtures__",
+    "<rootDir>/src/__fixtures",
     "<rootDir>/node_modules",
     "<rootDir>/dist",
   ],

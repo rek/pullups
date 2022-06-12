@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "description": "JavaScript time series spike detection for Node.js; like the Octave findpeaks function.",
   "main": "dist/index.js",
-  "files": [
+    "files": [
     "dist/**"
   ],
   "scripts": {

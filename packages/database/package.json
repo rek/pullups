@@ -16,7 +16,8 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "dev": "tsc -w",
     "emu": "firebase emulators:start --only firestore --project test",
-    "test": "jest --detectOpenHandles"
+    "test": "firebase emulators:exec --only firestore --project test 'yarn test:local'",
+    "test:local": "jest --detectOpenHandles"
   },
   "devDependencies": {
     "@types/jest": "^27.5.1",

@@ -3,6 +3,7 @@ pullups.code-workspace
 # generated files
 reports-data-generator/*.json
 reports-data-generator/*.js
+packages/database/firestore-debug.log
 
 # secrets!
 controller/Secrets.h
