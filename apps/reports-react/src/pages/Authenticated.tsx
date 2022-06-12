@@ -25,12 +25,6 @@ import {
 } from ".";
 import { Sidebar } from "./nav";
 
-/* background-color: grey; */
-// const Item = styled.div`
-// `
-// const Title = styled.div`
-// font-weight: 20px;
-// `
 const queryClient = new QueryClient();
 
 export const Authenticated = ({ logout }: { logout: () => void }) => {
@@ -56,28 +50,30 @@ export const Authenticated = ({ logout }: { logout: () => void }) => {
               */}
 
               <Switch>
-                <Route path="/users">
+                <Route path="/pullups/users">
                   <Users />
                 </Route>
-                <Route path="/user/:id/totals">
+                <Route path="/pullups/user/:id/totals">
                   <UserTotals />
                 </Route>
-                <Route path="/user/:id/logs">
+                <Route path="/pullups/user/:id/logs">
                   <ListLogs />
                 </Route>
-                <Route path="/user/:id/reports">
+                <Route path="/pullups/user/:id/reports">
                   <UserReportsManage />
                 </Route>
-                {/* <Route path="/sessions">
+                {/*
+                <Route path="/sessions">
                   <Sessions />
-                </Route> */}
-                <Route path="/settings">
+                </Route>
+                */}
+                <Route path="/pullups/settings">
                   <Settings />
                 </Route>
-                <Route path="/home">
+                <Route path="/pullups/home">
                   <Dashboard />
                 </Route>
-                <Redirect path="/" to="/home" />
+                <Redirect path="/" to="/pullups/home" />
               </Switch>
             </Sidebar>
           </Wrapper>

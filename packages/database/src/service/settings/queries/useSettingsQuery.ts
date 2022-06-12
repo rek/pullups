@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 import { doc, getDoc } from "firebase/firestore";
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 import {
   QUERY_SETTINGS_KEY,
   settingsCollection,

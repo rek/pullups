@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import { GraphIcon, MenuBookIcon, PeopleIcon } from "../../common";
 import { NavBar } from "../../common";
@@ -7,7 +7,10 @@ import { Profile } from "./Profile";
 interface Props {
   logout: () => void;
 }
-export const Sidebar: React.FC<Props> = ({ logout, children }) => {
+export const Sidebar: React.FC<React.PropsWithChildren<Props>> = ({
+  logout,
+  children,
+}) => {
   const renderTopBarRight = ({ handleClick }: { handleClick: () => void }) => {
     return (
       <Profile

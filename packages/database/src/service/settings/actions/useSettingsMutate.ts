@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { Settings } from "../queries/useSettingsQuery";
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 import { useSettingsInvalidate } from "./useSettingsInvalidate";
 import { doSettingsMutate } from "./doSettingsMutate";
 

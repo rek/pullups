@@ -4,5 +4,5 @@ import * as React from "react";
 export const Input: React.FC<
   React.PropsWithChildren<Partial<TextFieldProps>>
 > = ({ children, ...props }) => {
-  return <TextField label="Input" variant="filled" {...props} />;
+  return <TextField variant="standard" {...props} />;
 };

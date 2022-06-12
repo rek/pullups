@@ -16,7 +16,7 @@ export const Profile: React.FC<Props> = ({ handleClick }) => {
 
   return (
     <div onClick={handleClick}>
-      <Tooltip title={settings.active} label="add">
+      <Tooltip title={`Logout ${settings.active}`} label="add">
         <IconButton>
           <PersonIcon color="secondary" />
         </IconButton>

@@ -3,7 +3,7 @@ import { useQuery, useMutation } from "react-query";
 
 import { processedLogsCollection } from "../keys";
 import { FIREBASE_COLLECTION_USERS } from "../../users/keys";
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 import type { ProcessedLog, ProcessedLogs } from "../types";
 
 export const useProcessedLogsAddMutate = (

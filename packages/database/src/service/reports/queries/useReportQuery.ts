@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useQuery } from "react-query";
 
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 import { FIREBASE_COLLECTION_REPORTS, REPORT_QUERY_KEYS } from "../keys";
 
 export const getReportDocRef = (keys: string[]) => {

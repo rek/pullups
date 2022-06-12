@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 import { FIREBASE_COLLECTION_USERS, QUERY_KEY_USER } from "../keys";
 
 import type { User } from "../types";

@@ -45,7 +45,8 @@ export const NavBar: React.FC<{
   };
 
   const handleSettingsOpen = () => {
-    console.log("open");
+    // console.log("Setting profile clicked");
+    // in the future, we can do things like show a menu here.
     logout();
   };
 
@@ -54,7 +55,7 @@ export const NavBar: React.FC<{
     () => {
       // event.preventDefault();
       // console.log('Going to:', name)
-      history.push(`/${name.toLowerCase().replace(" ", "")}`);
+      history.push(`/pullups/${name.toLowerCase().replace(" ", "")}`);
     };
 
   return (

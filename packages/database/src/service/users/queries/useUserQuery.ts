@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import type { User } from "../types";
 import { normalizeUser } from "../adapters/normalize";
 import { FIREBASE_COLLECTION_USERS, QUERY_KEY_USER } from "../keys";
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 
 export const getUsersDocRef = (keys: string[]) => {
   const { firestore } = getDatabase();

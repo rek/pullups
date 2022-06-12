@@ -7,10 +7,27 @@ import { Input } from "./Input";
 const Page = styled.div`
   display: flex;
   justify-content: center;
+
+  background: #ecf0f3;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    border-radius: 25px;
+  }
+
   form {
     border: 1px solid #aaa;
     margin: 40px;
     padding: 40px;
+    height: 40vh;
+
+    border-radius: 40px;
+    background: #ecf0f3;
+    box-shadow: 13px 13px 20px #cbced1, -13px -13px 20px #ffffff;
   }
 `;
 const Wrapper = styled.div`
@@ -25,10 +42,31 @@ const ErrorWrapper = styled.div`
   color: red;
 `;
 const InputWrapper = styled(Input)`
-  margin: 10px;
+  margin: 20px;
+  div::before {
+    border-bottom: none;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+  div {
+    margin: 20px;
+    border-radius: 25px;
+    box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #ffffff;
+  }
+  input {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    color: #555;
+    padding: 20px 10px 20px 25px;
+  }
 `;
 const ButtonWrapper = styled.div`
   margin: 30px;
+  button {
+    background: #ecf0f3;
+  }
 `;
 
 export interface LoginProps {

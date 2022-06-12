@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 
-import { getDatabase } from "../../../getDatabase";
+import { getDatabase } from "../../../auth/getDatabase";
 // import { QUERY_LOGS_KEY } from "../../logs/keys";
 
 export const useMarkAsProcessedLogData = (user: string) => {

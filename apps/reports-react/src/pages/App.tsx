@@ -15,6 +15,12 @@ export const App = () => {
     "Loading" | "Error" | "Success" | ""
   >("");
 
+  const handleLogout = () => {
+    // console.log("Running logout");
+    setCredentials({ email: "", password: "" });
+    setState("");
+  };
+
   React.useEffect(() => {
     const { auth } = getDatabase(config);
     performLogin({ ...config, ...credentials }, auth)
@@ -36,13 +42,11 @@ export const App = () => {
   if (state === "Error" || state === "") {
     return (
       <Login
-        error={state === "Error" ? "Invalid" : ""}
+        error={state === "Error" ? "Login error." : ""}
         setCredentials={setCredentials}
       />
     );
   }
 
-  return (
-    <Authenticated logout={() => setCredentials({ email: "", password: "" })} />
-  );
+  return <Authenticated logout={handleLogout} />;
 };
