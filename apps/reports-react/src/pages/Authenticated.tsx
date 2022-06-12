@@ -33,7 +33,7 @@ import { Sidebar } from "./nav";
 // `
 const queryClient = new QueryClient();
 
-export const Authenticated = () => {
+export const Authenticated = ({ logout }: { logout: () => void }) => {
   // const height = 150
   // const layout = [
   //   {i: 'a', x: 0, y: 0, w: 10, h: 5},
@@ -46,7 +46,7 @@ export const Authenticated = () => {
       <QueryClientProvider client={queryClient}>
         <Router>
           <Wrapper>
-            <Sidebar>
+            <Sidebar logout={logout}>
               {/**
               <GridLayout className="layout" layout={layout} cols={12} rowHeight={height} width={1200}>
               <Item key="a">

@@ -42,5 +42,7 @@ export const App = () => {
     );
   }
 
-  return <Authenticated />;
+  return (
+    <Authenticated logout={() => setCredentials({ email: "", password: "" })} />
+  );
 };

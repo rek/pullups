@@ -49,5 +49,9 @@ jobs:
         run: yarn test
         # run: pnpm turbo run test
 
+      - name: info
+        run: pwd
+      - name: ls
+        run: ls
       - name: Build and Deploy the app
         run: yarn deploy

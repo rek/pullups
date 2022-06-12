@@ -4,26 +4,31 @@ import styled from "styled-components";
 import { Button } from "./Button";
 import { Input } from "./Input";
 
-const Wrapper = styled.div`
+const Page = styled.div`
   display: flex;
   justify-content: center;
-  align-content: center;
+  form {
+    border: 1px solid #aaa;
+    margin: 40px;
+    padding: 40px;
+  }
+`;
+const Wrapper = styled.div`
+  display: flex;
   flex-direction: column;
+  div {
+    margin-bottom: 5px;
+  }
 `;
 const ErrorWrapper = styled.div`
   margin: 10px;
-  max-width: 50vh;
   color: red;
 `;
 const InputWrapper = styled(Input)`
   margin: 10px;
-  max-width: 50vh;
 `;
-const ButtonWrapper = styled(Button)`
-  margin: 20px;
-  margin-top: 11px;
-  margin-left: 10px;
-  max-width: 50vh;
+const ButtonWrapper = styled.div`
+  margin: 30px;
 `;
 
 export interface LoginProps {
@@ -46,18 +51,27 @@ export const Login: React.FC<LoginProps> = ({ setCredentials, error }) => {
   };
 
   return (
-    <form className="form">
-      <ErrorWrapper>{error}</ErrorWrapper>
-      <Wrapper>
-        <InputWrapper id="email" onChange={handleChangeEmail} />
-        <InputWrapper
-          id="password"
-          onChange={handleChangePassword}
-          type="password"
-        />
+    <Page>
+      <form className="form">
+        <ErrorWrapper>{error}</ErrorWrapper>
+        <Wrapper>
+          <InputWrapper
+            id="email"
+            placeholder="Email"
+            onChange={handleChangeEmail}
+          />
+          <InputWrapper
+            id="password"
+            placeholder="Password"
+            onChange={handleChangePassword}
+            type="password"
+          />
 
-        <ButtonWrapper onClick={handleLogin}>Log in</ButtonWrapper>
-      </Wrapper>
-    </form>
+          <ButtonWrapper>
+            <Button onClick={handleLogin}>Log in</Button>
+          </ButtonWrapper>
+        </Wrapper>
+      </form>
+    </Page>
   );
 };

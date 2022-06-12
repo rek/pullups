@@ -4,10 +4,21 @@ import { GraphIcon, MenuBookIcon, PeopleIcon } from "../../common";
 import { NavBar } from "../../common";
 import { Profile } from "./Profile";
 
-export const Sidebar: React.FC = ({ children }) => {
+interface Props {
+  logout: () => void;
+}
+export const Sidebar: React.FC<Props> = ({ logout, children }) => {
   const renderTopBarRight = ({ handleClick }: { handleClick: () => void }) => {
-    return <Profile handleClick={handleClick} />;
+    return (
+      <Profile
+        handleClick={() => {
+          logout();
+          handleClick();
+        }}
+      />
+    );
   };
+
   return (
     <NavBar
       title="Pullup tracking system v1"

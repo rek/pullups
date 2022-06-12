@@ -18,6 +18,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import clsx from "clsx";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
 
 import { useStyles } from "./theme";
 
@@ -32,6 +33,7 @@ export const NavBar: React.FC<{
   const classes = useStyles();
   const theme = useTheme();
   const history = useHistory();
+  const logout = useLogout();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -44,13 +46,16 @@ export const NavBar: React.FC<{
 
   const handleSettingsOpen = () => {
     console.log("open");
+    logout();
   };
 
-  const handleClick = (name: string = "") => () => {
-    // event.preventDefault();
-    // console.log('Going to:', name)
-    history.push(`/${name.toLowerCase().replace(" ", "")}`);
-  };
+  const handleClick =
+    (name: string = "") =>
+    () => {
+      // event.preventDefault();
+      // console.log('Going to:', name)
+      history.push(`/${name.toLowerCase().replace(" ", "")}`);
+    };
 
   return (
     <div className={classes.root}>

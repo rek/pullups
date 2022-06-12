@@ -57,22 +57,5 @@
     "prop-types": "^15.8.1",
     "typescript": "~4.3.5"
   },
-  "eslintConfig": {
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": false,
-        "ignoreDeclarationSort": false,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": [
-          "none",
-          "all",
-          "multiple",
-          "single"
-        ],
-        "allowSeparatedGroups": false
-      }
-    ]
-  },
   "private": true
 }
