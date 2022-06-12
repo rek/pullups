@@ -1,5 +1,5 @@
-import MaterialTooltip from "@material-ui/core/Tooltip"
-import * as React from "react"
+import MaterialTooltip from "@material-ui/core/Tooltip";
+import * as React from "react";
 
 interface Props {
   label: string;
@@ -7,7 +7,7 @@ interface Props {
 }
 export const Tooltip: React.FC<Props> = ({ children, title, label }) => {
   if (!children) {
-    return null
+    return null;
   }
 
   return (
@@ -15,5 +15,5 @@ export const Tooltip: React.FC<Props> = ({ children, title, label }) => {
       {/* @ts-expect-error bad children type */}
       {children}
     </MaterialTooltip>
-  )
-}
+  );
+};

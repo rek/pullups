@@ -1,24 +1,24 @@
-import { useReportQuery } from "database"
-import * as React from "react"
+import { useReportQuery } from "database";
+import * as React from "react";
 
-import { Text } from "../common"
-import { GroupGraphUser } from "../graphs/groups"
+import { Text } from "../common";
+import { GroupGraphUser } from "../graphs/groups";
 
 const UserGraph = () => {
-  const [data] = React.useState([])
+  const [data] = React.useState([]);
   // const mutatePullups = mutateReportPullups("adam");
 
-  const { data: reportData } = useReportQuery("adam", "weight")
-  console.log("reportData", reportData)
+  const { data: reportData } = useReportQuery("adam", "weight");
+  console.log("reportData", reportData);
 
   React.useEffect(() => {
     // mutatePullups.mutate({
     //   count: 0,
     // });
-  }, [])
+  }, []);
 
-  return <GroupGraphUser data={data} />
-}
+  return <GroupGraphUser data={data} />;
+};
 
 export const Dashboard = () => {
   return (
@@ -29,5 +29,5 @@ export const Dashboard = () => {
         <UserGraph />
       </div>
     </>
-  )
-}
+  );
+};

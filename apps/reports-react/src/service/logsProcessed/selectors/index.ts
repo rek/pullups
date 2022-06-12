@@ -1,1 +1,1 @@
-export * from "./getMarkersFromProcessedData"
+export * from "./getMarkersFromProcessedData";

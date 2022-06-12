@@ -1,7 +1,7 @@
 // export * from './rendition'
 // export * from './rebass'
-export * from "./material"
+export * from "./material";
 
 // generic:
-export * from "./styled"
-export * from "./components"
+export * from "./styled";
+export * from "./components";

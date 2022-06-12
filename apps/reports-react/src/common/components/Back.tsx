@@ -1,18 +1,18 @@
-import * as React from "react"
-import { useHistory } from "react-router-dom"
+import * as React from "react";
+import { useHistory } from "react-router-dom";
 
-import { ArrowBackIcon } from "../material/icons"
+import { ArrowBackIcon } from "../material/icons";
 
 export const Back: React.FC = () => {
-  const history = useHistory()
+  const history = useHistory();
 
   const handleBack = () => {
-    history.goBack()
-  }
+    history.goBack();
+  };
 
   return (
     <div onClick={handleBack}>
       <ArrowBackIcon />
     </div>
-  )
-}
+  );
+};

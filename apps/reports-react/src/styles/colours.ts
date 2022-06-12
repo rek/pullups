@@ -9,4 +9,4 @@ export const colours = {
 
   redDark: "#82312c",
   red: "#ba372f",
-}
+};

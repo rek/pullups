@@ -1,8 +1,8 @@
-import TextField, { TextFieldProps } from "@material-ui/core/TextField"
-import * as React from "react"
+import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import * as React from "react";
 
 export const Input: React.FC<
   React.PropsWithChildren<Partial<TextFieldProps>>
 > = ({ children, ...props }) => {
-  return <TextField label="Input" variant="filled" {...props} />
-}
+  return <TextField label="Input" variant="filled" {...props} />;
+};

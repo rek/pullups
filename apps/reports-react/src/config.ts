@@ -8,4 +8,4 @@ export const config = {
   measurementId: String(import.meta.env.VITE_measurementId),
   email: String(import.meta.env.VITE_user) || "",
   password: String(import.meta.env.VITE_pass) || "",
-}
+};

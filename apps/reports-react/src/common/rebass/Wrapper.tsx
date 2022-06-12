@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 // import {ThemeProvider} from 'emotion-theming'
 // import theme from '@rebass/preset'
 
@@ -8,5 +8,5 @@ export const Wrapper: React.FC = ({ children }) => {
     // {children}
     // </ThemeProvider>
     <div>test</div>
-  )
-}
+  );
+};

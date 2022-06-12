@@ -1,5 +1,5 @@
-import React from "react"
-import { VictoryBar, VictoryGroup } from "victory"
+import React from "react";
+import { VictoryBar, VictoryGroup } from "victory";
 
 export interface ChartDataItem {
   x: string | number;
@@ -28,8 +28,8 @@ export const GroupGraphDemo: React.FC = () => {
         ],
       ]}
     />
-  )
-}
+  );
+};
 
 export interface GraphDataItem {
   x: string;
@@ -37,15 +37,15 @@ export interface GraphDataItem {
 }
 export type GraphData = GraphDataItem[];
 export const GroupGraphUser: React.FC<{ data: GraphData[] }> = ({ data }) => {
-  return <GroupGraph data={data} />
-}
+  return <GroupGraph data={data} />;
+};
 
 export interface Props {
   data: ChartDataItems[];
 }
 export const GroupGraph: React.FC<Props> = ({ data }) => {
   if (!data) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
@@ -54,5 +54,5 @@ export const GroupGraph: React.FC<Props> = ({ data }) => {
         <VictoryBar data={item} />
       ))}
     </VictoryGroup>
-  )
-}
+  );
+};

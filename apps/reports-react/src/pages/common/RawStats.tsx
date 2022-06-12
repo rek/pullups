@@ -1,16 +1,16 @@
-import React from "react"
+import React from "react";
 
-import { Title } from "../../common"
-import type { UserLog } from "../../types"
-import { Duration } from "./Duration"
+import { Title } from "../../common";
+import type { UserLog } from "../../types";
+import { Duration } from "./Duration";
 
 export const RawStats: React.FC<{ log: UserLog }> = ({ log }) => {
   // console.log('log', log)
 
-  const hasStats = log.duration !== undefined
+  const hasStats = log.duration !== undefined;
 
   if (!hasStats) {
-    return null
+    return null;
   }
 
   return (
@@ -18,5 +18,5 @@ export const RawStats: React.FC<{ log: UserLog }> = ({ log }) => {
       <Title>Raw stats:</Title>
       <Duration value={log.duration} total={log.data.length} />
     </>
-  )
-}
+  );
+};

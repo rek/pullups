@@ -1,7 +1,7 @@
-import dayjs from "dayjs"
-import assign from "lodash/assign"
-import maxBy from "lodash/maxBy"
-import * as React from "react"
+import dayjs from "dayjs";
+import assign from "lodash/assign";
+import maxBy from "lodash/maxBy";
+import * as React from "react";
 import {
   VictoryAxis,
   VictoryBar,
@@ -11,11 +11,11 @@ import {
   VictoryTheme,
   VictoryTooltip,
   VictoryVoronoiContainer,
-} from "victory"
+} from "victory";
 
-import { Loading } from "../common"
-import { colours } from "../styles/colours"
-import type { XY } from "../types"
+import { Loading } from "../common";
+import { colours } from "../styles/colours";
+import type { XY } from "../types";
 
 interface Props {
   data: XY[];
@@ -24,21 +24,21 @@ interface Props {
 }
 export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
   if (!data) {
-    return <Loading />
+    return <Loading />;
   }
 
   const baseProps = {
     width: 350,
     height: 350,
     padding: 50,
-  }
-  const padding = 8
+  };
+  const padding = 8;
   // *
   // * Typography
   // *
-  const sansSerif = "'Helvetica Neue', 'Helvetica', sans-serif"
-  const letterSpacing = "normal"
-  const fontSize = 12
+  const sansSerif = "'Helvetica Neue', 'Helvetica', sans-serif";
+  const letterSpacing = "normal";
+  const fontSize = 12;
   const baseLabelStyles = {
     fontFamily: sansSerif,
     fontSize,
@@ -47,7 +47,7 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
     fill: colours.blueGrey700,
     stroke: "transparent",
     strokeWidth: 0,
-  }
+  };
   const theme = {
     ...VictoryTheme.grayscale,
     bar: assign(
@@ -75,9 +75,9 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
     // },
     // },
     // },
-  }
+  };
 
-  const barWidth = 3
+  const barWidth = 3;
   const style = {
     data: {
       // make the bars differnt for morning and evening.
@@ -90,16 +90,16 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
       fontSize: 10,
       fill: "#000",
     },
-  }
+  };
 
-  const maxDataItem = maxBy(data, "y") || { x: 1, y: 1 }
-  const maxDomain = (maxDataItem.y || 1) * 1.2
+  const maxDataItem = maxBy(data, "y") || { x: 1, y: 1 };
+  const maxDomain = (maxDataItem.y || 1) * 1.2;
   // console.log("maxDomain", maxDomain);
 
   const containerStyle = {
     padding: "60px",
     backgroundColor: "#777",
-  }
+  };
 
   return (
     <div style={containerStyle}>
@@ -165,5 +165,5 @@ export const Bar: React.FC<Props> = ({ data, yLabel, tooltip }) => {
         /> */}
       </VictoryChart>
     </div>
-  )
-}
+  );
+};

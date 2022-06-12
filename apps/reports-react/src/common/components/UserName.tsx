@@ -1,8 +1,8 @@
-import capitalize from "lodash/capitalize"
-import React from "react"
+import capitalize from "lodash/capitalize";
+import React from "react";
 
-import { Title } from "../index"
+import { Title } from "../index";
 
 export const UserName: React.FC<{ name: string }> = ({ name }) => {
-  return <Title title={`User: ${capitalize(name) || "unknown"}`} />
-}
+  return <Title title={`User: ${capitalize(name) || "unknown"}`} />;
+};

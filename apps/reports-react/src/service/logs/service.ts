@@ -1,9 +1,9 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 
-import { UserLog } from "../../types"
+import { UserLog } from "../../types";
 
-const USER_COLLECTION = "users"
-const LOG_COLLECTION = "logs"
+const USER_COLLECTION = "users";
+const LOG_COLLECTION = "logs";
 
 interface Props {
   user?: string;
@@ -40,4 +40,4 @@ export const fetchLogs = async ({ user }: Props) => {
   //   });
   // await result;
   // console.log("result", result);
-}
+};

@@ -1,25 +1,25 @@
-import dayjs from "dayjs"
-import React from "react"
+import dayjs from "dayjs";
+import React from "react";
 
-import { Loading } from "../../common"
-import { useData } from "../../hooks/useData"
-import { ListLogs } from "../logs"
+import { Loading } from "../../common";
+import { useData } from "../../hooks/useData";
+import { ListLogs } from "../logs";
 
 // DEPRECATED, changed to user/logs now
 export function Sessions() {
-  const sessionData = useData({ user: "" }) // '' = all users
+  const sessionData = useData({ user: "" }); // '' = all users
 
   if (!sessionData) {
-    return <Loading />
+    return <Loading />;
   }
 
-  console.log("sessionData", sessionData)
+  console.log("sessionData", sessionData);
 
-  let rows: any[] = []
+  let rows: any[] = [];
   rows = sessionData.reduce(
     (result, { user, data, created, type, ...rest }, index) => {
       if (!data || !created) {
-        return result
+        return result;
       }
       return [
         ...result,
@@ -34,13 +34,13 @@ export function Sessions() {
           processed: false,
           ...rest,
         },
-      ]
+      ];
     },
     rows
-  )
+  );
 
-  console.log("rows", rows)
+  console.log("rows", rows);
 
-  return <ListLogs />
+  return <ListLogs />;
   // return <List rows={rows} />;
 }

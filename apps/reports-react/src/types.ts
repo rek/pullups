@@ -1,5 +1,5 @@
-import { Log } from "database/src/service/logs/types"
-import type { LogReport } from "detect-pullups"
+import { Log } from "database/src/service/logs/types";
+import type { LogReport } from "detect-pullups";
 
 // =====================
 //

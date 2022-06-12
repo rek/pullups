@@ -1,25 +1,25 @@
-import AppBar from "@material-ui/core/AppBar"
-import Box from "@material-ui/core/Box"
-import CssBaseline from "@material-ui/core/CssBaseline"
-import Divider from "@material-ui/core/Divider"
-import Drawer from "@material-ui/core/Drawer"
-import IconButton from "@material-ui/core/IconButton"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
-import { useTheme } from "@material-ui/core/styles"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
-import ChevronRightIcon from "@material-ui/icons/ChevronRight"
-import MenuIcon from "@material-ui/icons/Menu"
-import SettingsIcon from "@material-ui/icons/Settings"
-import clsx from "clsx"
-import React from "react"
-import { useHistory } from "react-router-dom"
+import AppBar from "@material-ui/core/AppBar";
+import Box from "@material-ui/core/Box";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Divider from "@material-ui/core/Divider";
+import Drawer from "@material-ui/core/Drawer";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import { useTheme } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import MenuIcon from "@material-ui/icons/Menu";
+import SettingsIcon from "@material-ui/icons/Settings";
+import clsx from "clsx";
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-import { useStyles } from "./theme"
+import { useStyles } from "./theme";
 
 type renderTopBarRight = (props: {
   handleClick: () => void;
@@ -29,28 +29,28 @@ export const NavBar: React.FC<{
   leftPages: { name: string; icon: React.ReactNode }[];
   renderTopBarRight?: renderTopBarRight;
 }> = ({ title, leftPages, renderTopBarRight, children }) => {
-  const classes = useStyles()
-  const theme = useTheme()
-  const history = useHistory()
-  const [open, setOpen] = React.useState(false)
+  const classes = useStyles();
+  const theme = useTheme();
+  const history = useHistory();
+  const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setOpen(true)
-  }
+    setOpen(true);
+  };
 
   const handleDrawerClose = () => {
-    setOpen(false)
-  }
+    setOpen(false);
+  };
 
   const handleSettingsOpen = () => {
-    console.log("open")
-  }
+    console.log("open");
+  };
 
   const handleClick = (name: string = "") => () => {
     // event.preventDefault();
     // console.log('Going to:', name)
-    history.push(`/${name.toLowerCase().replace(" ", "")}`)
-  }
+    history.push(`/${name.toLowerCase().replace(" ", "")}`);
+  };
 
   return (
     <div className={classes.root}>
@@ -103,8 +103,8 @@ export const NavBar: React.FC<{
         <Divider />
         <List>
           {leftPages.map(({ name, icon }) => {
-            const DefaultIcon = () => <div>?</div>
-            const Icon = icon || DefaultIcon
+            const DefaultIcon = () => <div>?</div>;
+            const Icon = icon || DefaultIcon;
             return (
               <ListItem button key={name} onClick={handleClick(name)}>
                 <ListItemIcon>
@@ -113,7 +113,7 @@ export const NavBar: React.FC<{
                 </ListItemIcon>
                 <ListItemText primary={name} />
               </ListItem>
-            )
+            );
           })}
         </List>
         <Divider />
@@ -138,5 +138,5 @@ export const NavBar: React.FC<{
         {children}
       </main>
     </div>
-  )
-}
+  );
+};

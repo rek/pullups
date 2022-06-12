@@ -1,10 +1,10 @@
-import { useQuery } from "react-query"
+import { useQuery } from "react-query";
 
-import { getLogProcessed, getLogsProcessed } from "../service"
-import { ProcessedLog } from "../types"
+import { getLogProcessed, getLogsProcessed } from "../service";
+import { ProcessedLog } from "../types";
 
-const QUERY_KEY = "processedLogs"
-const QUERY_KEY_SINGLE = "processedLog"
+const QUERY_KEY = "processedLogs";
+const QUERY_KEY_SINGLE = "processedLog";
 
 export const useProcessedLogsForUser = (user: string) => {
   return useQuery<ProcessedLog[], Error>(
@@ -14,8 +14,8 @@ export const useProcessedLogsForUser = (user: string) => {
       cacheTime: Infinity,
       staleTime: Infinity,
     }
-  )
-}
+  );
+};
 
 export const useProcessedLogForUser = (user: string, logId: string) => {
   return useQuery<ProcessedLog[], Error>(
@@ -26,5 +26,5 @@ export const useProcessedLogForUser = (user: string, logId: string) => {
       // cacheTime: Infinity,
       // staleTime: Infinity,
     }
-  )
-}
+  );
+};

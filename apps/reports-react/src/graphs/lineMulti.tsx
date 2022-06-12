@@ -1,19 +1,19 @@
-import dayjs from "dayjs"
-import React from "react"
-import styled from "styled-components"
+import dayjs from "dayjs";
+import React from "react";
+import styled from "styled-components";
 import {
   VictoryAxis,
   VictoryChart,
   VictoryLine,
   VictoryTheme,
   VictoryVoronoiContainer,
-} from "victory"
+} from "victory";
 
-import { Loading } from "../common"
+import { Loading } from "../common";
 
 const ChartContainer = styled.div`
   margin-bottom: 40px;
-`
+`;
 export interface LineMultiDataItem {
   x: number | Date;
   y: number;
@@ -34,12 +34,12 @@ export const LineMulti: React.FC<LineMultiProps> = ({
   labelY,
 }) => {
   if (!config) {
-    return <Loading />
+    return <Loading />;
   }
 
   const theme = {
     ...VictoryTheme.grayscale,
-  }
+  };
 
   return (
     <div style={{ padding: "20px", backgroundColor: "#777" }}>
@@ -59,7 +59,7 @@ export const LineMulti: React.FC<LineMultiProps> = ({
                 style={{ data: { stroke: color || "red" } }}
                 data={data}
               />
-            )
+            );
           })}
 
           <VictoryAxis
@@ -89,5 +89,5 @@ export const LineMulti: React.FC<LineMultiProps> = ({
         </VictoryChart>
       </ChartContainer>
     </div>
-  )
-}
+  );
+};

@@ -4,10 +4,10 @@ import {
   useMarkAsProcessedLogData,
   useProcessedLogsAddMutate,
   useUserWeightMutate,
-} from "database"
-import { processLog } from "detect-pullups"
-import get from "lodash/get"
-import React from "react"
+} from "database";
+import { processLog } from "detect-pullups";
+import get from "lodash/get";
+import React from "react";
 
 import {
   AddIcon,
@@ -18,93 +18,93 @@ import {
   TableRow,
   TableRows,
   ViewIcon,
-} from "../../common"
-import type { Marker } from "../../graphs"
-import { getMarkersFromProcessedData } from "../../service/logsProcessed/selectors/getMarkersFromProcessedData"
-import type { User } from "../../types"
-import { logDebug } from "../../utils"
-import { UserLogChart } from "../UserLogChart"
+} from "../../common";
+import type { Marker } from "../../graphs";
+import { getMarkersFromProcessedData } from "../../service/logsProcessed/selectors/getMarkersFromProcessedData";
+import type { User } from "../../types";
+import { logDebug } from "../../utils";
+import { UserLogChart } from "../UserLogChart";
 
 export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
-  const { data: allDataForUser } = useLogQuery({ user: user.name })
-  const updateUserWeight = useUserWeightMutate(user.name)
-  const markAsProcessed = useMarkAsProcessedLogData(user.name)
+  const { data: allDataForUser } = useLogQuery({ user: user.name });
+  const updateUserWeight = useUserWeightMutate(user.name);
+  const markAsProcessed = useMarkAsProcessedLogData(user.name);
   const addProcessedLog = useProcessedLogsAddMutate(user.name, (log) => {
-    markAsProcessed.mutate(log.logId)
-  })
+    markAsProcessed.mutate(log.logId);
+  });
   // const addProcessedLog = mutateReport(user.name);
-  const deleteLog = useLogDeleteMutate(user.name)
+  const deleteLog = useLogDeleteMutate(user.name);
   // const mutateWeight = mutateReportWeight(user.name);
-  const [markers, setExtra] = React.useState<Marker[]>()
+  const [markers, setExtra] = React.useState<Marker[]>();
 
   if (!allDataForUser) {
-    return <Loading />
+    return <Loading />;
   }
 
-  console.log("[User Logs] All session data: ", allDataForUser)
-  console.log("[User Logs] User:", user)
+  console.log("[User Logs] All session data: ", allDataForUser);
+  console.log("[User Logs] User:", user);
 
-  let rows: TableRows = []
+  let rows: TableRows = [];
 
   const columns = [
     // { name: "Id", align: "left" },
     { name: "Date", align: "left" },
     // { name: "Type", align: "right" },
     { name: "Processed", align: "right" },
-  ]
+  ];
 
   // display all logs in order
   // with newist at the bottom
   allDataForUser.sort((a, b) => {
-    const aTime = get(a, "created.seconds")
-    const bTime = get(b, "created.seconds")
-    return bTime - aTime
-  })
+    const aTime = get(a, "created.seconds");
+    const bTime = get(b, "created.seconds");
+    return bTime - aTime;
+  });
 
   rows = allDataForUser.reduce((result, userLog) => {
     // don't show data without the right fields
     if (!userLog.data || !userLog.created) {
-      return result
+      return result;
     }
 
     const newRow: TableRow[] = [
       { data: userLog.created.date },
       { data: userLog.isProcessed ? "Yes" : "No" },
-    ]
+    ];
 
-    return [...result, newRow]
-  }, rows)
+    return [...result, newRow];
+  }, rows);
 
   const actions: TableActions = [
     {
       name: "Delete",
       action: async (rowId) => {
         // console.log("Delete:", rows[rowId]);
-        deleteLog.mutate(allDataForUser[rowId]._id)
+        deleteLog.mutate(allDataForUser[rowId]._id);
       },
       renderIcon: () => <DeleteIcon />,
     },
     {
       name: "Transfer",
       action: async (rowId) => {
-        console.log("Transfer log:", rows[rowId])
+        console.log("Transfer log:", rows[rowId]);
       },
       renderIcon: () => <div>T</div>,
     },
     {
       name: "Test",
       action: async (rowId) => {
-        const row = allDataForUser[rowId as number]
-        console.log("RAW", row.data)
-        console.log("========== Result: =============")
-        const result = await processLog(row.data, user.weight)
-        console.log("Processing result:", result)
+        const row = allDataForUser[rowId as number];
+        console.log("RAW", row.data);
+        console.log("========== Result: =============");
+        const result = await processLog(row.data, user.weight);
+        console.log("Processing result:", result);
         if (result.report.items.length > 0) {
-          const allFoundMarkers = getMarkersFromProcessedData(result.report)
-          logDebug("allFoundMarkers", allFoundMarkers)
-          setExtra(allFoundMarkers)
+          const allFoundMarkers = getMarkersFromProcessedData(result.report);
+          logDebug("allFoundMarkers", allFoundMarkers);
+          setExtra(allFoundMarkers);
         }
-        console.log("================================")
+        console.log("================================");
       },
       renderIcon: () => <ViewIcon />,
     },
@@ -112,16 +112,16 @@ export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
       name: "Process",
       renderIcon: () => <AddIcon />,
       action: async (id) => {
-        const row = allDataForUser[id as number]
+        const row = allDataForUser[id as number];
         // console.log("Row:", row);
 
         if (row.isProcessed) {
-          console.warn("Cannot double process!")
-          return
+          console.warn("Cannot double process!");
+          return;
         }
 
-        const result = await processLog(row.data, user.weight)
-        console.log("[User Logs] Processing result:", result)
+        const result = await processLog(row.data, user.weight);
+        console.log("[User Logs] Processing result:", result);
 
         addProcessedLog.mutate({
           format: 1,
@@ -131,7 +131,7 @@ export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
           weight: result.weight,
 
           report: result.report,
-        })
+        });
 
         // if we have a newer weight than that previous one, let's update it
         if (result.weight) {
@@ -140,14 +140,14 @@ export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
               ...user,
               weight: result.weight,
               weightLastUpdated: row.created.seconds,
-            })
+            });
           }
         }
 
-        setExtra(result.report.items[0].markers)
+        setExtra(result.report.items[0].markers);
       },
     },
-  ]
+  ];
 
   return (
     <Table
@@ -157,7 +157,7 @@ export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
       options={{
         expandable: true,
         expandableContent: (tableRow, rowIndex) => {
-          const rawRow = allDataForUser[rowIndex]
+          const rawRow = allDataForUser[rowIndex];
 
           return (
             <UserLogChart
@@ -166,11 +166,11 @@ export const ListLogItems: React.FC<{ user: User }> = ({ user }) => {
               data={rawRow}
               extras={markers}
             />
-          )
+          );
         },
       }}
       // handleRowClick={handleRowClick}
     />
-  )
+  );
   // return <List rows={rows} actions={actions} extra={extra} />;
-}
+};

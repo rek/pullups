@@ -1,5 +1,5 @@
-import * as React from "react"
-import { Img, Link, Navbar } from "rendition"
+import * as React from "react";
+import { Img, Link, Navbar } from "rendition";
 
 export const NavBar: React.FC = () => {
   return (
@@ -15,5 +15,5 @@ export const NavBar: React.FC = () => {
         Users
       </Link>
     </Navbar>
-  )
-}
+  );
+};

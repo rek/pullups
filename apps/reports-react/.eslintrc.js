@@ -41,7 +41,7 @@ module.exports = {
     ],
     "semi": [
       "error",
-      "never"
+      "always"
     ],
     "no-unused-vars": [0],
     // "sort-imports": [2, {

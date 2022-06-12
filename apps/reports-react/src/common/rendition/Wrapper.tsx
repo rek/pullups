@@ -1,3 +1,3 @@
-import { Provider } from "rendition"
+import { Provider } from "rendition";
 
-export const Wrapper = Provider
+export const Wrapper = Provider;

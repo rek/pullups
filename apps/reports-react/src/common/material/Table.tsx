@@ -1,24 +1,24 @@
-import Box from "@material-ui/core/Box"
-import Collapse from "@material-ui/core/Collapse"
-import IconButton from "@material-ui/core/IconButton"
-import Paper from "@material-ui/core/Paper"
+import Box from "@material-ui/core/Box";
+import Collapse from "@material-ui/core/Collapse";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import {
   createStyles,
   makeStyles,
   Theme,
   withStyles,
-} from "@material-ui/core/styles"
-import MaterialTable from "@material-ui/core/Table"
-import TableBody from "@material-ui/core/TableBody"
-import TableCell, { TableCellProps } from "@material-ui/core/TableCell"
-import TableContainer from "@material-ui/core/TableContainer"
-import TableHead from "@material-ui/core/TableHead"
-import TableRow from "@material-ui/core/TableRow"
-import React from "react"
+} from "@material-ui/core/styles";
+import MaterialTable from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell, { TableCellProps } from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import React from "react";
 
-import { KeyboardArrowDownIcon, KeyboardArrowRightIcon } from "./icons"
-import { IsolatedMenu, MenuAction } from "./IsolatedMenu"
-import { useStyles } from "./theme"
+import { KeyboardArrowDownIcon, KeyboardArrowRightIcon } from "./icons";
+import { IsolatedMenu, MenuAction } from "./IsolatedMenu";
+import { useStyles } from "./theme";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +30,7 @@ const StyledTableCell = withStyles((theme: Theme) =>
       fontSize: 14,
     },
   })
-)(TableCell)
+)(TableCell);
 
 const useRowStyles = makeStyles({
   rowRoot: {
@@ -41,7 +41,7 @@ const useRowStyles = makeStyles({
       backgroundColor: "#777",
     },
   },
-})
+});
 
 // this is actually a TableCell
 export interface TableRow {
@@ -70,24 +70,24 @@ export const Table: React.FC<Props> = ({
   actions = [],
   options = { expandable: false },
 }) => {
-  const classes = useStyles()
-  const { rowRoot } = useRowStyles()
+  const classes = useStyles();
+  const { rowRoot } = useRowStyles();
   const [openRows, setOpenRows] = React.useState<{
     [openRowId: number]: boolean;
-  }>({})
+  }>({});
 
   const _handleRowClick = (row: number) => {
     if (handleRowClick) {
-      return () => handleRowClick(row)
+      return () => handleRowClick(row);
     }
-  }
+  };
 
   const toggleRow = (row: number) => {
     setOpenRows({
       ...openRows,
       [row]: openRows[row] === undefined ? true : !openRows[row],
-    })
-  }
+    });
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -138,13 +138,13 @@ export const Table: React.FC<Props> = ({
                         >
                           {cell.data}
                         </TableCell>
-                      )
+                      );
                     }
                     return (
                       <TableCell key={`cell-${cell.id || index}`} align="right">
                         {cell.data}
                       </TableCell>
-                    )
+                    );
                   })}
                   <IsolatedMenu
                     key={`actions-${rowIndex}`}
@@ -177,5 +177,5 @@ export const Table: React.FC<Props> = ({
         </TableBody>
       </MaterialTable>
     </TableContainer>
-  )
-}
+  );
+};

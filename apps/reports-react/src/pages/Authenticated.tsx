@@ -1,19 +1,19 @@
-import * as React from "react"
+import * as React from "react";
 // import GridLayout from "react-grid-layout";
 // import styled from "styled-components";
-import { QueryClient, QueryClientProvider } from "react-query"
-import { ReactQueryDevtools } from "react-query/devtools"
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   Switch,
-} from "react-router-dom"
-import { RecoilRoot } from "recoil"
+} from "react-router-dom";
+import { RecoilRoot } from "recoil";
 
 // import "react-grid-layout/css/styles.css";
 // import "react-resizable/css/styles.css";
-import { Wrapper } from "../common"
+import { Wrapper } from "../common";
 import {
   Dashboard,
   ListLogs,
@@ -22,8 +22,8 @@ import {
   Users,
   // Sessions,
   UserTotals,
-} from "."
-import { Sidebar } from "./nav"
+} from ".";
+import { Sidebar } from "./nav";
 
 /* background-color: grey; */
 // const Item = styled.div`
@@ -31,7 +31,7 @@ import { Sidebar } from "./nav"
 // const Title = styled.div`
 // font-weight: 20px;
 // `
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 export const Authenticated = () => {
   // const height = 150
@@ -85,5 +85,5 @@ export const Authenticated = () => {
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </RecoilRoot>
-  )
-}
+  );
+};

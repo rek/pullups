@@ -1,5 +1,5 @@
-import MaterialButton, { ButtonProps } from "@material-ui/core/Button"
-import * as React from "react"
+import MaterialButton, { ButtonProps } from "@material-ui/core/Button";
+import * as React from "react";
 
 export const Button: React.FC<
   React.PropsWithChildren<Partial<ButtonProps>>
@@ -7,4 +7,4 @@ export const Button: React.FC<
   <MaterialButton variant="contained" {...props}>
     {children}
   </MaterialButton>
-)
+);
