@@ -1,18 +1,17 @@
-import * as React from "react";
+import IconButton from "@material-ui/core/IconButton"
+import { useSettingsQuery } from "database"
+import * as React from "react"
 
-import { PersonIcon, Tooltip } from "../../common";
-import IconButton from "@material-ui/core/IconButton";
-
-import { useSettingsQuery } from "database";
+import { PersonIcon, Tooltip } from "../../common"
 
 interface Props {
   handleClick: () => void;
 }
 export const Profile: React.FC<Props> = ({ handleClick }) => {
-  const { data: settings } = useSettingsQuery();
+  const { data: settings } = useSettingsQuery()
 
   if (!settings) {
-    return null;
+    return null
   }
 
   return (
@@ -23,5 +22,5 @@ export const Profile: React.FC<Props> = ({ handleClick }) => {
         </IconButton>
       </Tooltip>
     </div>
-  );
-};
+  )
+}

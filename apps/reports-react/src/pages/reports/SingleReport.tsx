@@ -1,38 +1,38 @@
-import React from "react";
-import get from "lodash/get";
+import get from "lodash/get"
+import React from "react"
 
-import { BarWeight, LineOnGraph, Pullups } from "../../graphs";
-import { Loading, SubTitle } from "../../common";
-import type { UserReport } from "../../types";
-import { useProcessedLogsForUser } from "../../service/logsProcessed/queries";
+import { Loading, SubTitle } from "../../common"
+import { BarWeight, LineOnGraph, Pullups } from "../../graphs"
+import { useProcessedLogsForUser } from "../../service/logsProcessed/queries"
+import type { UserReport } from "../../types"
 
 interface SingleReportProps {
   user: string;
   report: UserReport;
 }
 export const SingleReport: React.FC<SingleReportProps> = ({ user, report }) => {
-  const { data: reportData, isLoading } = useProcessedLogsForUser(user);
+  const { data: reportData, isLoading } = useProcessedLogsForUser(user)
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   }
 
   if (!reportData || reportData.length === 0) {
-    return <div>Missing data for this report</div>;
+    return <div>Missing data for this report</div>
   }
 
-  console.log("data", reportData);
-  const reportInfo = reportData;
+  console.log("data", reportData)
+  const reportInfo = reportData
 
   // const mappedData: LineOnGraph["data"] = [];
   const mappedData = reportInfo
     .map(({ created, processed, ...rest }) => {
       // just one field for now!
-      const yData = get(rest, report.fields[0]);
+      const yData = get(rest, report.fields[0])
       // console.log("yData", yData);
-      return { x: processed, y: yData };
+      return { x: processed, y: yData }
     })
-    .filter((item) => item.y);
+    .filter((item) => item.y)
   // console.log("mappedData", mappedData);
 
   // const line1: LineOnGraph = {
@@ -53,5 +53,5 @@ export const SingleReport: React.FC<SingleReportProps> = ({ user, report }) => {
       {report.type === "Pullups" && <Pullups data={mappedData} />}
       {/* <LineMulti config={[line1, line2]} labelX="Kgs" /> */}
     </div>
-  );
-};
+  )
+}

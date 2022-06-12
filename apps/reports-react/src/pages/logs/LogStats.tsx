@@ -1,22 +1,23 @@
-import * as React from "react";
-import type { ProcessedLog } from "../../types";
-import { Marker } from "../../graphs/line";
-import { Text, Title } from "../../common";
-import { getPower } from "../../service/logs/selectors/getPower";
-import { getWeight } from "../../service/logs/selectors/getWeight";
-import { getPullups } from "../../service/logs/selectors/getPullups";
+import * as React from "react"
+
+import { Text, Title } from "../../common"
+import { Marker } from "../../graphs/line"
+import { getPower } from "../../service/logs/selectors/getPower"
+import { getPullups } from "../../service/logs/selectors/getPullups"
+import { getWeight } from "../../service/logs/selectors/getWeight"
+import type { ProcessedLog } from "../../types"
 
 const useLogStatsData = ({ logs, first }: Props) => {
-  console.log("logs", logs);
+  console.log("logs", logs)
   return logs.map((log) => {
     return {
       id: log.logId,
       weight: getWeight(log) || "Unknown",
       power: getPower(log, first) || "Unknown",
       pullups: getPullups(log) || "None",
-    };
-  });
-};
+    }
+  })
+}
 
 // console.log("logs", RawStats);
 interface Props {
@@ -24,7 +25,7 @@ interface Props {
   first: Marker;
 }
 export const LogStats = (props: Props) => {
-  const items = useLogStatsData(props);
+  const items = useLogStatsData(props)
 
   return (
     <div>
@@ -37,8 +38,8 @@ export const LogStats = (props: Props) => {
             <Text>Power: {item.power} </Text>
             <Text>Pullups: {item.pullups} </Text>
           </span>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}

@@ -1,17 +1,17 @@
-import * as React from "react";
-import styled from "styled-components";
-import TableCell from "@material-ui/core/TableCell";
-import Button from "@material-ui/core/Button";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button"
+import Menu from "@material-ui/core/Menu"
+import MenuItem from "@material-ui/core/MenuItem"
+import TableCell from "@material-ui/core/TableCell"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
+import * as React from "react"
+import styled from "styled-components"
 
-import { useStyles } from "./theme";
+import { useStyles } from "./theme"
 
 const IconWrapper = styled.div`
   margin-right: 10px;
   margin-top: 5px;
-`;
+`
 
 export interface MenuAction {
   name: string;
@@ -25,22 +25,22 @@ export const IsolatedMenu = (
     row: -1,
   }
 ) => {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const classes = useStyles()
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    setAnchorEl(event.currentTarget);
-  };
+    event.stopPropagation()
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = (event?: any) => {
     if (event) {
       if ("stopPropagation" in event) {
-        event.stopPropagation();
+        event.stopPropagation()
       }
     }
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -55,9 +55,9 @@ export const IsolatedMenu = (
             <MenuItem
               key={`action-${name}`}
               onClick={(event) => {
-                event.stopPropagation();
-                action(row);
-                handleClose();
+                event.stopPropagation()
+                action(row)
+                handleClose()
               }}
               className={classes.menuItem}
             >
@@ -68,7 +68,7 @@ export const IsolatedMenu = (
                 {name}
               </>
             </MenuItem>
-          );
+          )
         })}
       </Menu>
       <TableCell align="right" style={{ width: "20px" }}>
@@ -81,5 +81,5 @@ export const IsolatedMenu = (
         </Button>
       </TableCell>
     </>
-  );
-};
+  )
+}

@@ -1,1 +1,1 @@
-export * from "./useLogsProcessedQueries";
+export * from "./useLogsProcessedQueries"

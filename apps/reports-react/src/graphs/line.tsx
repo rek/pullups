@@ -1,15 +1,15 @@
-import React from "react";
-
+import React from "react"
 import {
   VictoryChart,
-  VictoryVoronoiContainer,
   VictoryLine,
   VictoryTheme,
   VictoryTooltip,
-} from "victory";
-import { Loading } from "../common";
-import { colours } from "../styles/colours";
-import type { XY } from "../types";
+  VictoryVoronoiContainer,
+} from "victory"
+
+import { Loading } from "../common"
+import { colours } from "../styles/colours"
+import type { XY } from "../types"
 
 export interface Marker extends XY {
   stroke?: string;
@@ -27,7 +27,7 @@ export const Line: React.FC<Props> = ({
   markers,
 }) => {
   if (!data) {
-    return <Loading />;
+    return <Loading />
   }
 
   // interpolation
@@ -53,14 +53,14 @@ export const Line: React.FC<Props> = ({
     //     }
     //   }
     // }
-  };
+  }
 
   // console.log("data", data);
   // console.log("markers", markers);
 
-  const start = 1;
-  const end = data.length;
-  const showMedian = !!(medianLine && end > 0);
+  const start = 1
+  const end = data.length
+  const showMedian = !!(medianLine && end > 0)
   // console.log("medianLine", medianLine, { showMedian, start, end });
 
   return (
@@ -107,5 +107,5 @@ export const Line: React.FC<Props> = ({
         )}
       </VictoryChart>
     </div>
-  );
-};
+  )
+}

@@ -1,1 +1,1 @@
-export * from "./useClosestKnownWeight";
+export * from "./useClosestKnownWeight"

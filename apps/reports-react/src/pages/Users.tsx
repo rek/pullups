@@ -1,77 +1,77 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import { useSettingsMutate, useSettingsQuery, useUsers } from "database"
+import React from "react"
+import { useHistory } from "react-router-dom"
 
-import { useUsers, useSettingsQuery, useSettingsMutate } from "database";
 import {
-  Text,
-  Table,
-  LeftRightContainer,
-  Title,
-  Loading,
-  ReportIcon,
-  LogsIcon,
   AddIcon,
-} from "../common";
-import { getShortDate } from "../utils";
+  LeftRightContainer,
+  Loading,
+  LogsIcon,
+  ReportIcon,
+  Table,
+  Text,
+  Title,
+} from "../common"
+import { getShortDate } from "../utils"
 
 export const Users: React.FC = () => {
-  const { data: users } = useUsers();
-  const { data: settings } = useSettingsQuery();
-  const { mutate: updateSettings } = useSettingsMutate();
+  const { data: users } = useUsers()
+  const { data: settings } = useSettingsQuery()
+  const { mutate: updateSettings } = useSettingsMutate()
   // console.log("Users:", users);
   // console.log("Settings:", settings);
 
-  const history = useHistory();
+  const history = useHistory()
 
   if (!users || !settings) {
-    return <Loading />;
+    return <Loading />
   }
 
   if (users.length === 0) {
-    return <Text>No users yet.</Text>;
+    return <Text>No users yet.</Text>
   }
 
   const columns = [
     { name: "Name", align: "left" },
     { name: "Weight", align: "right" },
     { name: "Weight updated", align: "right" },
-  ];
+  ]
   const data = users.map((user) => [
     { data: user.displayName ? user.displayName : user.name },
     { data: user.weight ? user.weight.toFixed(2) : "" },
     { data: getShortDate(user.weightLastUpdated) },
-  ]);
+  ])
 
   const handleRowClick = (row: number) => {
-    history.push(`user/${users[row].name}/totals`);
-  };
+    history.push(`user/${users[row].name}/totals`)
+  }
 
   const actions = [
     {
       name: "View Logs",
       action: (row: number) => {
-        history.push(`user/${users[row].name}/logs`);
+        history.push(`user/${users[row].name}/logs`)
       },
       renderIcon: () => <LogsIcon />,
     },
     {
       name: "Manage reports",
       action: (row: number) => {
-        history.push(`user/${users[row].name}/reports`);
+        history.push(`user/${users[row].name}/reports`)
       },
       renderIcon: () => <ReportIcon />,
     },
     {
       name: "Set active",
       action: (row: number) => {
-        console.log(users[row].name);
-        updateSettings({ active: users[row].name });
+        console.log(users[row].name)
+        updateSettings({ active: users[row].name })
       },
       renderIcon: () => <AddIcon />,
     },
-  ];
+  ]
 
-  const activeUser = settings ? settings.active : "";
+  const activeUser = settings ? settings.active : ""
 
   return (
     <>
@@ -86,5 +86,5 @@ export const Users: React.FC = () => {
         handleRowClick={handleRowClick}
       />
     </>
-  );
-};
+  )
+}

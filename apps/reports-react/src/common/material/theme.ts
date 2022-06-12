@@ -1,6 +1,6 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles"
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 export const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,4 +61,4 @@ export const useStyles = makeStyles((theme) => ({
     minWidth: 650,
   },
   menuItem: {},
-}));
+}))

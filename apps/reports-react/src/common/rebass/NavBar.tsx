@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 
 // import {
 // 	Box,
@@ -21,5 +21,5 @@ export const NavBar = () => {
     // 	</Link>
     // </Flex>
     <div>test</div>
-  );
-};
+  )
+}

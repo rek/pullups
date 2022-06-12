@@ -17,6 +17,10 @@
     "database#build": {
       "dependsOn": ["detect-pullups#build"]
     },
+    "deploy": {
+      "dependsOn": ["build", "test", "lint"],
+      "outputs": []
+    },
     "lint": {
       "outputs": []
     },

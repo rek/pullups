@@ -1,14 +1,13 @@
-import React from "react";
+import React from "react"
 
-import { MenuBookIcon, PeopleIcon, GraphIcon } from "../../common";
-
-import { NavBar } from "../../common";
-import { Profile } from "./Profile";
+import { GraphIcon, MenuBookIcon, PeopleIcon } from "../../common"
+import { NavBar } from "../../common"
+import { Profile } from "./Profile"
 
 export const Sidebar: React.FC = ({ children }) => {
   const renderTopBarRight = ({ handleClick }: { handleClick: () => void }) => {
-    return <Profile handleClick={handleClick} />;
-  };
+    return <Profile handleClick={handleClick} />
+  }
   return (
     <NavBar
       title="Pullup tracking system v1"
@@ -21,5 +20,5 @@ export const Sidebar: React.FC = ({ children }) => {
     >
       {children}
     </NavBar>
-  );
-};
+  )
+}

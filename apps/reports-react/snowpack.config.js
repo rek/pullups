@@ -1,14 +1,14 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   alias: {
-    lodash: 'lodash-es'
+    lodash: "lodash-es"
   },
   mount: {
-    public: '/',
-    src: '/dist',
+    public: "/",
+    src: "/dist",
   },
   plugins: [
-    ['@snowpack/plugin-typescript', {args: ''}],
+    ["@snowpack/plugin-typescript", {args: ""}],
     "@snowpack/plugin-react-refresh",
     "@snowpack/plugin-dotenv"
     // ['@snowpack/plugin-typescript', {args: '--project src/index.tsx --jsx react'}]
@@ -22,15 +22,15 @@ module.exports = {
     /* Example: Bundle your final build: */
     // "bundle": true,
   },
-  knownEntrypoints: ['@material-ui/core/utils'],
+  knownEntrypoints: ["@material-ui/core/utils"],
   packageOptions: {
     /* ... */
   },
   devOptions: {
     /* ... */
-    open: 'none'
+    open: "none"
   },
   buildOptions: {
     /* ... */
   },
-};
+}

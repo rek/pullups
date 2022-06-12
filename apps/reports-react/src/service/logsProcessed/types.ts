@@ -1,4 +1,4 @@
-import type { LogReport } from "detect-pullups";
+import type { LogReport } from "detect-pullups"
 
 export interface ProcessedLogV1 {
   format: 1;

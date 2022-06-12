@@ -1,2 +1,2 @@
-export * from "./ReportsManage";
-export * from "./SingleReport";
+export * from "./ReportsManage"
+export * from "./SingleReport"

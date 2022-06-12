@@ -1,4 +1,4 @@
-import type { UserRecord } from "../types";
+import type { UserRecord } from "../types"
 
 export const generateUserRecord = (extras: Partial<UserRecord> = {}) => {
   return {
@@ -7,5 +7,5 @@ export const generateUserRecord = (extras: Partial<UserRecord> = {}) => {
     pullups: 0,
 
     ...extras,
-  };
-};
+  }
+}

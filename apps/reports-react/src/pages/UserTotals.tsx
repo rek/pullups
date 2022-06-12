@@ -1,19 +1,19 @@
-import * as React from "react";
+import { useReportQuery } from "database"
+import * as React from "react"
 
-import { Loading, Title } from "../common";
-import { SingleReport } from "./reports/SingleReport";
-import { ProvideUser } from "./common/ProvideUser";
-import { useReportQuery } from "database";
+import { Loading, Title } from "../common"
+import { ProvideUser } from "./common/ProvideUser"
+import { SingleReport } from "./reports/SingleReport"
 
 export const UserReports: React.FC<{ user: string }> = ({ user }) => {
-  const { data: reports, isLoading } = useReportQuery(user);
+  const { data: reports, isLoading } = useReportQuery(user)
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   }
 
   if (!reports) {
-    return <div>This user has no reports configured: {user}</div>;
+    return <div>This user has no reports configured: {user}</div>
   }
 
   // console.log("reports", reports);
@@ -24,8 +24,8 @@ export const UserReports: React.FC<{ user: string }> = ({ user }) => {
         <SingleReport key={report.name} user={user} report={report} />
       ))}
     </>
-  );
-};
+  )
+}
 
 export const UserTotals = () => {
   /**
@@ -54,8 +54,8 @@ export const UserTotals = () => {
             <Title title={`User: ${user.name || "unknown"}`} />
             <UserReports user={user.name} />
           </>
-        );
+        )
       }}
     </ProvideUser>
-  );
-};
+  )
+}

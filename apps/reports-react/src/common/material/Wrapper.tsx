@@ -1,10 +1,10 @@
-import * as React from "react";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from "@material-ui/core/CssBaseline"
+import { createTheme,ThemeProvider } from "@material-ui/core/styles"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
+import * as React from "react"
 
 export const Wrapper: React.FC = ({ children }) => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
 
   const theme = React.useMemo(
     () =>
@@ -21,12 +21,12 @@ export const Wrapper: React.FC = ({ children }) => {
         },
       }),
     [prefersDarkMode]
-  );
+  )
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {children}
     </ThemeProvider>
-  );
-};
+  )
+}
