@@ -5,6 +5,9 @@ module.exports = {
     react: {
       version: "detect",
     },
-
   },
+  "rules": {
+    "@typescript-eslint/no-redeclare": "off",
+    "no-redeclare": "off"
+  }
 };

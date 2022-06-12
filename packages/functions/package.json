@@ -7,7 +7,7 @@
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "deploy": "firebase deploy --only functions",
     "dev": "tsc -w",
-    "lint": "eslint --ext .js,.ts .",
+    "lint": "TIMING=1 eslint src --fix",
     "logs": "firebase functions:log",
     "predeploy": "yarn build",
     "serve": "yarn build && firebase emulators:start --only functions",
@@ -19,6 +19,12 @@
     "node": ">12"
   },
   "main": "lib/index.js",
+  "eslintConfig": {
+    "rules": {
+      "@typescript-eslint/no-redeclare": "off",
+      "no-redeclare": "off"
+    }
+  },
   "dependencies": {
     "@firebase/app-compat": "*",
     "@firebase/app-types": "*",

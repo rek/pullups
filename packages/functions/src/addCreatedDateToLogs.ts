@@ -1,3 +1,3 @@
 export const addCreatedDateToLogs = () => {
-  return Promise.resolve();
-};
+    return Promise.resolve()
+}

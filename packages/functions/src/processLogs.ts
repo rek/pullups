@@ -1,3 +1,3 @@
 export const processLogs = () => {
-  return Promise.resolve();
-};
+    return Promise.resolve()
+}

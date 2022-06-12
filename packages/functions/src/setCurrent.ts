@@ -1,6 +1,6 @@
 import * as functions from "firebase-functions";
 
-export const setCurrent = (admin: any) => {
+export const setCurrent = (_admin: any) => {
   return functions.https.onRequest((request, response) => {
     // console.log("setCurrent request");
     // console.log("request", request);

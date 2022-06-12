@@ -1,3 +1,3 @@
-export const updateReports = (db: FirebaseFirestore.Firestore) => {
+export const updateReports = (_db: FirebaseFirestore.Firestore) => {
   return Promise.resolve();
 };

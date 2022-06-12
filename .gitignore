@@ -4,6 +4,7 @@ pullups.code-workspace
 reports-data-generator/*.json
 reports-data-generator/*.js
 packages/database/firestore-debug.log
+packages/functions/firebase-debug.log
 
 # secrets!
 controller/Secrets.h
