@@ -20,7 +20,7 @@ const Page = styled.div`
   }
 
   form {
-    border: 1px solid #aaa;
+    border: 1px solid #ddd;
     margin: 40px;
     padding: 40px;
     height: 40vh;
@@ -54,10 +54,10 @@ const InputWrapper = styled(Input)`
     box-shadow: inset 8px 8px 8px #cbced1, inset -8px -8px 8px #ffffff;
   }
   input {
+    font-size: 13px;
     border: none;
     outline: none;
     background: none;
-    font-size: 18px;
     color: #555;
     padding: 20px 10px 20px 25px;
   }
@@ -65,6 +65,8 @@ const InputWrapper = styled(Input)`
 const ButtonWrapper = styled.div`
   margin: 30px;
   button {
+    color: #555;
+    font-size: 16px;
     background: #ecf0f3;
   }
 `;
@@ -77,6 +79,11 @@ export const Login: React.FC<LoginProps> = ({ setCredentials, error }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
   const handleLogin = () => {
     // console.log("Setting:", { email, password });
     setCredentials({ email, password });
@@ -102,6 +109,7 @@ export const Login: React.FC<LoginProps> = ({ setCredentials, error }) => {
             id="password"
             placeholder="Password"
             onChange={handleChangePassword}
+            onKeyDown={handleKeyDown}
             type="password"
           />
 
