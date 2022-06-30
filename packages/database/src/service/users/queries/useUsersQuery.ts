@@ -33,7 +33,7 @@ const getUsers = async () => {
 
 export const useUsers = () => {
   return useQuery<User[]>(QUERY_KEY_USERS, getUsers, {
-    cacheTime: Infinity,
-    staleTime: Infinity,
+    // cacheTime: Infinity,
+    // staleTime: Infinity,
   });
 };
